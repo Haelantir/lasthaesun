@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>NQ 5m Candle Viewer</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+    font-family: -apple-system, "Malgun Gothic", sans-serif;
+  }
+  #toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: #f4f4f4;
+    border-bottom: 1px solid #ddd;
+  }
+  #toolbar input[type="number"] {
+    width: 100px;
+    padding: 4px 6px;
+    font-size: 14px;
+  }
+  #toolbar button {
+    padding: 5px 14px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  #status {
+    font-size: 13px;
+    color: #555;
+  }
+  #chartWrap {
+    overflow: hidden;
+    background: #ffffff;
+    border-top: 1px solid #eee;
+  }
+  canvas {
+    display: block;
+    background: #ffffff;
+    cursor: grab;
+  }
+  #volumeChart {
+    border-top: 1px solid #eee;
+  }
+  body.panning {
+    user-select: none;
+  }
+  #zoomBar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: #fafafa;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+    color: #333;
+  }
+  #zoomBar input[type="range"] {
+    width: 200px;
+  }
+</style>
+</head>
+<body>
+
+<div id="toolbar">
+  <label>시작 번호: <input type="number" id="startIdx" min="1" value="1"></label>
+  <button id="goBtn">이동</button>
+  <span id="status">CSV 파일을 먼저 선택하세요.</span>
+</div>
+
+<div id="zoomBar">
+  <label for="zoomSlider">배율(봉 폭)</label>
+  <input type="range" id="zoomSlider" min="1" max="5" step="1" value="5">
+  <span id="zoomValue">5px</span>
+
+  <label for="hotLineSlider">꼬롬선 개수</label>
+  <input type="range" id="hotLineSlider" min="1" max="50" step="1" value="1" disabled>
+  <span id="hotLineValue">1</span>
+
+  <button id="hotRegionBtn">꼬롬선 구역 지정</button>
+
+  <button id="seoBtn">쎄오의추억</button>
+  <button id="seoDeleteBtn" disabled>삭제</button>
+</div>
+
+<div id="chartWrap">
+  <canvas id="chart" height="600"></canvas>
+  <canvas id="volumeChart" height="130"></canvas>
+</div>
+
+<script>
+let candleCount = 10;     // 한 번에 표시할 봉 개수 - chartWrap 폭에 맞춰 자동 계산됨 (recomputeCandleCount)
+let candleW = 5;          // 봉 하나가 차지하는 폭(px) = 몸통 폭 (배율 슬라이더로 조절)
+const Y_AXIS_W = 80;      // y축 라벨 영역 폭
+const TOP_PAD = 20;
+const BOTTOM_PAD = 30;
+
+const VOLUME_HEIGHT = 130;
+const VOLUME_TOP_PAD = 10;
+const VOLUME_BOTTOM_PAD = 10;
+
+let rows = [];  // {idx, open, high, low, close, volume}
+let currentStart = 1;
+
+// 거래량 반짝임(blink) 관련 - 봉 자체가 아니라 그 봉이 위치한 세로축 배경이 노란색으로 깜빡임
+const BLINK_WINDOW = 5;      // 앞뒤로 비교할 봉 개수
+const BLINK_CYCLE_MS = 2000; // 반짝임 한 사이클 (2초)
+const BLINK_MAX_ALPHA = 0.08; // 노란색 최대 불투명도 (대폭 옅게)
+const BLINK_COLOR = '255,221,0';
+let blinkSlots = [];   // 현재 화면에서 반짝여야 하는 봉들의 x좌표(왼쪽 끝) 목록
+let blinkRAF = null;
+
+// 배경(그리드/라벨)만 담은 레이어 - 반짝임 시 복원용
+const bgCanvas = document.createElement('canvas');
+const bgCtx = bgCanvas.getContext('2d');
+const volBgCanvas = document.createElement('canvas');
+const volBgCtx = volBgCanvas.getContext('2d');
+
+// 캔들/거래량바만 투명 배경에 그린 레이어 - 반짝임 배경 위에 그대로 덧그리기용
+const candleLayerCanvas = document.createElement('canvas');
+const candleLayerCtx = candleLayerCanvas.getContext('2d');
+const volBarLayerCanvas = document.createElement('canvas');
+const volBarLayerCtx = volBarLayerCanvas.getContext('2d');
+
+// 핫라인(카운트 상위 가로줄) 관련
+let hotLineCount = 1;  // 화면에 표시할 가로줄 개수 (1~50, 슬라이더로 조절)
+const HOT_LINE_MAX_GRAY = 190; // 표시되는 가로줄 중 카운트가 가장 낮은 것의 밝기(회색) 상한
+
+// 핫라인 계산 구역(꼬롬선 구역) 관련 - 지정하면 가로줄 계산이 이 구역의 봉만 대상으로 함
+let regionActive = false;      // 구역이 확정되어 활성화된 상태인지
+let regionPickingStep = 0;     // 0: 지정 안 함, 1: 첫 클릭 대기, 2: 두번째 클릭 대기
+let regionPick1Idx = null;     // 첫 클릭으로 찍은 절대 봉 인덱스(0-based)
+let regionStartIdx = null;     // 확정된 구역의 시작 절대 인덱스(0-based, 포함)
+let regionEndIdx = null;       // 확정된 구역의 끝 절대 인덱스(0-based, 포함)
+let regionHotlineClusters = null; // 구역 전체에서 미리 계산해둔 정렬된 핫라인 클러스터 목록(캐시)
+
+// 쎄오의추억(사용자 드로잉 도구) 관련
+// a-b 두 지점을 찍으면 그 사이 가격을 0(=a) / 1/4 / 1/3 / 1/2 / 2/3 / 3/4 / 1(=b) 비율로 나눈
+// 7개의 수평 점선을 a~b의 x범위에 걸쳐 그린다
+const SEO_RATIOS = [0, 1 / 4, 1 / 3, 1 / 2, 2 / 3, 3 / 4, 1];
+const SEO_LINE_COLOR = '#a020f0';          // 보라색
+const SEO_LINE_COLOR_SELECTED = '#7000b8'; // 선택된 세트는 더 진한 보라색
+const SEO_LINE_WIDTH = 2;
+const SEO_HANDLE_SIZE = 8;        // 드래그용 네모 한 변 길이(px)
+const SEO_HANDLE_HIT_PAD = 3;     // 네모 클릭 판정 여유(px)
+const SEO_LINE_HIT_TOLERANCE = 4; // 선분 클릭(선택) 판정 허용 오차(px)
+
+let seoSets = [];          // 완성된 선분 세트 목록: {id, xA, yA, xB, yB} (x: 절대 봉 위치(연속값), y: 가격)
+let seoSetIdSeq = 1;
+let seoPickingStep = 0;    // 0: 지정 안 함, 1: a 클릭 대기, 2: b 클릭 대기
+let seoPickA = null;       // 1단계에서 찍은 a지점 {x, y}
+let selectedSeoSetId = null;    // 선택되어 삭제 가능한 세트의 id
+let draggingHandle = null;      // 드래그 중인 네모: {setId, which: 'A'|'B'}
+let dragHandleLatestClientPos = null;
+let dragHandleRAFPending = false;
+let lastMouseClientX = -99999, lastMouseClientY = -99999;
+
+// draw()가 호출될 때마다 최신 좌표<->픽셀 변환 함수를 담아두는 참조 (드로잉 도구의 이벤트 핸들러에서 사용)
+let latestPriceToY = null;
+let latestYToPrice = null;
+let latestIdxToX = null;
+let latestXToIdx = null;
+
+// 차트 드래그 패닝 관련
+let isDragging = false;
+let dragMoved = false;         // 클릭인지 드래그인지 구분하는 임계값을 넘었는지
+let dragStartClientX = 0;
+let dragLatestClientX = 0;
+let dragStartIndexAtDown = 1;
+let dragRAFPending = false;
+const DRAG_CLICK_THRESHOLD = 5; // px, 이 이상 움직이면 클릭이 아니라 드래그로 간주
+
+const startIdxInput = document.getElementById('startIdx');
+const goBtn = document.getElementById('goBtn');
+const statusEl = document.getElementById('status');
+const zoomSlider = document.getElementById('zoomSlider');
+const zoomValue = document.getElementById('zoomValue');
+const hotLineSlider = document.getElementById('hotLineSlider');
+const hotLineValue = document.getElementById('hotLineValue');
+const hotRegionBtn = document.getElementById('hotRegionBtn');
+const seoBtn = document.getElementById('seoBtn');
+const seoDeleteBtn = document.getElementById('seoDeleteBtn');
+const canvas = document.getElementById('chart');
+const volumeCanvas = document.getElementById('volumeChart');
+const chartWrap = document.getElementById('chartWrap');
+const ctx = canvas.getContext('2d');
+const vctx = volumeCanvas.getContext('2d');
+
+// chartWrap의 실제 폭에 candleW를 나눠서, 화면에 꽉 차게 보여줄 수 있는 봉 개수를 계산한다
+function recomputeCandleCount() {
+  const availW = chartWrap.clientWidth - Y_AXIS_W - 20;
+  candleCount = Math.max(10, Math.floor(availW / candleW));
+}
+
+function clampStart(start) {
+  const maxStart = Math.max(1, rows.length - candleCount + 1);
+  return Math.max(1, Math.min(start, maxStart));
+}
+
+function onCSVLoaded(text) {
+  parseCSV(text);
+  statusEl.textContent = `로드 완료: 총 ${rows.length.toLocaleString()}개 봉 (1 ~ ${rows.length.toLocaleString()})`;
+  recomputeCandleCount();
+  startIdxInput.max = Math.max(1, rows.length - candleCount + 1);
+  draw(clampStart(parseInt(startIdxInput.value) || 1));
+}
+
+// 같은 폴더의 nq_5m_all.csv를 자동으로 불러오기 시도 (http(s)로 열었을 때만 동작)
+window.addEventListener('DOMContentLoaded', () => {
+  const DEFAULT_CSV = 'nq_5m_all.csv';
+  fetch(DEFAULT_CSV)
+    .then((res) => {
+      if (!res.ok) throw new Error(res.status);
+      return res.text();
+    })
+    .then((text) => onCSVLoaded(text))
+    .catch(() => {
+      statusEl.textContent = `${DEFAULT_CSV} 자동 로드 실패. CSV 파일을 직접 선택하세요.`;
+    });
+});
+
+function parseCSV(text) {
+  rows = [];
+  const lines = text.split('\n');
+  // lines[0] = header
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i];
+    if (!line) continue;
+    const parts = line.split(',');
+    if (parts.length < 6) continue;
+    rows.push({
+      idx: Number(parts[0]),
+      open: parseFloat(parts[1]),
+      high: parseFloat(parts[2]),
+      low: parseFloat(parts[3]),
+      close: parseFloat(parts[4]),
+      volume: parseFloat(parts[5])
+    });
+  }
+}
+
+goBtn.addEventListener('click', () => {
+  if (rows.length === 0) {
+    alert('CSV가 아직 로드되지 않았습니다.');
+    return;
+  }
+  startIdxInput.max = Math.max(1, rows.length - candleCount + 1);
+  let start = parseInt(startIdxInput.value);
+  if (isNaN(start) || start < 1) start = 1;
+  start = clampStart(start);
+  startIdxInput.value = start;
+  draw(start);
+});
+
+startIdxInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') goBtn.click();
+});
+
+zoomSlider.addEventListener('input', () => {
+  candleW = parseInt(zoomSlider.value) || 5;
+  zoomValue.textContent = candleW + 'px';
+  if (rows.length > 0) {
+    recomputeCandleCount();
+    startIdxInput.max = Math.max(1, rows.length - candleCount + 1);
+    draw(clampStart(currentStart));
+  }
+});
+
+window.addEventListener('resize', () => {
+  if (rows.length === 0) return;
+  recomputeCandleCount();
+  startIdxInput.max = Math.max(1, rows.length - candleCount + 1);
+  draw(clampStart(currentStart));
+});
+
+hotLineSlider.addEventListener('input', () => {
+  hotLineCount = parseInt(hotLineSlider.value) || 1;
+  hotLineValue.textContent = hotLineCount;
+  if (rows.length > 0) draw(currentStart);
+});
+
+hotRegionBtn.addEventListener('click', () => {
+  if (regionActive || regionPickingStep > 0) {
+    // 구역 해제
+    regionActive = false;
+    regionPickingStep = 0;
+    regionPick1Idx = null;
+    regionStartIdx = null;
+    regionEndIdx = null;
+    regionHotlineClusters = null;
+  } else {
+    // 구역 지정 모드 시작 - 다른 그리기 모드는 취소하고, 다음 두 번의 클릭으로 시작/끝 지점을 찍는다
+    cancelSeoPicking();
+    regionPickingStep = 1;
+    regionPick1Idx = null;
+  }
+  updateHotRegionButton();
+  updateHotLineSliderState();
+  updateChartCursor();
+  if (rows.length > 0) draw(currentStart);
+});
+
+function updateHotRegionButton() {
+  hotRegionBtn.textContent = (regionActive || regionPickingStep > 0) ? '꼬롬선 구역 해제' : '꼬롬선 구역 지정';
+}
+
+// 꼬롬선 개수 슬라이더는 꼬롬선 구역이 확정된(regionActive) 상태에서만 조작 가능
+function updateHotLineSliderState() {
+  hotLineSlider.disabled = !regionActive;
+}
+
+// ---- 쎄오의추억 (사용자 드로잉 도구) ----
+seoBtn.addEventListener('click', () => {
+  if (seoPickingStep > 0) {
+    // 지정 중이던 것을 취소
+    cancelSeoPicking();
+  } else {
+    // 새 선분 세트 그리기 시작 - 다른 그리기 모드는 취소
+    cancelRegionPicking();
+    deselectSeoSet();
+    seoPickingStep = 1;
+    seoPickA = null;
+  }
+  updateSeoButton();
+  updateChartCursor();
+  if (rows.length > 0) draw(currentStart);
+});
+
+function cancelSeoPicking() {
+  seoPickingStep = 0;
+  seoPickA = null;
+  updateSeoButton();
+}
+
+function cancelRegionPicking() {
+  regionPickingStep = 0;
+  regionPick1Idx = null;
+  updateHotRegionButton();
+}
+
+function updateSeoButton() {
+  seoBtn.textContent = seoPickingStep > 0 ? '쎄오의추억 취소' : '쎄오의추억';
+}
+
+seoDeleteBtn.addEventListener('click', () => {
+  if (selectedSeoSetId === null) return;
+  seoSets = seoSets.filter((s) => s.id !== selectedSeoSetId);
+  selectedSeoSetId = null;
+  updateSeoDeleteButton();
+  if (rows.length > 0) draw(currentStart);
+});
+
+function updateSeoDeleteButton() {
+  seoDeleteBtn.disabled = selectedSeoSetId === null;
+}
+
+function deselectSeoSet() {
+  selectedSeoSetId = null;
+  updateSeoDeleteButton();
+}
+
+function updateChartCursor() {
+  let cursor;
+  if (isDragging && dragMoved) cursor = 'grabbing';
+  else if (draggingHandle) cursor = 'move';
+  else if (regionPickingStep > 0 || seoPickingStep > 0) cursor = 'crosshair';
+  else {
+    const overHandle = hitTestSeoHandle(lastMouseClientX, lastMouseClientY);
+    const overLine = !overHandle && hitTestSeoLine(lastMouseClientX, lastMouseClientY);
+    cursor = overHandle ? 'move' : (overLine ? 'pointer' : 'grab');
+  }
+  canvas.style.cursor = cursor;
+  volumeCanvas.style.cursor = cursor;
+}
+
+// 쎄오의추억 세트의 드래그용 네모(핸들) 위에 (clientX, clientY)가 있는지 검사
+function hitTestSeoHandle(clientX, clientY) {
+  if (!latestIdxToX || !latestPriceToY || seoSets.length === 0) return null;
+  const rect = canvas.getBoundingClientRect();
+  const localX = clientX - rect.left;
+  const localY = clientY - rect.top;
+  const half = SEO_HANDLE_SIZE / 2 + SEO_HANDLE_HIT_PAD;
+  for (let i = seoSets.length - 1; i >= 0; i--) {
+    const set = seoSets[i];
+    const ax = latestIdxToX(set.xA), ay = latestPriceToY(set.yA);
+    if (Math.abs(localX - ax) <= half && Math.abs(localY - ay) <= half) {
+      return { setId: set.id, which: 'A' };
+    }
+    const bx = latestIdxToX(set.xB), by = latestPriceToY(set.yB);
+    if (Math.abs(localX - bx) <= half && Math.abs(localY - by) <= half) {
+      return { setId: set.id, which: 'B' };
+    }
+  }
+  return null;
+}
+
+// 쎄오의추억 세트의 7개 선분 중 하나 위에 (clientX, clientY)가 있는지 검사 (세트 선택용)
+function hitTestSeoLine(clientX, clientY) {
+  if (!latestIdxToX || !latestPriceToY || seoSets.length === 0) return null;
+  const rect = canvas.getBoundingClientRect();
+  const localX = clientX - rect.left;
+  const localY = clientY - rect.top;
+  for (let i = seoSets.length - 1; i >= 0; i--) {
+    const set = seoSets[i];
+    const x1 = latestIdxToX(set.xA), x2 = latestIdxToX(set.xB);
+    const xLeft = Math.min(x1, x2), xRight = Math.max(x1, x2);
+    if (localX < xLeft - SEO_LINE_HIT_TOLERANCE || localX > xRight + SEO_LINE_HIT_TOLERANCE) continue;
+    for (const r of SEO_RATIOS) {
+      const price = set.yA + (set.yB - set.yA) * r;
+      const y = latestPriceToY(price);
+      if (Math.abs(localY - y) <= SEO_LINE_HIT_TOLERANCE) {
+        return set.id;
+      }
+    }
+  }
+  return null;
+}
+
+// ---- 차트 드래그 패닝 + 구역/쎄오의추억 지정 클릭 + 핸들 드래그 ----
+chartWrap.addEventListener('mousedown', (e) => {
+  if (e.button !== 0 || rows.length === 0) return;
+  if (seoPickingStep === 0) {
+    const hit = hitTestSeoHandle(e.clientX, e.clientY);
+    if (hit) {
+      draggingHandle = hit;
+      document.body.classList.add('panning');
+      updateChartCursor();
+      e.preventDefault();
+      return;
+    }
+  }
+  isDragging = true;
+  dragMoved = false;
+  dragStartClientX = e.clientX;
+  dragLatestClientX = e.clientX;
+  dragStartIndexAtDown = currentStart;
+  document.body.classList.add('panning');
+  e.preventDefault();
+});
+
+chartWrap.addEventListener('mousemove', (e) => {
+  lastMouseClientX = e.clientX;
+  lastMouseClientY = e.clientY;
+  if (!isDragging && !draggingHandle) updateChartCursor();
+});
+
+window.addEventListener('mousemove', (e) => {
+  if (draggingHandle) {
+    dragHandleLatestClientPos = { x: e.clientX, y: e.clientY };
+    if (!dragHandleRAFPending) {
+      dragHandleRAFPending = true;
+      requestAnimationFrame(applyHandleDrag);
+    }
+    return;
+  }
+  if (!isDragging) return;
+  dragLatestClientX = e.clientX;
+  if (!dragMoved && Math.abs(dragLatestClientX - dragStartClientX) > DRAG_CLICK_THRESHOLD) {
+    dragMoved = true;
+    updateChartCursor();
+  }
+  if (dragMoved && !dragRAFPending) {
+    dragRAFPending = true;
+    requestAnimationFrame(applyDragPan);
+  }
+});
+
+function applyDragPan() {
+  dragRAFPending = false;
+  if (!isDragging || !dragMoved) return;
+  const deltaX = dragLatestClientX - dragStartClientX;
+  const deltaCandles = deltaX / candleW;
+  let newStart = Math.round(dragStartIndexAtDown - deltaCandles);
+  const maxStart = Math.max(1, rows.length - candleCount + 1);
+  if (newStart < 1) newStart = 1;
+  if (newStart > maxStart) newStart = maxStart;
+  if (newStart !== currentStart) {
+    draw(newStart);
+    startIdxInput.value = newStart;
+  }
+}
+
+// 드래그 중인 네모(핸들)의 위치를 최신 마우스 좌표에 맞춰 해당 지점(a 또는 b)의 좌표를 갱신
+function applyHandleDrag() {
+  dragHandleRAFPending = false;
+  if (!draggingHandle || !dragHandleLatestClientPos || !latestXToIdx || !latestYToPrice) return;
+  const set = seoSets.find((s) => s.id === draggingHandle.setId);
+  if (!set) return;
+  const rect = canvas.getBoundingClientRect();
+  const localX = dragHandleLatestClientPos.x - rect.left;
+  const localY = dragHandleLatestClientPos.y - rect.top;
+  const idx = latestXToIdx(localX);
+  const price = latestYToPrice(localY);
+  if (draggingHandle.which === 'A') {
+    set.xA = idx;
+    set.yA = price;
+  } else {
+    set.xB = idx;
+    set.yB = price;
+  }
+  draw(currentStart);
+}
+
+window.addEventListener('mouseup', (e) => {
+  if (draggingHandle) {
+    draggingHandle = null;
+    dragHandleLatestClientPos = null;
+    document.body.classList.remove('panning');
+    updateChartCursor();
+    return;
+  }
+  if (!isDragging) return;
+  isDragging = false;
+  document.body.classList.remove('panning');
+  const wasClick = !dragMoved;
+  updateChartCursor();
+  if (wasClick) {
+    handlePossibleClick(e);
+  }
+});
+
+// 클릭(드래그 아님)을 현재 모드에 따라 구역 지정 / 쎄오의추억 지점 찍기 / 세트 선택 중 하나로 분기
+function handlePossibleClick(e) {
+  if (rows.length === 0) return;
+  if (seoPickingStep > 0) {
+    handleSeoPickClick(e);
+    return;
+  }
+  if (regionPickingStep > 0) {
+    handlePossibleRegionClick(e);
+    return;
+  }
+  handleSeoSelectClick(e);
+}
+
+// 쎄오의추억 도구로 a지점/b지점을 찍는다
+function handleSeoPickClick(e) {
+  const rect = canvas.getBoundingClientRect();
+  const localX = e.clientX - rect.left;
+  const localY = e.clientY - rect.top;
+  if (localX <= Y_AXIS_W || !latestXToIdx || !latestYToPrice) return; // 가격 라벨 영역 클릭은 무시
+
+  const idx = latestXToIdx(localX);
+  const price = latestYToPrice(localY);
+
+  if (seoPickingStep === 1) {
+    seoPickA = { x: idx, y: price };
+    seoPickingStep = 2;
+  } else if (seoPickingStep === 2) {
+    seoSets.push({ id: seoSetIdSeq++, xA: seoPickA.x, yA: seoPickA.y, xB: idx, yB: price });
+    seoPickingStep = 0;
+    seoPickA = null;
+  }
+  updateSeoButton();
+  updateChartCursor();
+  draw(currentStart);
+}
+
+// 빈 곳/선분 클릭으로 쎄오의추억 세트를 선택하거나 선택 해제한다 (핸들 클릭은 mousedown에서 이미 처리됨)
+function handleSeoSelectClick(e) {
+  const hitSetId = hitTestSeoLine(e.clientX, e.clientY);
+  selectedSeoSetId = hitSetId;
+  updateSeoDeleteButton();
+  draw(currentStart);
+}
+
+function handlePossibleRegionClick(e) {
+  if (regionPickingStep === 0 || rows.length === 0) return;
+  const rect = canvas.getBoundingClientRect();
+  const localX = e.clientX - rect.left;
+  if (localX <= Y_AXIS_W) return; // 가격 라벨 영역 클릭은 무시
+
+  const localCandleIdx = Math.floor((localX - Y_AXIS_W) / candleW);
+  let absoluteIdx = (currentStart - 1) + localCandleIdx;
+  absoluteIdx = Math.max(0, Math.min(rows.length - 1, absoluteIdx));
+
+  if (regionPickingStep === 1) {
+    regionPick1Idx = absoluteIdx;
+    regionPickingStep = 2;
+  } else if (regionPickingStep === 2) {
+    regionStartIdx = Math.min(regionPick1Idx, absoluteIdx);
+    regionEndIdx = Math.max(regionPick1Idx, absoluteIdx);
+    regionPickingStep = 0;
+    regionPick1Idx = null;
+    regionActive = true;
+    recomputeRegionHotlines();
+  }
+  updateHotRegionButton();
+  updateHotLineSliderState();
+  updateChartCursor();
+  draw(currentStart);
+}
+
+// 지정된 구역(regionStartIdx~regionEndIdx) 내에서 노란(반짝임) 봉들을 찾아
+// 핫라인 클러스터 전체 목록을 미리 계산해 캐시해 둔다 (구역이 커도 매 프레임 다시 계산하지 않기 위함)
+function recomputeRegionHotlines() {
+  if (regionStartIdx === null || regionEndIdx === null) {
+    regionHotlineClusters = [];
+    return;
+  }
+  const regionRows = [];
+  let lo = Infinity, hi = -Infinity;
+  for (let gi = regionStartIdx; gi <= regionEndIdx; gi++) {
+    if (isVolumeBlink(gi)) {
+      const r = rows[gi];
+      regionRows.push(r);
+      if (r.low < lo) lo = r.low;
+      if (r.high > hi) hi = r.high;
+    }
+  }
+  regionHotlineClusters = buildHotlineClusters(regionRows, lo, hi);
+}
+
+// "보기 좋은" 눈금 간격 계산 (1/2/5 * 10^n)
+function niceStep(range, targetTicks) {
+  const rough = range / targetTicks;
+  const mag = Math.pow(10, Math.floor(Math.log10(rough)));
+  const norm = rough / mag;
+  let step;
+  if (norm < 1.5) step = 1;
+  else if (norm < 3) step = 2;
+  else if (norm < 7) step = 5;
+  else step = 10;
+  return step * mag;
+}
+
+function draw(startNumber) {
+  currentStart = startNumber;
+  const startIndex = startNumber - 1; // 0-based array index
+  const slice = rows.slice(startIndex, startIndex + candleCount);
+  if (slice.length === 0) return;
+
+  const plotWidth = slice.length * candleW;
+  const totalWidth = Y_AXIS_W + plotWidth + 20;
+  const height = 600;
+
+  canvas.width = totalWidth;
+  canvas.height = height;
+
+  // 배경
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, totalWidth, height);
+
+  // 핫라인 계산 구역(꼬롬선 구역)이 지정되어 있으면 아주 연한 붉은색 배경으로 표시
+  // 이 구역의 화면상 x범위(regionVisX1~regionVisX2)가 곧 가로줄(핫라인)의 양끝이 된다
+  let regionVisX1 = null, regionVisX2 = null;
+  if (regionActive && regionStartIdx !== null) {
+    const relStart = regionStartIdx - startIndex;
+    const relEnd = regionEndIdx - startIndex;
+    const visStart = Math.max(0, relStart);
+    const visEnd = Math.min(slice.length - 1, relEnd);
+    if (visStart <= visEnd) {
+      regionVisX1 = Y_AXIS_W + visStart * candleW;
+      regionVisX2 = Y_AXIS_W + (visEnd + 1) * candleW;
+      ctx.fillStyle = 'rgba(255,0,0,0.06)';
+      ctx.fillRect(regionVisX1, TOP_PAD, regionVisX2 - regionVisX1, height - BOTTOM_PAD - TOP_PAD);
+    }
+  }
+  // 구역 지정 중 첫 번째 클릭 지점을 점선으로 표시 (두 번째 클릭 대기 중)
+  if (regionPickingStep === 2 && regionPick1Idx !== null) {
+    const relIdx = regionPick1Idx - startIndex;
+    if (relIdx >= 0 && relIdx < slice.length) {
+      const mx = Y_AXIS_W + relIdx * candleW + candleW / 2;
+      ctx.strokeStyle = 'rgba(255,0,0,0.6)';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4, 3]);
+      ctx.beginPath();
+      ctx.moveTo(mx, TOP_PAD);
+      ctx.lineTo(mx, height - BOTTOM_PAD);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+  }
+
+  // 가격 범위
+  let minLow = Infinity, maxHigh = -Infinity;
+  for (const r of slice) {
+    if (r.low < minLow) minLow = r.low;
+    if (r.high > maxHigh) maxHigh = r.high;
+  }
+  const range = maxHigh - minLow;
+  const pad = range * 0.08 || 1;
+  const yMin = minLow - pad;
+  const yMax = maxHigh + pad;
+
+  const plotTop = TOP_PAD;
+  const plotBottom = height - BOTTOM_PAD;
+  const plotHeight = plotBottom - plotTop;
+
+  function priceToY(p) {
+    return plotTop + (yMax - p) / (yMax - yMin) * plotHeight;
+  }
+  function yToPrice(y) {
+    return yMax - (y - plotTop) / plotHeight * (yMax - yMin);
+  }
+  // 절대 봉 위치(연속값, 0-based) <-> 화면 x좌표 변환 (쎄오의추억 도구용)
+  function idxToX(absIdx) {
+    return Y_AXIS_W + (absIdx - startIndex) * candleW;
+  }
+  function xToIdx(x) {
+    return startIndex + (x - Y_AXIS_W) / candleW;
+  }
+  latestPriceToY = priceToY;
+  latestYToPrice = yToPrice;
+  latestIdxToX = idxToX;
+  latestXToIdx = xToIdx;
+
+  // 노란색(반짝임) 봉 판정 - setupBlink에서 반짝임 애니메이션 대상 슬롯을 정하는 데 쓰임
+  const blinkFlags = new Array(slice.length);
+  for (let i = 0; i < slice.length; i++) {
+    blinkFlags[i] = isVolumeBlink(startIndex + i);
+  }
+
+  // 가로줄(핫라인)은 꼬롬선 구역이 지정된 상태에서만 존재한다
+  // 미리 계산해둔 구역 전용 캐시에서 상위 hotLineCount개만 꺼내 쓴다
+  const hotLines = regionActive
+    ? (regionHotlineClusters || []).slice(0, hotLineCount)
+    : [];
+
+  // y축 그리드(아주 옅게) + 라벨
+  const step = niceStep(yMax - yMin, 8);
+  const firstTick = Math.ceil(yMin / step) * step;
+  ctx.strokeStyle = 'rgba(0,0,0,0.05)';
+  ctx.fillStyle = '#333';
+  ctx.font = '11px sans-serif';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'middle';
+
+  for (let v = firstTick; v <= yMax; v += step) {
+    const y = priceToY(v);
+    ctx.beginPath();
+    ctx.moveTo(Y_AXIS_W, y);
+    ctx.lineTo(totalWidth, y);
+    ctx.stroke();
+    ctx.fillText(v.toFixed(2), 6, y);
+  }
+
+  // 핫라인 그리기 (그리드 위, 캔들 아래) - 양끝은 꼬롬선 구역의 화면상 양끝과 같다
+  if (regionVisX1 !== null) {
+    drawHotLines(hotLines, priceToY, regionVisX1, regionVisX2);
+  }
+
+  // 쎄오의추억 선분 세트 + 지정 중인 a지점 미리보기 그리기
+  drawSeoSets(priceToY, idxToX);
+  if (seoPickingStep === 2 && seoPickA !== null) {
+    drawSeoPickPreview(seoPickA, priceToY, idxToX);
+  }
+
+  // 캔들 없이 배경+그리드+핫라인만 있는 상태를 반짝임 복원용으로 저장
+  bgCanvas.width = totalWidth;
+  bgCanvas.height = height;
+  bgCtx.drawImage(canvas, 0, 0);
+
+  // 캔들만 투명 배경 위에 따로 그려서 반짝임 시 위에 그대로 덧그릴 수 있게 준비
+  candleLayerCanvas.width = totalWidth;
+  candleLayerCanvas.height = height;
+  candleLayerCtx.clearRect(0, 0, totalWidth, height);
+
+  // 캔들 그리기
+  for (let i = 0; i < slice.length; i++) {
+    const r = slice[i];
+    const cx = Y_AXIS_W + i * candleW + candleW / 2;
+    const isUp = r.close >= r.open;
+    const color = isUp ? '#e02020' : '#2050e0'; // 상승 빨강, 하락 파랑
+
+    const yHigh = priceToY(r.high);
+    const yLow = priceToY(r.low);
+    const yOpen = priceToY(r.open);
+    const yClose = priceToY(r.close);
+    const bodyTop = Math.min(yOpen, yClose);
+    const bodyHeight = Math.max(Math.abs(yClose - yOpen), 1);
+
+    for (const c of [ctx, candleLayerCtx]) {
+      // 심지 (고가-저가)
+      c.strokeStyle = color;
+      c.lineWidth = 1;
+      c.beginPath();
+      c.moveTo(cx, yHigh);
+      c.lineTo(cx, yLow);
+      c.stroke();
+
+      // 몸통 (시가-종가)
+      c.fillStyle = color;
+      c.fillRect(cx - candleW / 2, bodyTop, candleW, bodyHeight);
+    }
+  }
+
+  // x축 라벨 (봉 번호, 적당한 간격으로)
+  ctx.fillStyle = '#333';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'top';
+  const labelEvery = Math.ceil(slice.length / 15);
+  for (let i = 0; i < slice.length; i += labelEvery) {
+    const cx = Y_AXIS_W + i * candleW + candleW / 2;
+    ctx.fillText(slice[i].idx, cx, plotBottom + 6);
+  }
+
+  statusEl.textContent =
+    `표시 중: #${slice[0].idx} ~ #${slice[slice.length - 1].idx} ` +
+    `(가격범위 ${minLow.toFixed(2)} ~ ${maxHigh.toFixed(2)}) / 전체 ${rows.length.toLocaleString()}개`;
+
+  drawVolume(slice, totalWidth);
+
+  setupBlink(slice, blinkFlags);
+}
+
+// 앞 5봉, 뒤 5봉의 거래량보다 모두 낮은 봉인지 판단 (전체 rows 기준)
+function isVolumeBlink(globalIdx) {
+  const vol = rows[globalIdx].volume;
+  const from = Math.max(0, globalIdx - BLINK_WINDOW);
+  const to = Math.min(rows.length - 1, globalIdx + BLINK_WINDOW);
+  for (let j = from; j <= to; j++) {
+    if (j === globalIdx) continue;
+    if (rows[j].volume <= vol) return false;
+  }
+  return true;
+}
+
+// 노란(반짝임) 봉들의 저가~고가 구간을 1포인트 간격의 가로줄이 몇 개나 관통하는지 세어
+// 위아래로 정확히 연속해서 붙어있는(카운트>0) 가로줄들은 평균 가격 위치의 선 하나로 합친 뒤,
+// 카운트 내림차순으로 정렬된 전체 클러스터 목록({price, count})을 반환한다 (개수 제한 없음)
+function buildHotlineClusters(blinkRows, yMin, yMax) {
+  const lo = Math.ceil(yMin);
+  const hi = Math.floor(yMax);
+  if (hi < lo || blinkRows.length === 0) return [];
+
+  const size = hi - lo + 1;
+  const counts = new Int32Array(size);
+  for (const r of blinkRows) {
+    const rl = Math.max(lo, Math.ceil(r.low));
+    const rh = Math.min(hi, Math.floor(r.high));
+    for (let L = rl; L <= rh; L++) {
+      counts[L - lo]++;
+    }
+  }
+
+  // 연속으로 카운트>0인 구간을 하나의 클러스터로 묶는다 (대표값 = 평균 가격, 대표 카운트 = 구간 내 최고 카운트)
+  const clusters = [];
+  let i = 0;
+  while (i < size) {
+    if (counts[i] === 0) { i++; continue; }
+    let j = i;
+    let maxCount = counts[i];
+    while (j + 1 < size && counts[j + 1] > 0) {
+      j++;
+      if (counts[j] > maxCount) maxCount = counts[j];
+    }
+    clusters.push({ price: lo + (i + j) / 2, count: maxCount });
+    i = j + 1;
+  }
+
+  clusters.sort((a, b) => b.count - a.count);
+  return clusters;
+}
+
+// 핫라인(꼬롬선)을 카운트가 높을수록 진한(검정에 가까운) 회색으로 그리기
+// 양끝(x1~x2)은 꼬롬선 구역의 화면상 범위로 제한된다 - 구역 밖으로는 선이 뻗지 않는다
+function drawHotLines(entries, priceToY, x1, x2) {
+  if (entries.length === 0) return;
+
+  const maxCount = entries[0].count;
+  const minCount = entries[entries.length - 1].count;
+
+  ctx.lineWidth = 1.5;
+  for (const e of entries) {
+    const ratio = maxCount === minCount ? 1 : (e.count - minCount) / (maxCount - minCount);
+    const gray = Math.round(HOT_LINE_MAX_GRAY * (1 - ratio));
+    const y = priceToY(e.price);
+    ctx.strokeStyle = `rgb(${gray},${gray},${gray})`;
+    ctx.beginPath();
+    ctx.moveTo(x1, y);
+    ctx.lineTo(x2, y);
+    ctx.stroke();
+  }
+}
+
+// 쎄오의추억 선분 세트들을 그린다: a-b 두 지점 사이 가격을 0/1/4/1/3/1/2/2/3/3/4/1 비율로 나눈
+// 7개의 보라색 점선을, a~b의 x범위(화면상 두 지점 사이의 가로 길이)에 걸쳐 그리고
+// 양끝 지점(a, b)에는 드래그용 네모를 그린다. 선택된 세트는 더 진하게 표시된다
+function drawSeoSets(priceToY, idxToX) {
+  for (const set of seoSets) {
+    drawOneSeoSet(set, priceToY, idxToX, set.id === selectedSeoSetId);
+  }
+}
+
+function drawOneSeoSet(set, priceToY, idxToX, selected) {
+  const xA = idxToX(set.xA);
+  const xB = idxToX(set.xB);
+  const yA = priceToY(set.yA);
+  const yB = priceToY(set.yB);
+
+  ctx.save();
+  ctx.strokeStyle = selected ? SEO_LINE_COLOR_SELECTED : SEO_LINE_COLOR;
+  ctx.lineWidth = selected ? SEO_LINE_WIDTH + 1 : SEO_LINE_WIDTH;
+  ctx.setLineDash([6, 4]);
+  for (const r of SEO_RATIOS) {
+    const price = set.yA + (set.yB - set.yA) * r;
+    const y = priceToY(price);
+    ctx.beginPath();
+    ctx.moveTo(xA, y);
+    ctx.lineTo(xB, y);
+    ctx.stroke();
+  }
+  ctx.setLineDash([]);
+  ctx.restore();
+
+  drawSeoHandle(xA, yA, selected);
+  drawSeoHandle(xB, yB, selected);
+}
+
+function drawSeoHandle(x, y, selected) {
+  const half = SEO_HANDLE_SIZE / 2;
+  ctx.fillStyle = selected ? SEO_LINE_COLOR_SELECTED : SEO_LINE_COLOR;
+  ctx.fillRect(x - half, y - half, SEO_HANDLE_SIZE, SEO_HANDLE_SIZE);
+  ctx.strokeStyle = '#ffffff';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(x - half, y - half, SEO_HANDLE_SIZE, SEO_HANDLE_SIZE);
+}
+
+// b지점 클릭을 기다리는 동안 이미 찍은 a지점을 작은 네모로 미리 보여준다
+function drawSeoPickPreview(pickA, priceToY, idxToX) {
+  const x = idxToX(pickA.x);
+  const y = priceToY(pickA.y);
+  drawSeoHandle(x, y, false);
+}
+
+function setupBlink(slice, blinkFlags) {
+  blinkSlots = [];
+  for (let i = 0; i < slice.length; i++) {
+    if (blinkFlags[i]) {
+      blinkSlots.push(Y_AXIS_W + i * candleW); // 봉이 차지하는 세로 슬롯의 왼쪽 끝 x좌표
+    }
+  }
+
+  if (blinkRAF) {
+    cancelAnimationFrame(blinkRAF);
+    blinkRAF = null;
+  }
+  if (blinkSlots.length > 0) {
+    blinkRAF = requestAnimationFrame(blinkStep);
+  }
+}
+
+function blinkStep(now) {
+  const t = now % BLINK_CYCLE_MS;
+  const wave = (1 - Math.cos((2 * Math.PI * t) / BLINK_CYCLE_MS)) / 2; // 0 -> 1 -> 0
+  const yellowAlpha = BLINK_MAX_ALPHA * wave;
+
+  const mainTop = TOP_PAD;
+  const mainBottom = canvas.height - BOTTOM_PAD;
+  const volTop = VOLUME_TOP_PAD;
+  const volBottom = VOLUME_HEIGHT - VOLUME_BOTTOM_PAD;
+  const w = candleW;
+
+  for (const x of blinkSlots) {
+    // 본차트: 배경(그리드) 복원 -> 노란색 배경 -> 캔들(투명 레이어)을 그대로 덧그림
+    ctx.drawImage(bgCanvas, x, mainTop, w, mainBottom - mainTop, x, mainTop, w, mainBottom - mainTop);
+    ctx.fillStyle = `rgba(${BLINK_COLOR},${yellowAlpha})`;
+    ctx.fillRect(x, mainTop, w, mainBottom - mainTop);
+    ctx.drawImage(candleLayerCanvas, x, mainTop, w, mainBottom - mainTop, x, mainTop, w, mainBottom - mainTop);
+
+    // 거래량차트: 동일한 방식
+    vctx.drawImage(volBgCanvas, x, volTop, w, volBottom - volTop, x, volTop, w, volBottom - volTop);
+    vctx.fillStyle = `rgba(${BLINK_COLOR},${yellowAlpha})`;
+    vctx.fillRect(x, volTop, w, volBottom - volTop);
+    vctx.drawImage(volBarLayerCanvas, x, volTop, w, volBottom - volTop, x, volTop, w, volBottom - volTop);
+  }
+
+  blinkRAF = requestAnimationFrame(blinkStep);
+}
+
+function drawVolume(slice, totalWidth) {
+  volumeCanvas.width = totalWidth;
+  volumeCanvas.height = VOLUME_HEIGHT;
+
+  vctx.fillStyle = '#ffffff';
+  vctx.fillRect(0, 0, totalWidth, VOLUME_HEIGHT);
+
+  let maxVol = 0;
+  for (const r of slice) {
+    if (r.volume > maxVol) maxVol = r.volume;
+  }
+  if (maxVol <= 0) maxVol = 1;
+
+  const plotTop = VOLUME_TOP_PAD;
+  const plotBottom = VOLUME_HEIGHT - VOLUME_BOTTOM_PAD;
+  const plotHeight = plotBottom - plotTop;
+
+  vctx.fillStyle = '#333';
+  vctx.font = '11px sans-serif';
+  vctx.textAlign = 'left';
+  vctx.textBaseline = 'top';
+  vctx.fillText('거래량 (최대 ' + Math.round(maxVol).toLocaleString() + ')', 6, plotTop);
+
+  // 거래량바 없이 배경+라벨만 있는 상태를 반짝임 복원용으로 저장
+  volBgCanvas.width = totalWidth;
+  volBgCanvas.height = VOLUME_HEIGHT;
+  volBgCtx.drawImage(volumeCanvas, 0, 0);
+
+  // 거래량바만 투명 배경 위에 따로 그려서 반짝임 시 위에 그대로 덧그릴 수 있게 준비
+  volBarLayerCanvas.width = totalWidth;
+  volBarLayerCanvas.height = VOLUME_HEIGHT;
+  volBarLayerCtx.clearRect(0, 0, totalWidth, VOLUME_HEIGHT);
+
+  for (let i = 0; i < slice.length; i++) {
+    const r = slice[i];
+    const cx = Y_AXIS_W + i * candleW + candleW / 2;
+    const barHeight = Math.max((r.volume / maxVol) * plotHeight, 1);
+    for (const c of [vctx, volBarLayerCtx]) {
+      c.fillStyle = '#aaaaaa';
+      c.fillRect(cx - candleW / 2, plotBottom - barHeight, candleW, barHeight);
+    }
+  }
+}
+</script>
+
+</body>
+</html>
