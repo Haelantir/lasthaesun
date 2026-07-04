@@ -91,6 +91,7 @@
 
   <button id="seoBtn">쎄오의추억</button>
   <button id="seoDeleteBtn" disabled>삭제</button>
+  <button id="sampleSaveBtn" disabled>샘플 저장</button>
 </div>
 
 <div id="chartWrap">
@@ -212,6 +213,7 @@ const hotLineValue = document.getElementById('hotLineValue');
 const hotRegionBtn = document.getElementById('hotRegionBtn');
 const seoBtn = document.getElementById('seoBtn');
 const seoDeleteBtn = document.getElementById('seoDeleteBtn');
+const sampleSaveBtn = document.getElementById('sampleSaveBtn');
 const canvas = document.getElementById('chart');
 const volumeCanvas = document.getElementById('volumeChart');
 const chartWrap = document.getElementById('chartWrap');
@@ -268,6 +270,7 @@ function resetDrawingState() {
   selectedSeoSetId = null;
   updateHotRegionButton();
   updateHotLineSliderState();
+  updateSampleSaveButtonState();
   updateSeoButton();
   updateSeoDeleteButton();
   currentStart = 1;
@@ -388,6 +391,7 @@ hotRegionBtn.addEventListener('click', () => {
   }
   updateHotRegionButton();
   updateHotLineSliderState();
+  updateSampleSaveButtonState();
   updateChartCursor();
   if (rows.length > 0) draw(currentStart);
 });
@@ -399,6 +403,11 @@ function updateHotRegionButton() {
 // 꼬롬선 개수 슬라이더는 꼬롬선 구역이 확정된(regionActive) 상태에서만 조작 가능
 function updateHotLineSliderState() {
   hotLineSlider.disabled = !regionActive;
+}
+
+// 샘플 저장 버튼도 꼬롬선 구역이 확정된 상태에서만 조작 가능
+function updateSampleSaveButtonState() {
+  sampleSaveBtn.disabled = !regionActive;
 }
 
 // ---- 쎄오의추억 (사용자 드로잉 도구) ----
@@ -679,6 +688,7 @@ function handlePossibleRegionClick(e) {
   }
   updateHotRegionButton();
   updateHotLineSliderState();
+  updateSampleSaveButtonState();
   updateChartCursor();
   draw(currentStart);
 }
@@ -829,13 +839,13 @@ function draw(startNumber) {
 
   // 핫라인 그리기 (그리드 위, 캔들 아래) - 양끝은 꼬롬선 구역의 화면상 양끝과 같다
   if (regionVisX1 !== null) {
-    drawHotLines(hotLines, priceToY, regionVisX1, regionVisX2);
+    drawHotLines(ctx, hotLines, priceToY, regionVisX1, regionVisX2);
   }
 
   // 쎄오의추억 선분 세트 + 지정 중인 a지점 미리보기 그리기
-  drawSeoSets(priceToY, idxToX);
+  drawSeoSets(ctx, priceToY, idxToX);
   if (seoPickingStep === 2 && seoPickA !== null) {
-    drawSeoPickPreview(seoPickA, priceToY, idxToX);
+    drawSeoPickPreview(ctx, seoPickA, priceToY, idxToX);
   }
 
   // 캔들 없이 배경+그리드+핫라인만 있는 상태를 반짝임 복원용으로 저장
@@ -954,7 +964,7 @@ function buildHotlineClusters(blinkRows, yMin, yMax) {
 // 핫라인(꼬롬선)을 화면에 나타나는 선 개수 기준으로 균등하게 회색조를 나눠 그리기
 // entries는 이미 카운트 내림차순으로 정렬되어 있으므로 배열 인덱스가 곧 순위(0=1등)다
 // 양끝(x1~x2)은 꼬롬선 구역의 화면상 범위로 제한된다 - 구역 밖으로는 선이 뻗지 않는다
-function drawHotLines(entries, priceToY, x1, x2) {
+function drawHotLines(targetCtx, entries, priceToY, x1, x2) {
   if (entries.length === 0) return;
 
   // 화면에 나타나는 선의 개수(entries.length, 즉 병합 후 최종 개수)를 기준으로
@@ -962,66 +972,66 @@ function drawHotLines(entries, priceToY, x1, x2) {
   // 순위 간격에 따라 균등하게 밝아지도록 한다
   const lastRank = entries.length - 1;
 
-  ctx.lineWidth = 1.5;
+  targetCtx.lineWidth = 1.5;
   entries.forEach((e, rank) => {
     const gray = lastRank === 0 ? 0 : Math.round(HOT_LINE_MAX_GRAY * (rank / lastRank));
     const y = priceToY(e.price);
-    ctx.strokeStyle = `rgb(${gray},${gray},${gray})`;
-    ctx.beginPath();
-    ctx.moveTo(x1, y);
-    ctx.lineTo(x2, y);
-    ctx.stroke();
+    targetCtx.strokeStyle = `rgb(${gray},${gray},${gray})`;
+    targetCtx.beginPath();
+    targetCtx.moveTo(x1, y);
+    targetCtx.lineTo(x2, y);
+    targetCtx.stroke();
   });
 }
 
 // 쎄오의추억 선분 세트들을 그린다: a-b 두 지점 사이 가격을 0/1/4/1/3/1/2/2/3/3/4/1 비율로 나눈
 // 7개의 보라색 점선을, a~b의 x범위(화면상 두 지점 사이의 가로 길이)에 걸쳐 그리고
 // 양끝 지점(a, b)에는 드래그용 네모를 그린다. 선택된 세트는 더 진하게 표시된다
-function drawSeoSets(priceToY, idxToX) {
+function drawSeoSets(targetCtx, priceToY, idxToX) {
   for (const set of seoSets) {
-    drawOneSeoSet(set, priceToY, idxToX, set.id === selectedSeoSetId);
+    drawOneSeoSet(targetCtx, set, priceToY, idxToX, set.id === selectedSeoSetId);
   }
 }
 
-function drawOneSeoSet(set, priceToY, idxToX, selected) {
+function drawOneSeoSet(targetCtx, set, priceToY, idxToX, selected) {
   const xA = idxToX(set.xA);
   const xB = idxToX(set.xB);
   const yA = priceToY(set.yA);
   const yB = priceToY(set.yB);
 
-  ctx.save();
-  ctx.strokeStyle = selected ? SEO_LINE_COLOR_SELECTED : SEO_LINE_COLOR;
-  ctx.lineWidth = selected ? SEO_LINE_WIDTH + 1 : SEO_LINE_WIDTH;
-  ctx.setLineDash([6, 4]);
+  targetCtx.save();
+  targetCtx.strokeStyle = selected ? SEO_LINE_COLOR_SELECTED : SEO_LINE_COLOR;
+  targetCtx.lineWidth = selected ? SEO_LINE_WIDTH + 1 : SEO_LINE_WIDTH;
+  targetCtx.setLineDash([6, 4]);
   for (const r of SEO_RATIOS) {
     const price = set.yA + (set.yB - set.yA) * r;
     const y = priceToY(price);
-    ctx.beginPath();
-    ctx.moveTo(xA, y);
-    ctx.lineTo(xB, y);
-    ctx.stroke();
+    targetCtx.beginPath();
+    targetCtx.moveTo(xA, y);
+    targetCtx.lineTo(xB, y);
+    targetCtx.stroke();
   }
-  ctx.setLineDash([]);
-  ctx.restore();
+  targetCtx.setLineDash([]);
+  targetCtx.restore();
 
-  drawSeoHandle(xA, yA, selected);
-  drawSeoHandle(xB, yB, selected);
+  drawSeoHandle(targetCtx, xA, yA, selected);
+  drawSeoHandle(targetCtx, xB, yB, selected);
 }
 
-function drawSeoHandle(x, y, selected) {
+function drawSeoHandle(targetCtx, x, y, selected) {
   const half = SEO_HANDLE_SIZE / 2;
-  ctx.fillStyle = selected ? SEO_LINE_COLOR_SELECTED : SEO_LINE_COLOR;
-  ctx.fillRect(x - half, y - half, SEO_HANDLE_SIZE, SEO_HANDLE_SIZE);
-  ctx.strokeStyle = '#ffffff';
-  ctx.lineWidth = 1;
-  ctx.strokeRect(x - half, y - half, SEO_HANDLE_SIZE, SEO_HANDLE_SIZE);
+  targetCtx.fillStyle = selected ? SEO_LINE_COLOR_SELECTED : SEO_LINE_COLOR;
+  targetCtx.fillRect(x - half, y - half, SEO_HANDLE_SIZE, SEO_HANDLE_SIZE);
+  targetCtx.strokeStyle = '#ffffff';
+  targetCtx.lineWidth = 1;
+  targetCtx.strokeRect(x - half, y - half, SEO_HANDLE_SIZE, SEO_HANDLE_SIZE);
 }
 
 // b지점 클릭을 기다리는 동안 이미 찍은 a지점을 작은 네모로 미리 보여준다
-function drawSeoPickPreview(pickA, priceToY, idxToX) {
+function drawSeoPickPreview(targetCtx, pickA, priceToY, idxToX) {
   const x = idxToX(pickA.x);
   const y = priceToY(pickA.y);
-  drawSeoHandle(x, y, false);
+  drawSeoHandle(targetCtx, x, y, false);
 }
 
 function setupBlink(slice, blinkFlags) {
@@ -1112,6 +1122,209 @@ function drawVolume(slice, totalWidth) {
     }
   }
 }
+
+// ---- 샘플 저장 (꼬롬선 구역 전체 + 구역이 끝난 지점부터 100봉을 이미지로 저장) ----
+
+// 4개의 꼬롬선을 화면상 위에서 아래 순서로 나열했을 때의 순위 패턴 문자열을 만든다
+// 예: 위에서부터 2등,4등,1등,3등 순이면 "2-4-1-3" (entries는 이미 카운트 내림차순 = 순위 정렬 상태)
+function buildRankPattern(entries) {
+  const withRank = entries.map((e, i) => ({ rank: i + 1, price: e.price }));
+  withRank.sort((a, b) => b.price - a.price); // 가격 높은(화면 위쪽) 순
+  return withRank.map((e) => e.rank).join('-');
+}
+
+function formatTimestamp(date) {
+  const p = (n) => String(n).padStart(2, '0');
+  return p(date.getFullYear() % 100) + p(date.getMonth() + 1) + p(date.getDate()) +
+    p(date.getHours()) + p(date.getMinutes()) + p(date.getSeconds());
+}
+
+// 꼬롬선 구역(regionStartIdx~regionEndIdx) + 구역이 끝난 지점부터 100봉을, 현재 화면과
+// 같은 그리기 규칙(그리드/꼬롬선/쎄오의추억/캔들/거래량)으로 별도 캔버스에 그려 하나로 합친다
+function renderSampleCanvas() {
+  const rangeStart = regionStartIdx;
+  const rangeEnd = Math.min(rows.length - 1, regionEndIdx + 100);
+  const slice = rows.slice(rangeStart, rangeEnd + 1);
+  if (slice.length === 0) return null;
+
+  const plotWidth = slice.length * candleW;
+  const totalWidth = Y_AXIS_W + plotWidth + 20;
+  const mainHeight = 600;
+
+  const sCanvas = document.createElement('canvas');
+  sCanvas.width = totalWidth;
+  sCanvas.height = mainHeight;
+  const sctx = sCanvas.getContext('2d');
+
+  sctx.fillStyle = '#ffffff';
+  sctx.fillRect(0, 0, totalWidth, mainHeight);
+
+  // 구역 자체(확장된 100봉 제외)만 옅은 붉은 배경으로 표시 - rangeStart == regionStartIdx이므로 relStart는 항상 0
+  const relRegionEnd = regionEndIdx - rangeStart;
+  const regionVisX1 = Y_AXIS_W;
+  const regionVisX2 = Y_AXIS_W + (relRegionEnd + 1) * candleW;
+  sctx.fillStyle = 'rgba(255,0,0,0.06)';
+  sctx.fillRect(regionVisX1, TOP_PAD, regionVisX2 - regionVisX1, mainHeight - BOTTOM_PAD - TOP_PAD);
+
+  let minLow = Infinity, maxHigh = -Infinity;
+  for (const r of slice) {
+    if (r.low < minLow) minLow = r.low;
+    if (r.high > maxHigh) maxHigh = r.high;
+  }
+  const range = maxHigh - minLow;
+  const pricePad = range * 0.08 || 1;
+  const yMin = minLow - pricePad;
+  const yMax = maxHigh + pricePad;
+
+  const plotTop = TOP_PAD;
+  const plotBottom = mainHeight - BOTTOM_PAD;
+  const plotHeight = plotBottom - plotTop;
+
+  function priceToY(p) {
+    return plotTop + (yMax - p) / (yMax - yMin) * plotHeight;
+  }
+  function idxToX(absIdx) {
+    return Y_AXIS_W + (absIdx - rangeStart) * candleW;
+  }
+
+  const step = niceStep(yMax - yMin, 8);
+  const firstTick = Math.ceil(yMin / step) * step;
+  sctx.strokeStyle = 'rgba(0,0,0,0.05)';
+  sctx.fillStyle = '#333';
+  sctx.font = '11px sans-serif';
+  sctx.textAlign = 'left';
+  sctx.textBaseline = 'middle';
+  for (let v = firstTick; v <= yMax; v += step) {
+    const y = priceToY(v);
+    sctx.beginPath();
+    sctx.moveTo(Y_AXIS_W, y);
+    sctx.lineTo(totalWidth, y);
+    sctx.stroke();
+    sctx.fillText(v.toFixed(2), 6, y);
+  }
+
+  const hotLines = (regionHotlineClusters || []).slice(0, hotLineCount);
+  drawHotLines(sctx, hotLines, priceToY, regionVisX1, regionVisX2);
+  drawSeoSets(sctx, priceToY, idxToX);
+
+  // 정적 이미지라 반짝임 애니메이션 대신 고정 밝기로 노란 배경을 표시한다
+  const STATIC_BLINK_ALPHA = 0.16;
+  for (let i = 0; i < slice.length; i++) {
+    if (isVolumeBlink(rangeStart + i)) {
+      const cx = Y_AXIS_W + i * candleW;
+      sctx.fillStyle = `rgba(${BLINK_COLOR},${STATIC_BLINK_ALPHA})`;
+      sctx.fillRect(cx, plotTop, candleW, plotHeight);
+    }
+  }
+
+  for (let i = 0; i < slice.length; i++) {
+    const r = slice[i];
+    const cx = Y_AXIS_W + i * candleW + candleW / 2;
+    const isUp = r.close >= r.open;
+    const color = isUp ? '#e02020' : '#2050e0';
+
+    const yHigh = priceToY(r.high);
+    const yLow = priceToY(r.low);
+    const yOpen = priceToY(r.open);
+    const yClose = priceToY(r.close);
+    const bodyTop = Math.min(yOpen, yClose);
+    const bodyHeight = Math.max(Math.abs(yClose - yOpen), 1);
+
+    sctx.strokeStyle = color;
+    sctx.lineWidth = 1;
+    sctx.beginPath();
+    sctx.moveTo(cx, yHigh);
+    sctx.lineTo(cx, yLow);
+    sctx.stroke();
+
+    sctx.fillStyle = color;
+    sctx.fillRect(cx - candleW / 2, bodyTop, candleW, bodyHeight);
+  }
+
+  sctx.fillStyle = '#333';
+  sctx.textAlign = 'center';
+  sctx.textBaseline = 'top';
+  const labelEvery = Math.ceil(slice.length / 15);
+  for (let i = 0; i < slice.length; i += labelEvery) {
+    const cx = Y_AXIS_W + i * candleW + candleW / 2;
+    sctx.fillText(slice[i].idx, cx, plotBottom + 6);
+  }
+
+  const sVolCanvas = document.createElement('canvas');
+  sVolCanvas.width = totalWidth;
+  sVolCanvas.height = VOLUME_HEIGHT;
+  const svctx = sVolCanvas.getContext('2d');
+
+  svctx.fillStyle = '#ffffff';
+  svctx.fillRect(0, 0, totalWidth, VOLUME_HEIGHT);
+
+  let maxVol = 0;
+  for (const r of slice) {
+    if (r.volume > maxVol) maxVol = r.volume;
+  }
+  if (maxVol <= 0) maxVol = 1;
+
+  const volPlotTop = VOLUME_TOP_PAD;
+  const volPlotBottom = VOLUME_HEIGHT - VOLUME_BOTTOM_PAD;
+  const volPlotHeight = volPlotBottom - volPlotTop;
+
+  svctx.fillStyle = '#333';
+  svctx.font = '11px sans-serif';
+  svctx.textAlign = 'left';
+  svctx.textBaseline = 'top';
+  svctx.fillText('거래량 (최대 ' + Math.round(maxVol).toLocaleString() + ')', 6, volPlotTop);
+
+  for (let i = 0; i < slice.length; i++) {
+    const r = slice[i];
+    const cx = Y_AXIS_W + i * candleW + candleW / 2;
+    const barHeight = Math.max((r.volume / maxVol) * volPlotHeight, 1);
+    svctx.fillStyle = '#aaaaaa';
+    svctx.fillRect(cx - candleW / 2, volPlotBottom - barHeight, candleW, barHeight);
+  }
+
+  // 본차트 + 거래량차트를 세로로 이어붙여 한 장의 이미지로 만든다
+  const combined = document.createElement('canvas');
+  combined.width = totalWidth;
+  combined.height = mainHeight + VOLUME_HEIGHT;
+  const cctx = combined.getContext('2d');
+  cctx.fillStyle = '#ffffff';
+  cctx.fillRect(0, 0, combined.width, combined.height);
+  cctx.drawImage(sCanvas, 0, 0);
+  cctx.drawImage(sVolCanvas, 0, mainHeight);
+
+  return combined;
+}
+
+sampleSaveBtn.addEventListener('click', () => {
+  if (!regionActive || regionStartIdx === null || regionEndIdx === null) {
+    alert('먼저 꼬롬선 구역을 지정하세요.');
+    return;
+  }
+  if (hotLineCount !== 4) {
+    alert(`꼬롬선 개수를 4개로 맞춘 뒤 저장하세요. (현재 ${hotLineCount}개)`);
+    return;
+  }
+  if (!regionHotlineClusters || regionHotlineClusters.length < 4) {
+    alert('이 구역에는 꼬롬선이 4개 미만이라 순위를 매길 수 없습니다.');
+    return;
+  }
+
+  const pattern = buildRankPattern(regionHotlineClusters.slice(0, 4));
+  const combined = renderSampleCanvas();
+  if (!combined) return;
+
+  combined.toBlob((blob) => {
+    if (!blob) return;
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${pattern}_img_${formatTimestamp(new Date())}.jpg`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, 'image/jpeg', 0.92);
+});
 </script>
 
 </body>
