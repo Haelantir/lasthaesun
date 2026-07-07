@@ -374,24 +374,54 @@ function parseCSVLine(line) {
 }
 
 function parseCSV(text) {
-  rows = [];
   const lines = text.split('\n');
   // lines[0] = header
+  const dataLines = [];
   for (let i = 1; i < lines.length; i++) {
     let line = lines[i];
     if (line.endsWith('\r')) line = line.slice(0, -1);
     if (!line.trim()) continue;
-    const parts = parseCSVLine(line);
-    if (parts.length < 6) continue;
-    const toNum = (s) => parseFloat(String(s).replace(/,/g, '').trim());
-    rows.push({
-      idx: Math.round(toNum(parts[0])),
-      open: toNum(parts[1]),
-      high: toNum(parts[2]),
-      low: toNum(parts[3]),
-      close: toNum(parts[4]),
-      volume: toNum(parts[5])
-    });
+    dataLines.push(line);
+  }
+
+  const toNum = (s) => parseFloat(String(s).replace(/,/g, '').trim());
+
+  // 증권사 원본 형식 자동 감지: "일자,시간,시가,고가,저가,종가,거래량" 7열이며
+  // 맨 위 행이 최신 시점(내림차순)인 형식. 이 경우 idx 없이 날짜/시간 열이 앞에 온다.
+  const firstParts = dataLines.length ? parseCSVLine(dataLines[0]) : [];
+  const isBrokerFormat = firstParts.length === 7 &&
+    /^\d{4}-\d{2}-\d{2}$/.test(firstParts[0].trim()) &&
+    /^\d{1,2}:\d{2}$/.test(firstParts[1].trim());
+
+  rows = [];
+  if (isBrokerFormat) {
+    // 시가/고가/저가/종가/거래량만 취하고, 날짜/시간 열은 버린 뒤 idx를 새로 매긴다
+    for (const line of dataLines) {
+      const parts = parseCSVLine(line);
+      if (parts.length < 7) continue;
+      rows.push({
+        open: toNum(parts[2]),
+        high: toNum(parts[3]),
+        low: toNum(parts[4]),
+        close: toNum(parts[5]),
+        volume: toNum(parts[6])
+      });
+    }
+    rows.reverse(); // 최신순(내림차순) -> 과거순(오름차순)으로 뒤집기
+    rows.forEach((r, i) => { r.idx = i + 1; });
+  } else {
+    for (const line of dataLines) {
+      const parts = parseCSVLine(line);
+      if (parts.length < 6) continue;
+      rows.push({
+        idx: Math.round(toNum(parts[0])),
+        open: toNum(parts[1]),
+        high: toNum(parts[2]),
+        low: toNum(parts[3]),
+        close: toNum(parts[4]),
+        volume: toNum(parts[5])
+      });
+    }
   }
   priceTick = detectPriceTick(rows);
 }
