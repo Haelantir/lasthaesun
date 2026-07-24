@@ -181,6 +181,7 @@ const SEO_LINE_WIDTH = 2;
 const SEO_HANDLE_SIZE = 8;        // 드래그용 네모 한 변 길이(px)
 const SEO_HANDLE_HIT_PAD = 3;     // 네모 클릭 판정 여유(px)
 const SEO_LINE_HIT_TOLERANCE = 4; // 선분 클릭(선택) 판정 허용 오차(px)
+const SEO_LABEL_MIN_GAP = 12;     // 수평선 가격 라벨끼리 겹치지 않기 위한 최소 세로 간격(px)
 
 let seoSets = [];          // 완성된 선분 세트 목록: {id, xA, yA, xB, yB} (x: 절대 봉 위치(연속값), y: 가격)
 let seoSetIdSeq = 1;
@@ -1095,6 +1096,7 @@ function drawOneSeoSet(targetCtx, set, priceToY, idxToX, selected) {
   targetCtx.strokeStyle = selected ? SEO_LINE_COLOR_SELECTED : SEO_LINE_COLOR;
   targetCtx.lineWidth = selected ? SEO_LINE_WIDTH + 1 : SEO_LINE_WIDTH;
   targetCtx.setLineDash([6, 4]);
+  const lines = [];
   for (const r of SEO_RATIOS) {
     const price = set.yA + (set.yB - set.yA) * r;
     const y = priceToY(price);
@@ -1102,12 +1104,40 @@ function drawOneSeoSet(targetCtx, set, priceToY, idxToX, selected) {
     targetCtx.moveTo(xA, y);
     targetCtx.lineTo(xB, y);
     targetCtx.stroke();
+    lines.push({ price, y });
   }
   targetCtx.setLineDash([]);
   targetCtx.restore();
 
+  drawSeoPriceLabels(targetCtx, lines, Math.min(xA, xB), selected);
+
   drawSeoHandle(targetCtx, xA, yA, selected);
   drawSeoHandle(targetCtx, xB, yB, selected);
+}
+
+// 쎄오의추억 수평선 7개 각각의 가격(y축 위치)을 선 왼쪽에 보라색 글씨로 표시한다
+// 세트가 납작해져서(최고점-최저점 차이가 작아서) 라벨끼리 세로로 겹칠 정도가 되면
+// 겹침을 막기 위해 가장 위쪽(가격이 가장 높은) 선의 라벨 하나만 남긴다
+function drawSeoPriceLabels(targetCtx, lines, leftX, selected) {
+  const sorted = [...lines].sort((a, b) => a.y - b.y); // 화면상 위(작은 y) -> 아래 순
+  let overlap = false;
+  for (let i = 1; i < sorted.length; i++) {
+    if (sorted[i].y - sorted[i - 1].y < SEO_LABEL_MIN_GAP) {
+      overlap = true;
+      break;
+    }
+  }
+  const toDraw = overlap ? [sorted[0]] : sorted;
+
+  targetCtx.save();
+  targetCtx.fillStyle = selected ? SEO_LINE_COLOR_SELECTED : SEO_LINE_COLOR;
+  targetCtx.font = '11px sans-serif';
+  targetCtx.textAlign = 'right';
+  targetCtx.textBaseline = 'middle';
+  for (const line of toDraw) {
+    targetCtx.fillText(line.price.toFixed(2), leftX - 4, line.y);
+  }
+  targetCtx.restore();
 }
 
 function drawSeoHandle(targetCtx, x, y, selected) {
