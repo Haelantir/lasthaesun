@@ -1057,6 +1057,7 @@ function buildHotlineClusters(blinkRows, yMin, yMax) {
 // 핫라인(꼬롬선)을 화면에 나타나는 선 개수 기준으로 균등하게 회색조를 나눠 그리기
 // entries는 이미 카운트 내림차순으로 정렬되어 있으므로 배열 인덱스가 곧 순위(0=1등)다
 // 양끝(x1~x2)은 꼬롬선 구역의 화면상 범위로 제한된다 - 구역 밖으로는 선이 뻗지 않는다
+// 각 선의 가격(y축 값)은 쎄오의추억과 같은 방식으로 선 왼쪽(x1)에 선과 같은 색으로 표시한다
 function drawHotLines(targetCtx, entries, priceToY, x1, x2) {
   if (entries.length === 0) return;
 
@@ -1065,16 +1066,26 @@ function drawHotLines(targetCtx, entries, priceToY, x1, x2) {
   // 순위 간격에 따라 균등하게 밝아지도록 한다
   const lastRank = entries.length - 1;
 
+  targetCtx.save();
   targetCtx.lineWidth = 1.5;
+  targetCtx.font = '11px sans-serif';
+  targetCtx.textAlign = 'right';
+  targetCtx.textBaseline = 'middle';
   entries.forEach((e, rank) => {
     const gray = lastRank === 0 ? 0 : Math.round(HOT_LINE_MAX_GRAY * (rank / lastRank));
     const y = priceToY(e.price);
-    targetCtx.strokeStyle = `rgb(${gray},${gray},${gray})`;
+    const color = `rgb(${gray},${gray},${gray})`;
+
+    targetCtx.strokeStyle = color;
     targetCtx.beginPath();
     targetCtx.moveTo(x1, y);
     targetCtx.lineTo(x2, y);
     targetCtx.stroke();
+
+    targetCtx.fillStyle = color;
+    targetCtx.fillText(e.price.toFixed(2), x1 - 4, y);
   });
+  targetCtx.restore();
 }
 
 // 쎄오의추억 선분 세트들을 그린다: a-b 두 지점 사이 가격을 0/1/4/1/3/1/2/2/3/3/4/1 비율로 나눈
