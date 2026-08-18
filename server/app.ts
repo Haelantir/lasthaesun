@@ -1,6 +1,6 @@
 import express from "express";
-import { chatRouter } from "./routes/chat";
-import { transcribeRouter } from "./routes/transcribe";
+import { chatRouter } from "./routes/chat.js";
+import { transcribeRouter } from "./routes/transcribe.js";
 
 export const app = express();
 // 10mb covers a 60s base64-encoded voice clip with headroom; chat requests

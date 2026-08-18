@@ -1,12 +1,12 @@
 import OpenAI, { toFile } from "openai";
-import type { ChatMessage } from "../../shared/types";
-import { MODEL_CONFIG } from "./modelConfig";
-import { ROUTER_JSON_SCHEMA, ANSWER_JSON_SCHEMA, fromRouterJson, fromAnswerJson } from "./schema";
-import { ROUTER_SYSTEM_PROMPT } from "./prompts/routerPrompt";
+import type { ChatMessage } from "../../shared/types.js";
+import { MODEL_CONFIG } from "./modelConfig.js";
+import { ROUTER_JSON_SCHEMA, ANSWER_JSON_SCHEMA, fromRouterJson, fromAnswerJson } from "./schema.js";
+import { ROUTER_SYSTEM_PROMPT } from "./prompts/routerPrompt.js";
 import {
   SENIOR_ANSWER_SYSTEM_PROMPT,
   SENIOR_SEARCH_ANSWER_SYSTEM_PROMPT,
-} from "./prompts/seniorAnswerPrompt";
+} from "./prompts/seniorAnswerPrompt.js";
 
 export type AnswerTier = "nano" | "luna" | "search";
 

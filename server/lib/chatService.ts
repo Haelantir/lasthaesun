@@ -1,7 +1,7 @@
-import type { AnswerResult, ChatApiResponse, ChatMessage, RouterInput, RouterResult } from "../../shared/types";
-import { routeMessage, trimRecentMessages, type CallRouterFn } from "./router";
-import { applySafetyOverride } from "./safetyOverride";
-import { callAnswerModel, type AnswerTier } from "./openaiClient";
+import type { AnswerResult, ChatApiResponse, ChatMessage, RouterInput, RouterResult } from "../../shared/types.js";
+import { routeMessage, trimRecentMessages, type CallRouterFn } from "./router.js";
+import { applySafetyOverride } from "./safetyOverride.js";
+import { callAnswerModel, type AnswerTier } from "./openaiClient.js";
 
 const FRIENDLY_ERROR_MESSAGE = "지금 답변을 불러오지 못했어요.\n잠시 후 다시 질문해주세요.";
 const DEFAULT_CLARIFICATION_QUESTION = "어떤 것에 대해 궁금하신지 조금 더 말씀해주시겠어요?";

@@ -1,5 +1,5 @@
-import type { ChatMessage, RouterInput, RouterResult } from "../../shared/types";
-import { callRouterModel } from "./openaiClient";
+import type { ChatMessage, RouterInput, RouterResult } from "../../shared/types.js";
+import { callRouterModel } from "./openaiClient.js";
 
 // How many recent turns we forward to the Router / answer models. Enough to
 // resolve "그거", "아까 그거" style references without sending the whole session.

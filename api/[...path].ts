@@ -1,4 +1,4 @@
-import { app } from "../server/app";
+import { app } from "../server/app.js";
 
 // Chat requests can chain a router call plus up to 3 answer-model attempts
 // (each with its own 30s timeout, see REQUEST_TIMEOUT_MS in openaiClient.ts),

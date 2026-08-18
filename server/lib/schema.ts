@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CATEGORIES } from "../../shared/categories";
+import { CATEGORIES } from "../../shared/categories.js";
 
 // ---- Zod schemas (runtime validation of whatever the model returns) ----
 

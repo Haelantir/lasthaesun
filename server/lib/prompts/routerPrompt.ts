@@ -1,4 +1,4 @@
-import { CATEGORIES } from "../../../shared/categories";
+import { CATEGORIES } from "../../../shared/categories.js";
 
 // System prompt for the Router model. The router NEVER answers the user —
 // it only classifies the question so the app can decide nano / luna / clarify.

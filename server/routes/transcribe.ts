@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { z } from "zod";
-import { transcribeAudio } from "../lib/openaiClient";
+import { transcribeAudio } from "../lib/openaiClient.js";
 
 // Recorded clips are capped client-side at 60s; base64 of that is well under
 // this. The limit here is just a backstop against an oversized/garbage body.

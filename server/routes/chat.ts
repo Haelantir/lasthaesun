@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { z } from "zod";
-import { handleChatMessage } from "../lib/chatService";
+import { handleChatMessage } from "../lib/chatService.js";
 
 const chatRequestSchema = z.object({
   message: z.string().trim().min(1).max(2000),

@@ -1,4 +1,4 @@
-import type { ChatMessage, RouterResult } from "../../shared/types";
+import type { ChatMessage, RouterResult } from "../../shared/types.js";
 
 // Code-level backstop against a Router mistake. If the Router says "nano" but the
 // message (or recent context) contains a strong signal for health, money, legal,
