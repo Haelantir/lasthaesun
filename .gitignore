@@ -1,11 +1,15 @@
 node_modules
+.next
+out
+build
 dist
-dist-ssr
-dev-dist
-*.local
+
 .env
 .env.*
 !.env.example
+
+*.tsbuildinfo
+next-env.d.ts
 
 .vscode/*
 !.vscode/extensions.json

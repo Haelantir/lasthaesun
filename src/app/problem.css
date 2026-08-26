@@ -1,0 +1,567 @@
+/* ==========================================================================
+   The problem page: twelve blocks, in a fixed order.
+
+   This is ONE template shared by every decision on the site, so nothing here
+   may be specific to tires. Block styles are keyed to the data model, not to
+   the content of the first record.
+   ========================================================================== */
+
+.problem { padding-bottom: var(--space-6); }
+
+/* --- Block 1: heading ---------------------------------------------------- */
+
+.problem__eyebrow {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--space-2);
+}
+
+.problem__h1 { margin-bottom: var(--space-5); }
+
+/* --- Block 2: the verdict card ------------------------------------------
+   The single most important component on the site. It has to be readable and
+   understood in about three seconds, without being a casino. */
+
+.verdict {
+  background: var(--tone-bg);
+  border: 1px solid var(--tone-border);
+  border-left: 6px solid var(--tone-fg);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+
+@media (min-width: 40rem) {
+  .verdict { padding: var(--space-6); }
+}
+
+.verdict__label {
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+  color: var(--tone-fg);
+  font-size: clamp(2rem, 1.3rem + 4vw, 3.1rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  /* "DON'T IGNORE" must never break mid-word on a narrow phone. */
+  overflow-wrap: break-word;
+  hyphens: none;
+}
+
+.verdict__glyph { flex: none; width: 0.82em; height: 0.82em; }
+
+.verdict__gloss {
+  margin-top: var(--space-2);
+  color: var(--tone-fg);
+  font-weight: 600;
+  font-size: 0.97rem;
+  opacity: 0.92;
+}
+
+.verdict__answer {
+  margin-top: var(--space-4);
+  font-size: 1.09rem;
+  line-height: 1.6;
+  max-width: 40rem;
+}
+
+.verdict__cta { margin-top: var(--space-5); }
+
+/* Four decision metrics, always label + value in text. */
+.metrics {
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: 1fr;
+  margin-top: var(--space-5);
+  list-style: none;
+  padding: 0;
+}
+
+@media (min-width: 30rem) { .metrics { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 62rem) { .metrics { grid-template-columns: repeat(4, 1fr); } }
+
+.metric {
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  border: 1px solid var(--tone-border);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+}
+.metric__label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--space-1);
+}
+.metric__value {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  font-weight: 700;
+  font-size: 0.98rem;
+  color: var(--tone-fg, var(--text));
+  line-height: 1.35;
+}
+.metric__glyph { flex: none; }
+
+/* --- Block 3: situation checker ------------------------------------------ */
+
+.checker__options {
+  border: 0;
+  padding: 0;
+  margin: 0 0 var(--space-4);
+  display: grid;
+  gap: var(--space-2);
+}
+
+@media (min-width: 44rem) {
+  .checker__options { grid-template-columns: repeat(2, 1fr); }
+}
+
+.checker__legend {
+  padding: 0;
+  margin-bottom: var(--space-3);
+  font-weight: 700;
+  font-size: 1.02rem;
+}
+
+/* The whole card is the hit target — comfortably over 44px on touch. */
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  min-height: 3rem;
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.option:hover { border-color: var(--border-strong); background: color-mix(in srgb, var(--surface-sunken) 55%, var(--surface)); }
+
+.option:has(input:checked) {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+  background: var(--surface);
+}
+
+/* Focus lands on the input; move the ring onto the visible card. */
+.option:has(input:focus-visible) {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.option input[type='radio'] {
+  flex: none;
+  width: 1.15rem;
+  height: 1.15rem;
+  margin-top: 0.28rem;
+  accent-color: var(--accent);
+}
+
+.option__text { display: block; }
+.option__label { display: block; font-weight: 650; line-height: 1.4; }
+.option__hint { display: block; font-size: 0.87rem; color: var(--text-muted); margin-top: 0.1rem; }
+
+.result {
+  background: var(--tone-bg);
+  border: 1px solid var(--tone-border);
+  border-left: 5px solid var(--tone-fg);
+  border-radius: var(--radius);
+  padding: var(--space-4) var(--space-5);
+}
+.result__headline {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  color: var(--tone-fg);
+  font-size: clamp(1.15rem, 1rem + 1vw, 1.5rem);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+.result__body { margin-top: var(--space-3); max-width: 42rem; }
+.result__action {
+  margin-top: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--tone-border);
+  display: flex;
+  gap: 0.5em;
+  align-items: baseline;
+}
+.result__action-label {
+  flex: none;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--tone-fg);
+}
+.result__reset {
+  margin-top: var(--space-3);
+  background: none;
+  border: 0;
+  padding: var(--space-2) 0;
+  min-height: 2.75rem;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  cursor: pointer;
+}
+
+.checker__fallback {
+  margin-top: var(--space-3);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* --- Block 4: the ignore timeline ---------------------------------------- */
+
+.timeline { list-style: none; padding: 0; display: grid; gap: 0; }
+
+.stage { display: grid; grid-template-columns: auto 1fr; gap: 0 var(--space-4); }
+
+/* The rail: a dot and a connecting line, drawn in CSS, never an image. */
+.stage__rail { display: flex; flex-direction: column; align-items: center; }
+.stage__dot {
+  width: 0.85rem;
+  height: 0.85rem;
+  margin-top: 0.45rem;
+  border-radius: 999px;
+  background: var(--tone-fg);
+  flex: none;
+}
+.stage__line { flex: 1; width: 2px; background: var(--border-strong); margin-block: var(--space-2); }
+.stage:last-child .stage__line { display: none; }
+
+.stage__body { padding-bottom: var(--space-5); }
+.stage:last-child .stage__body { padding-bottom: 0; }
+
+.stage__label {
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tone-fg);
+  background: var(--tone-bg);
+  border: 1px solid var(--tone-border);
+  border-radius: 999px;
+  padding: 0.1rem 0.6rem;
+  margin-bottom: var(--space-2);
+}
+
+.stage__items { list-style: none; padding: 0; display: grid; gap: var(--space-3); }
+.stage__title { font-weight: 700; line-height: 1.4; }
+.stage__desc { color: var(--text-muted); font-size: 0.95rem; margin-top: 0.15rem; }
+
+/* The compressed causal chain. Wraps to a column on narrow screens instead of
+   scrolling sideways. */
+.chain {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  list-style: none;
+  padding: var(--space-4);
+  margin-top: var(--space-5);
+  background: var(--surface-sunken);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.chain__node {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--tone-fg);
+}
+.chain__arrow { color: var(--text-muted); font-weight: 400; }
+
+/* --- Block 5: decision table --------------------------------------------- */
+
+/* The table may be wider than the reading column; it scrolls in its own box so
+   the page body never does. */
+.table-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.decision-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  min-width: 33rem;
+}
+.decision-table caption {
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  border-bottom: 1px solid var(--border);
+}
+.decision-table th,
+.decision-table td {
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  vertical-align: top;
+  border-bottom: 1px solid var(--border);
+}
+.decision-table thead th {
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: var(--surface-sunken);
+  white-space: nowrap;
+}
+.decision-table tbody tr:last-child th,
+.decision-table tbody tr:last-child td { border-bottom: 0; }
+.decision-table tbody th { font-weight: 650; }
+.decision-table__answer { white-space: nowrap; }
+
+/* Narrow screens: restack each row as a labelled card, so "What to do" is read
+   rather than scrolled to. Explicit ARIA roles in the component keep the table
+   semantics that `display: block` would otherwise discard. */
+@media (max-width: 40rem) {
+  .table-scroll { overflow-x: visible; }
+
+  .decision-table,
+  .decision-table caption,
+  .decision-table tbody,
+  .decision-table tr,
+  .decision-table th,
+  .decision-table td {
+    display: block;
+    min-width: 0;
+    width: auto;
+  }
+
+  /* Column headers are redundant once every cell carries its own label. */
+  .decision-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .decision-table tr {
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--border);
+  }
+  .decision-table tr:last-child { border-bottom: 0; }
+
+  .decision-table th,
+  .decision-table td {
+    padding: 0;
+    border-bottom: 0;
+  }
+  .decision-table th + td,
+  .decision-table td + td { margin-top: var(--space-3); }
+
+  .decision-table tbody th {
+    font-size: 1.02rem;
+    font-weight: 700;
+  }
+
+  /* The label the hidden column header used to provide. */
+  .decision-table td::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: var(--space-1);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .decision-table__answer { white-space: normal; }
+}
+
+/* --- Block 6: action steps ----------------------------------------------- */
+
+.steps { list-style: none; padding: 0; counter-reset: step; display: grid; gap: var(--space-4); }
+.step { display: grid; grid-template-columns: auto 1fr; gap: var(--space-4); }
+.step__number {
+  counter-increment: step;
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.95rem;
+  flex: none;
+}
+.step__number::before { content: counter(step); }
+.step__title { font-weight: 700; margin-bottom: var(--space-1); }
+.step__link { display: inline-block; margin-top: var(--space-2); font-weight: 650; font-size: 0.94rem; }
+
+/* --- Block 7: useful right now ------------------------------------------- */
+
+.resources { list-style: none; padding: 0; display: grid; gap: var(--space-3); }
+@media (min-width: 40rem) { .resources { grid-template-columns: repeat(2, 1fr); } }
+
+.resource { height: 100%; display: flex; flex-direction: column; gap: var(--space-2); }
+.resource__title { font-weight: 700; }
+.resource__desc { color: var(--text-muted); font-size: 0.94rem; }
+.resource__note {
+  margin-top: auto;
+  padding-top: var(--space-2);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+/* --- Block 8: red flags --------------------------------------------------- */
+
+.red-flags {
+  background: var(--danger-bg);
+  border: 2px solid var(--danger-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+.red-flags__heading {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  color: var(--danger-fg);
+  font-size: clamp(1.2rem, 1.05rem + 0.9vw, 1.5rem);
+}
+.red-flags__list {
+  list-style: none;
+  padding: 0;
+  margin-top: var(--space-4);
+  display: grid;
+  gap: var(--space-2);
+}
+.red-flags__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
+  border: 1px solid var(--danger-border);
+  border-radius: var(--radius);
+  font-weight: 650;
+}
+.red-flags__glyph { flex: none; margin-top: 0.2rem; color: var(--danger-fg); }
+.red-flags__desc { display: block; font-weight: 400; color: var(--text-muted); font-size: 0.92rem; }
+
+/* --- Block 10: common questions ------------------------------------------ */
+
+.questions { display: grid; gap: var(--space-5); }
+.question__q { font-size: 1.05rem; margin-bottom: var(--space-2); }
+.question__a { color: var(--text); }
+
+/* --- Block 11: sources ---------------------------------------------------- */
+
+.sources { list-style: none; padding: 0; display: grid; gap: var(--space-3); }
+.source__publisher { font-weight: 700; font-size: 0.94rem; }
+.source__title { font-size: 0.94rem; }
+.source__notes { color: var(--text-muted); font-size: 0.88rem; margin-top: 0.15rem; }
+.source__nolink { color: var(--text-muted); font-size: 0.88rem; font-style: italic; }
+
+.review-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+.review-meta dt { font-weight: 700; display: inline; }
+.review-meta dd { display: inline; margin-left: 0.35em; }
+.review-meta > div { min-width: 0; }
+
+.disclaimer {
+  margin-top: var(--space-4);
+  padding: var(--space-4);
+  background: var(--surface-sunken);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* --- Block 12: related problems + search ---------------------------------- */
+
+.related { list-style: none; padding: 0; display: grid; gap: var(--space-2); }
+@media (min-width: 44rem) { .related { grid-template-columns: repeat(2, 1fr); } }
+
+.related__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 2.9rem;
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.related__item--link { text-decoration: none; color: var(--accent); font-weight: 650; }
+.related__item--link:hover { border-color: var(--border-strong); text-decoration: underline; }
+
+/* Not yet written: shown as text with an explicit status, never as a dead link. */
+.related__item--planned { color: var(--text-muted); border-style: dashed; }
+.related__status {
+  margin-left: auto;
+  flex: none;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.up-links { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-4); }
+
+.search-block {
+  margin-top: var(--space-6);
+  padding: var(--space-5);
+  background: var(--surface-sunken);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.search-block h2 { margin-bottom: var(--space-3); }
+
+/* --- Hubs: problems grouped by verdict ------------------------------------ */
+
+.page-top { padding-top: var(--space-6); }
+.hub-note { margin-top: var(--space-4); }
+.empty-state > * + * { margin-top: var(--space-3); }
+.problem-list + .problem-list,
+.section__lead + .problem-list { margin-top: var(--space-4); }
+.verdict-group + .verdict-group { margin-top: var(--space-5); }
+.verdict-group__heading { margin-bottom: var(--space-3); }
+
+/* --- Home ----------------------------------------------------------------- */
+
+.hero { padding-block: var(--space-7) var(--space-6); text-align: center; }
+.hero__title { font-size: clamp(2.1rem, 1.4rem + 3.4vw, 3.4rem); letter-spacing: -0.035em; }
+.hero__tagline {
+  margin-top: var(--space-3);
+  font-size: clamp(1.05rem, 0.98rem + 0.4vw, 1.22rem);
+  color: var(--text-muted);
+  max-width: 34rem;
+  margin-inline: auto;
+}
+.hero__search { margin-top: var(--space-5); max-width: 34rem; margin-inline: auto; text-align: left; }

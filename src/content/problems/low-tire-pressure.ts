@@ -1,0 +1,373 @@
+import type { ProblemSeed } from '../types';
+
+/**
+ * The reference problem record.
+ *
+ * Every factual claim below traces to one of the four sources at the bottom of
+ * this file. Where no authoritative figure exists — most importantly "how far can
+ * I drive on it" — the content says so instead of inventing a number. That is a
+ * content rule, not a stylistic preference: a fabricated safe distance on an
+ * automotive safety page is the one failure mode that actually hurts someone.
+ */
+export const lowTirePressure: ProblemSeed = {
+  systemSlug: 'tires',
+  slug: 'low-tire-pressure',
+  canonicalPath: '/cars/tires/low-tire-pressure/',
+  name: 'Low Tire Pressure',
+  eyebrow: 'Cars · Tires',
+
+  // The H1 is the brand question. The <title> is how people actually search.
+  // They are different on purpose, and both are stored, not derived.
+  h1: 'Can I Ignore Low Tire Pressure?',
+  seoTitle: 'Can You Drive With Low Tire Pressure? How Long Is Safe? | Can I Ignore It',
+  metaDescription:
+    "Low tire pressure isn't always an immediate stop, but it shouldn't be ignored. See when you can keep driving, when to stop, and what happens if you wait.",
+
+  status: 'published',
+  indexable: true,
+
+  verdict: 'probably_not',
+  urgency: 'high',
+  safetyRisk: 'high',
+  fixDifficulty: 'easy',
+  canIUseItQuestion: 'Can I drive?',
+  canIUseItLabel: 'Usually only briefly',
+
+  shortAnswer:
+    "You don't necessarily need to stop the car immediately if the tire is only slightly low and still looks normal. But check the pressure and add air as soon as you can.",
+
+  whyItMattersHeading: 'Why Does Low Tire Pressure Matter?',
+  whyItMatters: [
+    "A tire isn't a rigid container. It carries the weight of the vehicle through the air inside it, and the manufacturer chose a pressure that lets the tire hold its intended shape under that load. Below that figure, the sidewall flexes further on every single rotation.",
+    'That extra flexing does two things. It builds heat, which is what degrades rubber and the tire’s internal structure over time. And it changes the shape of the contact patch — the part of the tread actually touching the road — so the tread wears unevenly and the steering and braking response drifts away from what the vehicle was set up to deliver.',
+    'None of this is instant, which is exactly why low pressure gets ignored. For a while an underinflated tire feels close to normal. The damage accumulates quietly and then arrives all at once. NHTSA identifies underinflation, along with overloading, as a leading cause of tire failure.',
+    "There's a running cost too. The U.S. Department of Energy's FuelEconomy.gov puts proper inflation at roughly 0.6% better fuel economy on average and up to 3% in some cases, with about 0.2% lost for every 1 psi drop in average pressure across the tires. Small per tank. Less small per year.",
+    'Two practical points follow. First, you cannot judge inflation by eye. Federal rules require the tire pressure warning light to come on at 25% or more below the recommended pressure, and a tire that far down often still looks perfectly normal — which is why this is a job for a gauge rather than a glance. Second, the number you inflate to is the vehicle’s, not the tire’s. The figure moulded into the sidewall is the tire’s maximum, not your car’s recommendation. The correct cold inflation pressure is on the placard in the driver’s door jamb, or in the owner’s manual.',
+  ].join('\n\n'),
+
+  redFlagsHeading: 'Stop Driving If You Notice:',
+
+  lastReviewedAt: new Date('2026-08-01T00:00:00Z'),
+  reviewScope: 'Safety and automotive guidance, checked against published U.S. federal sources.',
+  disclaimer:
+    'This page is general information to help you triage a situation. It is not an inspection — we cannot see your tire or your vehicle. If the car feels unsafe, stop somewhere safe and have it looked at by a professional.',
+
+  // Keyword variations redirect here. They are the same problem, so they get the
+  // same page — this is the mechanism that keeps the site from breeding
+  // near-duplicate URLs as it scales. See docs/content-architecture.md.
+  aliases: [
+    '/cars/tires/can-i-drive-with-low-tire-pressure/',
+    '/cars/tires/how-long-can-i-drive-with-low-tire-pressure/',
+  ],
+
+  /* ---------------------------------------------------------------- Block 3 */
+  scenarios: [
+    {
+      slug: 'light-just-came-on',
+      label: 'The light just came on',
+      shortDescription: 'Dashboard warning, tire looks normal',
+      verdictOverride: 'probably_not',
+      urgencyOverride: 'high',
+      resultHeadline: 'CHECK IT SOON',
+      resultBody:
+        "A tire pressure warning isn't a “slightly low” signal. Federal rules require it to illuminate when a tire is 25% or more below the pressure your vehicle maker recommends, so it is reporting a real shortfall. The tire may still look completely normal at that point — 25% down is usually not visible.",
+      recommendedAction:
+        'Drive to somewhere you can add air and check all four tires with a gauge, inflating to the pressure on the driver’s door placard.',
+    },
+    {
+      slug: 'one-tire-slightly-low',
+      label: 'One tire looks slightly low',
+      shortDescription: 'Still holding its shape, car drives normally',
+      verdictOverride: 'can_wait',
+      urgencyOverride: 'medium',
+      resultHeadline: 'TOP IT UP SOON',
+      resultBody:
+        'If the tire still holds a normal shape and the car drives normally, this is a top-it-up job rather than a stop-now job. Do not settle for the eyeball test, though: a tire can sit well below the recommended pressure and still look fine, so confirm with a gauge rather than by looking.',
+      recommendedAction:
+        'Add air to the vehicle’s recommended pressure, then re-check in a few days to see whether it is holding.',
+    },
+    {
+      slug: 'visibly-flat',
+      label: 'The tire looks visibly flat',
+      shortDescription: 'Bulging at the bottom, sitting on the rim',
+      verdictOverride: 'do_not_ignore',
+      urgencyOverride: 'critical',
+      resultHeadline: "DON'T KEEP DRIVING",
+      resultBody:
+        'A tire that looks flat is far past the point where the answer is “add air soon”. Driving on it generates severe heat in a structure that is already deformed, can destroy the tire outright, can damage the wheel, and makes the car’s handling unpredictable exactly when you need it.',
+      recommendedAction:
+        'Stop somewhere safe. Use the spare, a sealant kit or roadside assistance rather than driving on it.',
+    },
+    {
+      slug: 'keeps-dropping',
+      label: 'Pressure keeps dropping after I add air',
+      shortDescription: 'Same tire, again and again',
+      verdictOverride: 'do_not_ignore',
+      urgencyOverride: 'high',
+      resultHeadline: 'GET THE LEAK FOUND',
+      resultBody:
+        'A tire that will not hold pressure has a reason — a puncture, a leaking valve stem, a poor seal where the tire meets the rim, or a damaged wheel. Re-inflating it treats the symptom and resets the clock without fixing any of those. NHTSA advises having a tire that will not hold pressure inspected by a professional.',
+      recommendedAction:
+        'Have that tire inspected at a tire shop. Note which wheel it is and roughly how quickly it drops.',
+    },
+    {
+      slug: 'thumping-or-vibration',
+      label: 'I hear thumping / feel vibration',
+      shortDescription: 'New noise or shaking through the car',
+      verdictOverride: 'do_not_ignore',
+      urgencyOverride: 'critical',
+      resultHeadline: 'STOP WHEN IT IS SAFE',
+      resultBody:
+        'New noise or vibration is a different problem from simple underinflation. It can mean the tire is already damaged or coming apart internally. NHTSA lists vibration and unusual noise among the signs that a tire should be checked by a professional rather than driven on.',
+      recommendedAction:
+        'Ease off the speed, avoid hard braking or steering, pull over where it is safe and look at all four tires.',
+    },
+    {
+      slug: 'nail-cut-or-bulge',
+      label: 'There is a nail, cut or bulge',
+      shortDescription: 'Visible damage to the tread or sidewall',
+      verdictOverride: 'do_not_ignore',
+      urgencyOverride: 'critical',
+      resultHeadline: 'DO NOT IGNORE THIS ONE',
+      resultBody:
+        'A bulge means the internal structure of the tire has already failed and the air is pushing against what is left. NHTSA advises having tires with cuts, cracks or bulges inspected by a professional. A nail may well be repairable — but whether it is depends on where it sits and how deep it goes, which is a shop’s judgement, not a roadside one.',
+      recommendedAction:
+        'Do not keep driving normally on a bulge or a deep cut. Have the tire inspected before you continue.',
+    },
+  ],
+
+  /* ---------------------------------------------------------------- Block 4 */
+  // Steps sharing a stage label are grouped into one stage by the timeline, which
+  // is how "KEEP IGNORING IT" holds two separate outcomes.
+  consequences: [
+    {
+      stageLabel: 'RIGHT NOW',
+      title: 'Handling and braking start to change',
+      description:
+        'Underinflation changes how the tire supports the car, so steering response and grip shift away from what the vehicle was set up for.',
+      severity: 'caution',
+      chainLabel: 'Low pressure',
+    },
+    {
+      stageLabel: 'KEEP DRIVING',
+      title: 'The tire flexes more than it was designed to',
+      description: 'Every rotation bends the sidewall further than the design intends.',
+      severity: 'caution',
+      chainLabel: 'More flex',
+    },
+    {
+      stageLabel: 'KEEP DRIVING',
+      title: 'That flexing builds heat',
+      description:
+        'Heat is the mechanism that actually damages a tire — it degrades the rubber and the structure underneath it.',
+      severity: 'warning',
+      chainLabel: 'Heat / wear',
+    },
+    {
+      stageLabel: 'KEEP IGNORING IT',
+      title: 'Tread wears faster and unevenly',
+      description: 'A deformed contact patch wears at the shoulders, shortening the life of the tire.',
+      severity: 'warning',
+      chainLabel: 'Handling degradation',
+    },
+    {
+      stageLabel: 'KEEP IGNORING IT',
+      title: 'Fuel economy falls',
+      description:
+        'FuelEconomy.gov puts the loss at roughly 0.2% for every 1 psi below the recommended average pressure.',
+      severity: 'warning',
+    },
+    {
+      stageLabel: 'WORST CASE',
+      title: 'Tire failure',
+      description:
+        'NHTSA identifies underinflation and overloading as leading causes of tire failure. A failure at speed is not a gradual event.',
+      severity: 'danger',
+      chainLabel: 'Possible tire failure',
+    },
+  ],
+
+  /* ---------------------------------------------------------------- Block 5 */
+  // Deliberately consolidates "can I drive with low tire pressure", "how long
+  // can I drive with it", "is it safe" and "can I drive with the light on" onto
+  // one canonical page instead of four near-duplicate ones.
+  windows: [
+    {
+      situation: 'Slightly below recommended pressure',
+      ignoreAnswer: 'Briefly',
+      severity: 'warning',
+      whatToDo: 'Add air soon',
+    },
+    {
+      situation: 'TPMS warning light on',
+      ignoreAnswer: 'No',
+      severity: 'warning',
+      whatToDo: 'Check pressure as soon as practical',
+    },
+    {
+      situation: 'Keeps losing pressure',
+      ignoreAnswer: 'No',
+      severity: 'danger',
+      whatToDo: 'Have it checked for a leak',
+    },
+    {
+      situation: 'Visibly flat',
+      ignoreAnswer: 'No',
+      severity: 'danger',
+      whatToDo: "Don't continue driving on it normally",
+    },
+    {
+      situation: 'Bulge, cut or major damage',
+      ignoreAnswer: 'No',
+      severity: 'danger',
+      whatToDo: 'Stop and have the tire inspected',
+    },
+    {
+      situation: 'Vibration, thumping or pulling',
+      ignoreAnswer: 'No',
+      severity: 'danger',
+      whatToDo: 'Stop when it is safe to do so',
+    },
+  ],
+
+  /* ---------------------------------------------------------------- Block 6 */
+  actions: [
+    {
+      title: 'Check the pressure',
+      body: 'Find the recommended cold inflation pressure on the tire information placard — usually in the driver’s door jamb, sometimes the glovebox or fuel door — or in the owner’s manual. Do not use the number moulded into the tire sidewall; that is the tire’s maximum, not your vehicle’s recommendation. Check with a gauge when the tires are cold.',
+    },
+    {
+      title: 'Add air if needed',
+      body: 'Inflate to the vehicle manufacturer’s figure, not above it, and check all four while you are there. Tires read higher once they have been driven on, so if you have just driven to the pump, expect the reading to be a little high.',
+      // Populated once the walkthrough exists as its own published problem. Until
+      // then no link is rendered rather than a link to nothing.
+      destinationLabel: 'How to inflate a car tire',
+    },
+    {
+      title: 'See if it happens again',
+      body: 'Re-check that tire in a few days. Losing a little pressure over weeks is normal; losing it again within days is a leak — a puncture, the valve stem, the seal at the rim, or the wheel itself — and it needs finding rather than topping up.',
+    },
+  ],
+
+  /* ---------------------------------------------------------------- Block 8 */
+  flags: [
+    { title: 'The tire looks nearly flat' },
+    { title: 'A bulge, or major sidewall damage' },
+    { title: 'Pressure dropping rapidly' },
+    { title: 'Heavy vibration or thumping' },
+    { title: 'The car suddenly pulls, or feels unstable' },
+  ],
+
+  /* --------------------------------------------------------------- Block 10 */
+  // Sub-intents of the same problem. They belong on this page — none of them
+  // justifies a URL of its own.
+  faqs: [
+    {
+      question: 'Can I drive with the low tire pressure light on?',
+      answer:
+        'Usually yes, for a short distance to somewhere you can add air, provided the tire looks normal and the car drives normally. What you should not do is treat the light as background noise. It is required to come on at 25% or more below your vehicle’s recommended pressure, so it is reporting a genuine shortfall. Check the pressure at the first practical opportunity.',
+    },
+    {
+      question: 'How long can I drive with low tire pressure?',
+      answer:
+        'There is no honest mileage figure, and any page that gives you one is guessing. It depends on how far below the recommended pressure the tire actually is, plus load, speed, temperature and the condition of the tire. The useful question is not distance but severity: slightly low and holding steady means add air soon. Visibly flat, dropping repeatedly, or damaged means stop rather than continue.',
+    },
+    {
+      question: 'Does cold weather cause the tire pressure light to come on?',
+      answer:
+        'It can. Air contracts as it cools, so pressure falls with temperature and a cold morning can push a borderline tire below the warning threshold. That does not make the warning false — the tire really is underinflated at that moment. Check the pressure cold and inflate to the vehicle’s figure. If the light keeps returning once the weather warms up, you are looking at a leak rather than the temperature.',
+    },
+    {
+      question: 'Why does the same tire keep losing air?',
+      answer:
+        'Because something is letting it out. The usual causes are a puncture, a leaking valve stem, a poor seal between the tire and the wheel rim, or a damaged wheel. Topping it up repeatedly hides the symptom without addressing any of them. NHTSA advises having a tire that will not hold pressure inspected by a professional.',
+    },
+    {
+      question: 'Should I use the PSI printed on the tire?',
+      answer:
+        'No. The number moulded into the sidewall is the tire’s maximum cold inflation pressure, not the pressure your vehicle is designed to run. Use the figure on the tire information placard — usually the driver’s door jamb, sometimes the glovebox or fuel door — or in the owner’s manual.',
+    },
+    {
+      question: 'Will the TPMS light go away after adding air?',
+      answer:
+        'Usually, once pressure is back above the threshold — sometimes straight away, sometimes after driving a short distance so the system can re-read the sensors. Some vehicles need a reset procedure described in the owner’s manual. A light that stays on after the tires are correctly inflated points at a sensor or system fault, which is worth having looked at: a TPMS that cannot report will not warn you next time.',
+    },
+  ],
+
+  /* ---------------------------------------------------------------- Block 7 */
+  // Monetisation-ready, monetisation-free. `url: null` renders an informational
+  // card with no outbound link; dropping an affiliate URL in later changes the
+  // page without touching a single layout component.
+  resources: [
+    {
+      title: 'Digital tire pressure gauge',
+      description:
+        'A pencil or dial gauge works, but a digital one is easier to read and holds the reading once you take it off the valve. Measure cold — before driving, or at least a few hours after — because tires read high once they have warmed up.',
+      kind: 'tool',
+      url: null,
+      affiliate: false,
+    },
+    {
+      title: 'Portable tire inflator',
+      description:
+        'A 12V compressor that runs from the car’s power socket, so a low tire does not depend on finding a working air pump. A built-in gauge and an auto-stop matter more than raw speed — the point is hitting a target pressure and stopping there.',
+      kind: 'tool',
+      url: null,
+      affiliate: false,
+    },
+  ],
+
+  /* --------------------------------------------------------------- Block 11 */
+  // Every URL below was verified before being written down. The manufacturer
+  // entry has no URL because it is vehicle-specific — so it gets no link rather
+  // than a plausible-looking guess.
+  sources: [
+    {
+      publisher: 'NHTSA',
+      title: 'Tire Safety (TireWise)',
+      url: 'https://www.nhtsa.gov/vehicle-safety/tires',
+      sourceType: 'government',
+      notes:
+        'Underinflation and overloading as leading causes of tire failure; inflate to the vehicle placard pressure; check monthly; when to have a tire inspected.',
+    },
+    {
+      publisher: 'U.S. Code of Federal Regulations',
+      title: '49 CFR 571.138 — FMVSS No. 138, Tire pressure monitoring systems',
+      url: 'https://www.ecfr.gov/current/title-49/subtitle-B/chapter-V/part-571/subpart-B/section-571.138',
+      sourceType: 'regulation',
+      notes: 'The source of the 25%-below-recommended threshold at which the warning light must illuminate.',
+    },
+    {
+      publisher: 'U.S. Department of Energy & U.S. EPA',
+      title: 'FuelEconomy.gov — Gas Mileage Tips: Keeping Your Vehicle in Shape',
+      url: 'https://www.fueleconomy.gov/feg/maintain.jsp',
+      sourceType: 'government',
+      notes: 'Fuel-economy effect of proper inflation, and where to find the recommended pressure.',
+    },
+    {
+      publisher: 'Your vehicle manufacturer',
+      title: 'Tire information placard and owner’s manual',
+      url: null,
+      sourceType: 'manufacturer',
+      notes:
+        'The recommended cold inflation pressure is specific to your vehicle. No general figure substitutes for it, so no link is given here.',
+    },
+  ],
+
+  /* --------------------------------------------------------------- Block 12 */
+  // Every target below is a real row in the database. All are currently drafts,
+  // so they render as plain text; each becomes a link automatically on the day
+  // its status flips to 'published'. No dead links, no thin placeholder pages.
+  related: [
+    { slug: 'nail-in-tire', anchorText: 'Can I ignore a nail in my tire?', relationshipType: 'sibling' },
+    { slug: 'tpms-warning-light', anchorText: 'Can I ignore a TPMS warning light?', relationshipType: 'cause' },
+    {
+      slug: 'cracked-tire-sidewall',
+      anchorText: 'Can I ignore a cracked tire sidewall?',
+      relationshipType: 'sibling',
+    },
+    { slug: 'tire-rotation', anchorText: 'Can I skip tire rotation?', relationshipType: 'sibling' },
+    { slug: 'uneven-tire-wear', anchorText: 'Can I ignore uneven tire wear?', relationshipType: 'escalation' },
+    { slug: 'wheel-vibration', anchorText: 'Can I ignore wheel vibration?', relationshipType: 'sibling' },
+  ],
+};
