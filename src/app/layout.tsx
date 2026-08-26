@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Atkinson_Hyperlegible_Next } from 'next/font/google';
 
 import { Footer } from '@/components/site/Footer';
 import { Header } from '@/components/site/Header';
@@ -9,10 +10,22 @@ import './globals.css';
 import './problem.css';
 
 /**
- * No webfont is loaded. The system UI stack renders instantly, has no layout
- * shift, costs zero requests and looks native on every platform — which beats
- * any font this site could load for the sake of personality.
+ * The one deliberate exception to "no webfont": Atkinson Hyperlegible Next is
+ * designed by the Braille Institute specifically for readers with low vision,
+ * which is directly on-mission for a safety-verdict site. `next/font/google`
+ * self-hosts it at build time (no request to fonts.googleapis.com, no
+ * render-blocking round trip) and `weight: 'variable'` pulls the whole
+ * 200–800 range as one file, so the site's five-step weight scale in
+ * `globals.css` (`--fw-regular` … `--fw-extrabold`) renders as true distinct
+ * instances instead of the browser faking bold.
  */
+const atkinsonHyperlegibleNext = Atkinson_Hyperlegible_Next({
+  subsets: ['latin'],
+  weight: 'variable',
+  variable: '--font-atkinson',
+  display: 'swap',
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin()),
   title: {
@@ -27,7 +40,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={atkinsonHyperlegibleNext.variable}>
       <body>
         <JsonLd data={[websiteJsonLd(), organizationJsonLd()]} />
         <div className="page">

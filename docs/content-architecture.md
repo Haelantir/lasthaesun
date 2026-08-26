@@ -162,8 +162,17 @@ sale badges, countdown timers. The verdict comes before the money, always.
 
 - One client component on the whole site: `SituationChecker`. Everything else is
   server-rendered.
-- No CSS framework, no component library, no icon package, no webfont. CSS is
-  ~4KB gzipped; icons are four inline SVGs; type is the system UI stack.
+- No CSS framework, no component library, no icon package. CSS is ~4KB
+  gzipped; icons are four inline SVGs.
+- One deliberate webfont: Atkinson Hyperlegible Next, loaded via
+  `next/font/google` in `src/app/layout.tsx`. It is self-hosted at build
+  time (no request to fonts.googleapis.com) and loaded as a single variable
+  file (`weight: 'variable'`) covering the whole 200–800 range, so it costs
+  one font request for every weight the site uses rather than one per
+  static weight. It exists because it is designed for readers with low
+  vision — directly on-mission for a site whose whole product is a safety
+  verdict — and the system-UI stack remains the fallback in `--font-sans`
+  (`globals.css`) if the font ever fails to load.
 - Site search is one indexed Postgres full-text query. `problems_search_idx` is a
   GIN index over exactly the expression the query builds — **if you change one,
   change the other character for character**, or it silently becomes a table

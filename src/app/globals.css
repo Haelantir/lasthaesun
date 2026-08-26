@@ -49,13 +49,15 @@
   --neutral-fg: #3c4250;
 
   /* Layout -------------------------------------------------------------- */
-  --w-read: 47rem;   /* ~760px: a comfortable reading measure */
+  --w-read: 47rem;   /* ~800px: a comfortable reading measure */
   --w-wide: 68rem;   /* tables and hub grids may use more */
   --gutter: 1.25rem;
 
-  --radius-sm: 6px;
-  --radius: 10px;
-  --radius-lg: 16px;
+  /* Kept deliberately small. A page that is mostly typography does not need
+     rounded-rectangle-everywhere to read as designed. */
+  --radius-sm: 4px;
+  --radius: 6px;
+  --radius-lg: 10px;
 
   /* A 4px rhythm, named by role rather than by size. */
   --space-1: 0.25rem;
@@ -69,6 +71,26 @@
 
   --shadow-sm: 0 1px 2px rgb(23 24 27 / 6%);
   --shadow: 0 2px 8px rgb(23 24 27 / 7%);
+
+  /* Typography ------------------------------------------------------------
+     `--font-atkinson` is the CSS variable next/font writes onto <html> for
+     Atkinson Hyperlegible Next; the stack behind it is the same system-UI
+     fallback the site used before, so a font-load hiccup never costs
+     legibility. */
+  --font-sans:
+    var(--font-atkinson), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    'Noto Sans', sans-serif;
+
+  /* Five steps, matching the weights the site already used before this was a
+     variable font — 650 sat between semibold and bold because the system-UI
+     stack could only fake it anyway. Atkinson Hyperlegible Next is a true
+     200–800 variable font, so every step below now renders as a distinct
+     instance rather than a browser-synthesized guess. */
+  --fw-regular: 400;
+  --fw-semibold: 600;
+  --fw-semibold-plus: 650;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
 }
 
 /* Tone helper: any element can opt into a tone's trio via data-tone. */
@@ -113,8 +135,7 @@ html {
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-    'Noto Sans', sans-serif;
+  font-family: var(--font-sans);
   font-size: 1rem;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
@@ -140,14 +161,14 @@ a:hover { color: var(--accent-hover); }
 
 h1, h2, h3, h4 {
   line-height: 1.2;
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   letter-spacing: -0.015em;
   text-wrap: balance;
 }
 
-h1 { font-size: clamp(1.7rem, 1.35rem + 1.9vw, 2.45rem); }
-h2 { font-size: clamp(1.32rem, 1.16rem + 0.85vw, 1.7rem); }
-h3 { font-size: clamp(1.08rem, 1.02rem + 0.3vw, 1.2rem); }
+h1 { font-size: clamp(1.95rem, 1.5rem + 2.1vw, 2.85rem); }
+h2 { font-size: clamp(1.5rem, 1.3rem + 0.95vw, 1.9rem); }
+h3 { font-size: clamp(1.18rem, 1.1rem + 0.35vw, 1.32rem); }
 
 p { text-wrap: pretty; }
 
@@ -172,7 +193,7 @@ ul, ol { padding-left: 1.35em; }
   background: var(--surface);
   border: 2px solid var(--accent);
   border-radius: var(--radius);
-  font-weight: 600;
+  font-weight: var(--fw-semibold);
   transition: top 0.15s ease;
 }
 .skip-link:focus { top: var(--space-4); }
@@ -201,11 +222,10 @@ ul, ol { padding-left: 1.35em; }
 
 .site-header {
   border-bottom: 1px solid var(--border);
-  background: color-mix(in srgb, var(--bg) 88%, white);
+  background: var(--surface);
   position: sticky;
   top: 0;
   z-index: 20;
-  backdrop-filter: saturate(140%) blur(8px);
 }
 
 .site-header__inner {
@@ -222,7 +242,7 @@ ul, ol { padding-left: 1.35em; }
   display: inline-flex;
   align-items: baseline;
   gap: 0.28em;
-  font-weight: 800;
+  font-weight: var(--fw-extrabold);
   font-size: 1.03rem;
   letter-spacing: -0.03em;
   color: var(--text);
@@ -250,7 +270,7 @@ ul, ol { padding-left: 1.35em; }
   padding-inline: var(--space-3);
   border-radius: var(--radius-sm);
   font-size: 0.94rem;
-  font-weight: 600;
+  font-weight: var(--fw-semibold);
   color: var(--text-muted);
   text-decoration: none;
 }
@@ -302,21 +322,22 @@ ul, ol { padding-left: 1.35em; }
 .breadcrumbs li { display: flex; align-items: center; gap: 0.35rem; }
 .breadcrumbs a { color: var(--text-muted); text-decoration: none; }
 .breadcrumbs a:hover { color: var(--accent); text-decoration: underline; }
-.breadcrumbs [aria-current='page'] { color: var(--text); font-weight: 600; }
+.breadcrumbs [aria-current='page'] { color: var(--text); font-weight: var(--fw-semibold); }
 .breadcrumbs__sep { color: var(--border-strong); }
 
-/* Badge: label + glyph. The label always carries the meaning. */
+/* Badge: label + glyph. The label always carries the meaning. A rectangular
+   tag, not a pill — a status marker, not a decoration. */
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 0.4em;
-  padding: 0.2em 0.6em;
-  border-radius: 999px;
+  padding: 0.2em 0.55em;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--tone-border, var(--border));
   background: var(--tone-bg, var(--surface-sunken));
   color: var(--tone-fg, var(--text));
   font-size: 0.8rem;
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   letter-spacing: 0.01em;
   line-height: 1.4;
   white-space: nowrap;
@@ -347,7 +368,7 @@ ul, ol { padding-left: 1.35em; }
   background: var(--accent);
   color: #fff;
   font: inherit;
-  font-weight: 650;
+  font-weight: var(--fw-semibold-plus);
   text-decoration: none;
   cursor: pointer;
 }
@@ -389,11 +410,11 @@ ul, ol { padding-left: 1.35em; }
   padding: var(--space-4);
   text-decoration: none;
   color: inherit;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 .problem-card:hover {
   border-color: var(--border-strong);
-  box-shadow: var(--shadow-sm);
+  background: var(--surface-sunken);
   color: inherit;
 }
 .problem-card__top {
@@ -403,7 +424,7 @@ ul, ol { padding-left: 1.35em; }
   flex-wrap: wrap;
   margin-bottom: var(--space-2);
 }
-.problem-card__title { font-size: 1.06rem; font-weight: 700; color: var(--accent); }
+.problem-card__title { font-size: 1.06rem; font-weight: var(--fw-bold); color: var(--accent); }
 .problem-card:hover .problem-card__title { text-decoration: underline; }
 .problem-card__answer { color: var(--text-muted); font-size: 0.94rem; }
 
@@ -427,9 +448,10 @@ ul, ol { padding-left: 1.35em; }
   border-radius: var(--radius);
   text-decoration: none;
   color: inherit;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
 }
-.hub-tile:hover { border-color: var(--border-strong); box-shadow: var(--shadow-sm); color: inherit; }
-.hub-tile__name { font-weight: 700; color: var(--accent); }
+.hub-tile:hover { border-color: var(--border-strong); background: var(--surface-sunken); color: inherit; }
+.hub-tile__name { font-weight: var(--fw-bold); color: var(--accent); }
 .hub-tile:hover .hub-tile__name { text-decoration: underline; }
 .hub-tile__meta { font-size: 0.85rem; color: var(--text-muted); }
 
@@ -444,7 +466,7 @@ ul, ol { padding-left: 1.35em; }
 .planned li {
   padding: 0.25rem 0.7rem;
   border: 1px dashed var(--border-strong);
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   color: var(--text-muted);
   font-size: 0.87rem;
 }

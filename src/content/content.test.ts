@@ -208,7 +208,7 @@ describe('page structure', () => {
     expect(ltp.windows).toHaveLength(6);
     expect(ltp.actions).toHaveLength(3);
     expect(ltp.flags).toHaveLength(5);
-    expect(ltp.faqs).toHaveLength(6);
+    expect(ltp.faqs).toHaveLength(4);
     expect(ltp.sources?.length).toBeGreaterThan(0);
     expect(ltp.resources).toHaveLength(2);
     expect(ltp.related?.length).toBeGreaterThan(0);

@@ -27,8 +27,10 @@ Currently published: one fully researched decision,
 | Styling | Two plain CSS files with design tokens | ~4KB gzipped, no build-time CSS framework |
 | Tests | Vitest | |
 
-No CSS framework, no component library, no icon package, no webfont. Icons are
-four inline SVGs; typography is the system UI stack.
+No CSS framework, no component library, no icon package. Icons are four
+inline SVGs; typography is Atkinson Hyperlegible Next (self-hosted via
+`next/font/google`, chosen for low-vision readability), falling back to the
+system UI stack.
 
 ## Local setup
 

@@ -12,7 +12,7 @@
 
 .problem__eyebrow {
   font-size: 0.8rem;
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -43,7 +43,7 @@
   gap: 0.45em;
   color: var(--tone-fg);
   font-size: clamp(2rem, 1.3rem + 4vw, 3.1rem);
-  font-weight: 800;
+  font-weight: var(--fw-extrabold);
   line-height: 1.05;
   letter-spacing: -0.03em;
   /* "DON'T IGNORE" must never break mid-word on a narrow phone. */
@@ -56,7 +56,7 @@
 .verdict__gloss {
   margin-top: var(--space-2);
   color: var(--tone-fg);
-  font-weight: 600;
+  font-weight: var(--fw-semibold);
   font-size: 0.97rem;
   opacity: 0.92;
 }
@@ -70,40 +70,40 @@
 
 .verdict__cta { margin-top: var(--space-5); }
 
-/* Four decision metrics, always label + value in text. */
+/* Four decision metrics, as a compact key-value summary list — GOV.UK's
+   summary-list pattern, not four SaaS stat tiles. Label left, value right,
+   one hairline divider per row. No per-row box, no background, no icon
+   soup: the words are the whole message. */
 .metrics {
-  display: grid;
-  gap: var(--space-2);
-  grid-template-columns: 1fr;
+  display: block;
   margin-top: var(--space-5);
   list-style: none;
   padding: 0;
+  border-top: 1px solid var(--tone-border);
 }
-
-@media (min-width: 30rem) { .metrics { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 62rem) { .metrics { grid-template-columns: repeat(4, 1fr); } }
 
 .metric {
-  background: color-mix(in srgb, var(--surface) 82%, transparent);
-  border: 1px solid var(--tone-border);
-  border-radius: var(--radius);
-  padding: var(--space-3);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--tone-border);
 }
 .metric__label {
-  display: block;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: var(--space-1);
+  font-size: 0.94rem;
+  font-weight: var(--fw-semibold);
+  color: var(--tone-fg, var(--text));
+  opacity: 0.82;
 }
 .metric__value {
   display: flex;
   align-items: center;
   gap: 0.4em;
-  font-weight: 700;
-  font-size: 0.98rem;
+  flex: none;
+  text-align: right;
+  font-weight: var(--fw-bold);
+  font-size: 1.02rem;
   color: var(--tone-fg, var(--text));
   line-height: 1.35;
 }
@@ -126,7 +126,7 @@
 .checker__legend {
   padding: 0;
   margin-bottom: var(--space-3);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   font-size: 1.02rem;
 }
 
@@ -165,7 +165,7 @@
 }
 
 .option__text { display: block; }
-.option__label { display: block; font-weight: 650; line-height: 1.4; }
+.option__label { display: block; font-weight: var(--fw-semibold-plus); line-height: 1.4; }
 .option__hint { display: block; font-size: 0.87rem; color: var(--text-muted); margin-top: 0.1rem; }
 
 .result {
@@ -181,7 +181,7 @@
   gap: 0.4em;
   color: var(--tone-fg);
   font-size: clamp(1.15rem, 1rem + 1vw, 1.5rem);
-  font-weight: 800;
+  font-weight: var(--fw-extrabold);
   letter-spacing: -0.015em;
   line-height: 1.2;
 }
@@ -197,7 +197,7 @@
 .result__action-label {
   flex: none;
   font-size: 0.76rem;
-  font-weight: 800;
+  font-weight: var(--fw-extrabold);
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--tone-fg);
@@ -210,7 +210,7 @@
   min-height: 2.75rem;
   font: inherit;
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: var(--fw-semibold);
   color: var(--accent);
   text-decoration: underline;
   text-underline-offset: 0.18em;
@@ -248,19 +248,19 @@
 .stage__label {
   display: inline-block;
   font-size: 0.74rem;
-  font-weight: 800;
+  font-weight: var(--fw-extrabold);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--tone-fg);
   background: var(--tone-bg);
   border: 1px solid var(--tone-border);
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   padding: 0.1rem 0.6rem;
   margin-bottom: var(--space-2);
 }
 
 .stage__items { list-style: none; padding: 0; display: grid; gap: var(--space-3); }
-.stage__title { font-weight: 700; line-height: 1.4; }
+.stage__title { font-weight: var(--fw-bold); line-height: 1.4; }
 .stage__desc { color: var(--text-muted); font-size: 0.95rem; margin-top: 0.15rem; }
 
 /* The compressed causal chain. Wraps to a column on narrow screens instead of
@@ -282,12 +282,12 @@
   align-items: center;
   gap: var(--space-2);
   font-size: 0.82rem;
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--tone-fg);
 }
-.chain__arrow { color: var(--text-muted); font-weight: 400; }
+.chain__arrow { color: var(--text-muted); font-weight: var(--fw-regular); }
 
 /* --- Block 5: decision table --------------------------------------------- */
 
@@ -322,7 +322,7 @@
 }
 .decision-table thead th {
   font-size: 0.76rem;
-  font-weight: 800;
+  font-weight: var(--fw-extrabold);
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -331,7 +331,7 @@
 }
 .decision-table tbody tr:last-child th,
 .decision-table tbody tr:last-child td { border-bottom: 0; }
-.decision-table tbody th { font-weight: 650; }
+.decision-table tbody th { font-weight: var(--fw-semibold-plus); }
 .decision-table__answer { white-space: nowrap; }
 
 /* Narrow screens: restack each row as a labelled card, so "What to do" is read
@@ -376,7 +376,7 @@
 
   .decision-table tbody th {
     font-size: 1.02rem;
-    font-weight: 700;
+    font-weight: var(--fw-bold);
   }
 
   /* The label the hidden column header used to provide. */
@@ -385,7 +385,7 @@
     display: block;
     margin-bottom: var(--space-1);
     font-size: 0.72rem;
-    font-weight: 800;
+    font-weight: var(--fw-extrabold);
     letter-spacing: 0.07em;
     text-transform: uppercase;
     color: var(--text-muted);
@@ -407,21 +407,36 @@
   border-radius: 999px;
   background: var(--accent);
   color: #fff;
-  font-weight: 800;
+  font-weight: var(--fw-extrabold);
   font-size: 0.95rem;
   flex: none;
 }
 .step__number::before { content: counter(step); }
-.step__title { font-weight: 700; margin-bottom: var(--space-1); }
-.step__link { display: inline-block; margin-top: var(--space-2); font-weight: 650; font-size: 0.94rem; }
+.step__title { font-weight: var(--fw-bold); margin-bottom: var(--space-1); }
+.step__link { display: inline-block; margin-top: var(--space-2); font-weight: var(--fw-semibold-plus); font-size: 0.94rem; }
 
 /* --- Block 7: useful right now ------------------------------------------- */
 
-.resources { list-style: none; padding: 0; display: grid; gap: var(--space-3); }
+/* Plain content, not product cards: a top rule stands in for the box. */
+.resources { list-style: none; padding: 0; display: grid; gap: var(--space-5); }
 @media (min-width: 40rem) { .resources { grid-template-columns: repeat(2, 1fr); } }
 
-.resource { height: 100%; display: flex; flex-direction: column; gap: var(--space-2); }
-.resource__title { font-weight: 700; }
+.resource.card {
+  height: auto;
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+}
+.resource {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border);
+}
+.resource__title { font-weight: var(--fw-bold); }
 .resource__desc { color: var(--text-muted); font-size: 0.94rem; }
 .resource__note {
   margin-top: auto;
@@ -432,10 +447,13 @@
 
 /* --- Block 8: red flags --------------------------------------------------- */
 
+/* One of the few callouts on the page allowed to carry strong colour — but a
+   left border and a faint tint, not a saturated card, and never a card
+   inside a card for its list items. */
 .red-flags {
   background: var(--danger-bg);
-  border: 2px solid var(--danger-border);
-  border-radius: var(--radius-lg);
+  border-left: 4px solid var(--danger-fg);
+  border-radius: var(--radius-sm);
   padding: var(--space-5);
 }
 .red-flags__heading {
@@ -450,20 +468,16 @@
   padding: 0;
   margin-top: var(--space-4);
   display: grid;
-  gap: var(--space-2);
+  gap: var(--space-3);
 }
 .red-flags__item {
   display: flex;
   align-items: flex-start;
   gap: var(--space-3);
-  padding: var(--space-3) var(--space-4);
-  background: color-mix(in srgb, var(--surface) 78%, transparent);
-  border: 1px solid var(--danger-border);
-  border-radius: var(--radius);
-  font-weight: 650;
+  font-weight: var(--fw-semibold-plus);
 }
 .red-flags__glyph { flex: none; margin-top: 0.2rem; color: var(--danger-fg); }
-.red-flags__desc { display: block; font-weight: 400; color: var(--text-muted); font-size: 0.92rem; }
+.red-flags__desc { display: block; font-weight: var(--fw-regular); color: var(--text-muted); font-size: 0.92rem; }
 
 /* --- Block 10: common questions ------------------------------------------ */
 
@@ -474,7 +488,7 @@
 /* --- Block 11: sources ---------------------------------------------------- */
 
 .sources { list-style: none; padding: 0; display: grid; gap: var(--space-3); }
-.source__publisher { font-weight: 700; font-size: 0.94rem; }
+.source__publisher { font-weight: var(--fw-bold); font-size: 0.94rem; }
 .source__title { font-size: 0.94rem; }
 .source__notes { color: var(--text-muted); font-size: 0.88rem; margin-top: 0.15rem; }
 .source__nolink { color: var(--text-muted); font-size: 0.88rem; font-style: italic; }
@@ -489,7 +503,7 @@
   font-size: 0.9rem;
   color: var(--text-muted);
 }
-.review-meta dt { font-weight: 700; display: inline; }
+.review-meta dt { font-weight: var(--fw-bold); display: inline; }
 .review-meta dd { display: inline; margin-left: 0.35em; }
 .review-meta > div { min-width: 0; }
 
@@ -517,7 +531,7 @@
   border: 1px solid var(--border);
   border-radius: var(--radius);
 }
-.related__item--link { text-decoration: none; color: var(--accent); font-weight: 650; }
+.related__item--link { text-decoration: none; color: var(--accent); font-weight: var(--fw-semibold-plus); }
 .related__item--link:hover { border-color: var(--border-strong); text-decoration: underline; }
 
 /* Not yet written: shown as text with an explicit status, never as a dead link. */
@@ -526,7 +540,7 @@
   margin-left: auto;
   flex: none;
   font-size: 0.72rem;
-  font-weight: 800;
+  font-weight: var(--fw-extrabold);
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--text-muted);

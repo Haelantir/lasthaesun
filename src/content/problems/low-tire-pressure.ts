@@ -38,11 +38,8 @@ export const lowTirePressure: ProblemSeed = {
 
   whyItMattersHeading: 'Why Does Low Tire Pressure Matter?',
   whyItMatters: [
-    "A tire isn't a rigid container. It carries the weight of the vehicle through the air inside it, and the manufacturer chose a pressure that lets the tire hold its intended shape under that load. Below that figure, the sidewall flexes further on every single rotation.",
-    'That extra flexing does two things. It builds heat, which is what degrades rubber and the tire’s internal structure over time. And it changes the shape of the contact patch — the part of the tread actually touching the road — so the tread wears unevenly and the steering and braking response drifts away from what the vehicle was set up to deliver.',
-    'None of this is instant, which is exactly why low pressure gets ignored. For a while an underinflated tire feels close to normal. The damage accumulates quietly and then arrives all at once. NHTSA identifies underinflation, along with overloading, as a leading cause of tire failure.',
-    "There's a running cost too. The U.S. Department of Energy's FuelEconomy.gov puts proper inflation at roughly 0.6% better fuel economy on average and up to 3% in some cases, with about 0.2% lost for every 1 psi drop in average pressure across the tires. Small per tank. Less small per year.",
-    'Two practical points follow. First, you cannot judge inflation by eye. Federal rules require the tire pressure warning light to come on at 25% or more below the recommended pressure, and a tire that far down often still looks perfectly normal — which is why this is a job for a gauge rather than a glance. Second, the number you inflate to is the vehicle’s, not the tire’s. The figure moulded into the sidewall is the tire’s maximum, not your car’s recommendation. The correct cold inflation pressure is on the placard in the driver’s door jamb, or in the owner’s manual.',
+    "A tire isn't rigid — it carries the vehicle's weight through the air inside it, at a pressure the manufacturer chose for that job. Below that pressure, the sidewall flexes further on every rotation, and that extra flexing builds heat, which is what actually degrades the rubber and the structure underneath it.",
+    "The flex also reshapes the contact patch — the small area of tread actually touching the road — so grip and wear stop matching what the vehicle was tuned for. None of this happens instantly, which is why low pressure is so easy to ignore: it feels close to normal for a while, then the damage shows up all at once.",
   ].join('\n\n'),
 
   redFlagsHeading: 'Stop Driving If You Notice:',
@@ -70,7 +67,7 @@ export const lowTirePressure: ProblemSeed = {
       urgencyOverride: 'high',
       resultHeadline: 'CHECK IT SOON',
       resultBody:
-        "A tire pressure warning isn't a “slightly low” signal. Federal rules require it to illuminate when a tire is 25% or more below the pressure your vehicle maker recommends, so it is reporting a real shortfall. The tire may still look completely normal at that point — 25% down is usually not visible.",
+        "A TPMS warning isn't a “slightly low” signal — by the time it's on, at least one tire is already significantly underinflated (federal rules set the threshold at roughly 25% below the vehicle's recommended pressure). The tire can still look completely normal at that point, which is why the warning matters more than a glance.",
       recommendedAction:
         'Drive to somewhere you can add air and check all four tires with a gauge, inflating to the pressure on the driver’s door placard.',
     },
@@ -245,7 +242,7 @@ export const lowTirePressure: ProblemSeed = {
     },
     {
       title: 'See if it happens again',
-      body: 'Re-check that tire in a few days. Losing a little pressure over weeks is normal; losing it again within days is a leak — a puncture, the valve stem, the seal at the rim, or the wheel itself — and it needs finding rather than topping up.',
+      body: 'Re-check that tire in a few days. Losing a little pressure over weeks is normal; losing it again within days points to a leak — a puncture, the valve stem, the seal at the rim, or the wheel itself — rather than something to keep topping up.',
     },
   ],
 
@@ -263,24 +260,14 @@ export const lowTirePressure: ProblemSeed = {
   // justifies a URL of its own.
   faqs: [
     {
-      question: 'Can I drive with the low tire pressure light on?',
-      answer:
-        'Usually yes, for a short distance to somewhere you can add air, provided the tire looks normal and the car drives normally. What you should not do is treat the light as background noise. It is required to come on at 25% or more below your vehicle’s recommended pressure, so it is reporting a genuine shortfall. Check the pressure at the first practical opportunity.',
-    },
-    {
-      question: 'How long can I drive with low tire pressure?',
-      answer:
-        'There is no honest mileage figure, and any page that gives you one is guessing. It depends on how far below the recommended pressure the tire actually is, plus load, speed, temperature and the condition of the tire. The useful question is not distance but severity: slightly low and holding steady means add air soon. Visibly flat, dropping repeatedly, or damaged means stop rather than continue.',
-    },
-    {
       question: 'Does cold weather cause the tire pressure light to come on?',
       answer:
-        'It can. Air contracts as it cools, so pressure falls with temperature and a cold morning can push a borderline tire below the warning threshold. That does not make the warning false — the tire really is underinflated at that moment. Check the pressure cold and inflate to the vehicle’s figure. If the light keeps returning once the weather warms up, you are looking at a leak rather than the temperature.',
+        'Yes. Air contracts as it cools, so pressure drops with temperature and a cold morning can push a borderline tire below the warning threshold — the warning is still accurate at that moment. Check pressure cold and inflate to the vehicle’s figure. If the light keeps returning once it warms up, that points to a leak rather than temperature.',
     },
     {
       question: 'Why does the same tire keep losing air?',
       answer:
-        'Because something is letting it out. The usual causes are a puncture, a leaking valve stem, a poor seal between the tire and the wheel rim, or a damaged wheel. Topping it up repeatedly hides the symptom without addressing any of them. NHTSA advises having a tire that will not hold pressure inspected by a professional.',
+        'Something is letting air out — a puncture, a leaking valve stem, a poor seal at the rim, or a damaged wheel. Topping it up repeatedly hides the symptom without fixing it. NHTSA recommends having a tire that won’t hold pressure inspected by a professional.',
     },
     {
       question: 'Should I use the PSI printed on the tire?',
@@ -290,7 +277,7 @@ export const lowTirePressure: ProblemSeed = {
     {
       question: 'Will the TPMS light go away after adding air?',
       answer:
-        'Usually, once pressure is back above the threshold — sometimes straight away, sometimes after driving a short distance so the system can re-read the sensors. Some vehicles need a reset procedure described in the owner’s manual. A light that stays on after the tires are correctly inflated points at a sensor or system fault, which is worth having looked at: a TPMS that cannot report will not warn you next time.',
+        'Usually, once pressure is back above the threshold — sometimes immediately, sometimes after driving a short distance so the system can re-read. Some vehicles need a manual reset described in the owner’s manual. If it stays on after correct inflation, that points to a sensor fault worth having checked.',
     },
   ],
 
@@ -335,7 +322,8 @@ export const lowTirePressure: ProblemSeed = {
       title: '49 CFR 571.138 — FMVSS No. 138, Tire pressure monitoring systems',
       url: 'https://www.ecfr.gov/current/title-49/subtitle-B/chapter-V/part-571/subpart-B/section-571.138',
       sourceType: 'regulation',
-      notes: 'The source of the 25%-below-recommended threshold at which the warning light must illuminate.',
+      notes:
+        'Source of the warning-light threshold: the greater of 25% below the vehicle’s recommended cold pressure or the regulation’s minimum activation pressure table.',
     },
     {
       publisher: 'U.S. Department of Energy & U.S. EPA',

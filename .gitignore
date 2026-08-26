@@ -14,3 +14,11 @@ next-env.d.ts
 .vscode/*
 !.vscode/extensions.json
 .DS_Store
+.vercel
+.env*
+
+# Claude Code / agent tooling state — local to this machine, not site source.
+.agents/
+.claude/
+skills-lock.json
+new problem page.txt
