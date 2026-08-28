@@ -658,14 +658,19 @@
   to { transform: translateX(-50%); }
 }
 
+/* Text-only: no thumbnail, so the card is just the two-line question plus
+   the verdict chip. Fixed width, not a fixed height — height instead comes
+   from the title's reserved line boxes below, so every card in the row
+   matches regardless of how long its title is. */
 .decision-card {
   flex: none;
   width: 15rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-4);
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-4) var(--space-3);
   background: var(--surface);
   border: 1px solid var(--border);
   text-decoration: none;
@@ -673,32 +678,18 @@
 }
 .decision-card:hover { border-color: var(--border-strong); background: var(--surface-sunken); color: inherit; }
 
-/* Absolute-positioned fill, not flex + percentage sizing: this box's height
-   comes only from aspect-ratio + width, and the img is pinned to its edges
-   with inset:0, so nothing about the source file's own dimensions — a
-   600x600 icon next to 600x450 ones — can influence this box's size. */
-.decision-card__image {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-}
-.decision-card__image img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
 .decision-card__title {
   font-weight: var(--fw-bold);
   text-align: center;
   line-height: 1.35;
-  /* Reserves space for 2 lines even when the actual title is one line —
+}
+.decision-card__title-prefix { color: var(--text); }
+.decision-card__title-rest {
+  color: var(--accent);
+  /* Reserves space for 2 lines even when the actual text is one line —
      -webkit-line-clamp only caps the max, it does not reserve the min, so
-     without this a short title (e.g. "Can I Ignore an Oil Leak?") makes its
-     card shorter than a sibling whose title wraps to two lines. */
+     without this a short title (e.g. "an Oil Leak?") makes its card shorter
+     than a sibling whose title wraps to two lines. */
   min-height: calc(1.35em * 2);
   display: -webkit-box;
   -webkit-line-clamp: 2;

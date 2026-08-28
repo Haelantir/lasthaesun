@@ -1,42 +1,27 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 import { VerdictChip } from '@/components/problem/VerdictCard';
 import type { ProblemSummary } from '@/lib/repository/problems';
 
-/**
- * Per-problem illustrations, by convention at `public/problems/<slug>.png`.
- * A published problem with no entry here just doesn't appear in the
- * carousel — no broken image request, no generic placeholder standing in
- * for art that doesn't exist yet.
- */
-const ILLUSTRATED_SLUGS = new Set([
-  'low-tire-pressure',
-  'nail-in-tire',
-  'water-dripping-from-exhaust',
-  'high-rpm-after-cold-start',
-  'check-engine-light',
-  'squeaky-brakes',
-  'tpms-warning-light',
-  'oil-leak',
-  'white-smoke-from-exhaust',
-  'small-windshield-chip',
-]);
-
 const CARD_WIDTH_PX = 240;
 const CARD_GAP_PX = 20;
 const SPEED_PX_PER_SEC = 26; // tuned by eye: not a blur, not a slideshow
+const CARD_COUNT = 10;
 
-function slugFromPath(path: string): string {
-  const segments = path.split('/').filter(Boolean);
-  return segments[segments.length - 1] ?? '';
-}
+/** Every h1 on the site is phrased "Can I Ignore X?" — that shared prefix
+ *  gets its own line so the card reads as a two-part question instead of a
+ *  wrapped sentence. Falls back to the whole title if a future h1 doesn't
+ *  follow the convention. */
+const CAN_I_IGNORE_PREFIX = 'Can I Ignore ';
 
-function withIllustration(problems: ProblemSummary[]): ProblemSummary[] {
-  return problems.filter((p) => ILLUSTRATED_SLUGS.has(slugFromPath(p.path)));
+function splitTitle(h1: string): { prefix: string | null; rest: string } {
+  if (h1.startsWith(CAN_I_IGNORE_PREFIX)) {
+    return { prefix: 'Can I Ignore', rest: h1.slice(CAN_I_IGNORE_PREFIX.length) };
+  }
+  return { prefix: null, rest: h1 };
 }
 
 function shuffled<T>(items: T[]): T[] {
@@ -63,7 +48,7 @@ function shuffled<T>(items: T[]): T[] {
  * time you open the site" actually lives, independent of the page cache.
  */
 export function DecisionsCarousel({ problems }: { problems: ProblemSummary[] }) {
-  const [picked, setPicked] = useState(() => withIllustration(problems).slice(0, 10));
+  const [picked, setPicked] = useState(() => problems.slice(0, CARD_COUNT));
 
   useEffect(() => {
     // Deliberate escape hatch: this exists specifically to make the client's
@@ -71,7 +56,7 @@ export function DecisionsCarousel({ problems }: { problems: ProblemSummary[] }) 
     // "randomised every time you open the site" requires when the page
     // itself is ISR-cached. Not a data sync — a one-time reroll.
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setPicked(shuffled(withIllustration(problems)).slice(0, 10));
+    setPicked(shuffled(problems).slice(0, CARD_COUNT));
     // Deliberately mount-only: this is "once per page load", not "once per
     // time the `problems` prop happens to get a new reference".
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -104,14 +89,19 @@ function DecisionCardGroup({ problems, ariaHidden }: { problems: ProblemSummary[
     // still work on whichever copy happens to be on screen.
     <ul className="decisions-marquee__group" aria-hidden={ariaHidden}>
       {problems.map((problem, index) => {
-        const slug = slugFromPath(problem.path);
+        const { prefix, rest } = splitTitle(problem.h1);
         return (
           <li key={`${problem.id}-${ariaHidden ? 'dup' : 'real'}-${index}`}>
             <Link className="decision-card" href={problem.path} tabIndex={ariaHidden ? -1 : undefined}>
-              <span className="decision-card__image">
-                <Image src={`/problems/${slug}.png`} alt="" width={600} height={450} sizes="240px" />
+              <span className="decision-card__title">
+                {prefix ? (
+                  <>
+                    <span className="decision-card__title-prefix">{prefix}</span>
+                    <br />
+                  </>
+                ) : null}
+                <span className="decision-card__title-rest">{rest}</span>
               </span>
-              <span className="decision-card__title">{problem.h1}</span>
               <VerdictChip verdict={problem.verdict} />
             </Link>
           </li>
