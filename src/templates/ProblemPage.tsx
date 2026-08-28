@@ -104,15 +104,24 @@ export function ProblemPage({ data }: { data: ProblemPageData }) {
           ) : null}
 
           {/* ---------------------------------------------------- BLOCK 5 */}
+          {/* Closed by default: Block 3 already answers this per-scenario, so
+              this table would otherwise repeat the same six situations right
+              below it. It stays a native <details> — not a JS-driven
+              show/hide — so the full table is still in the server HTML for
+              any crawler or no-JS visitor regardless of open/closed state;
+              only the on-screen disclosure is collapsed. */}
           {data.windows.length > 0 ? (
             <section className="section" aria-labelledby="how-long-heading">
-              <div className="section__head measure" id="how-long">
-                <h2 id="how-long-heading">How Long Can I Ignore It?</h2>
-              </div>
-              <IgnoreDecisionTable
-                rows={data.windows}
-                caption={`Situation by situation — ${problem.name.toLowerCase()}.`}
-              />
+              <details className="how-long">
+                <summary className="section__head measure how-long__summary" id="how-long">
+                  <h2 id="how-long-heading">How Long Can I Ignore It?</h2>
+                  <span className="how-long__toggle" aria-hidden="true" />
+                </summary>
+                <IgnoreDecisionTable
+                  rows={data.windows}
+                  caption={`Situation by situation — ${problem.name.toLowerCase()}.`}
+                />
+              </details>
             </section>
           ) : null}
 

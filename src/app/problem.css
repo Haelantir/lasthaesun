@@ -291,6 +291,31 @@
 
 /* --- Block 5: decision table --------------------------------------------- */
 
+/* Native <details>: closed by default so this doesn't repeat Block 3's
+   scenario checker on first read, but the toggle needs no JavaScript, so a
+   crawler or a visitor who lands on #how-long directly still gets to it. */
+.how-long__summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  cursor: pointer;
+  list-style: none;
+}
+.how-long__summary::-webkit-details-marker { display: none; }
+.how-long__summary::marker { content: ''; }
+.how-long__toggle {
+  flex: none;
+  width: 1.2rem;
+  height: 1.2rem;
+  font-size: 1.3rem;
+  line-height: 1;
+  color: var(--text-muted);
+  text-align: center;
+}
+.how-long__toggle::before { content: '+'; }
+.how-long[open] .how-long__toggle::before { content: '\2212'; }
+
 /* The table may be wider than the reading column; it scrolls in its own box so
    the page body never does. */
 .table-scroll {
