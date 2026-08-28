@@ -32,6 +32,12 @@ import type { ProblemPageData } from '@/lib/repository/problems';
  *
  * Nothing here is specific to tires. Every string comes from the database.
  */
+
+// Block 7 ("Useful Right Now") is built and styled but has nothing to show
+// yet — no affiliate/ad content exists. Flip to true once a real ad slot is
+// wired in; nothing else about the block needs to change.
+const SHOW_USEFUL_RIGHT_NOW = false;
+
 export function ProblemPage({ data }: { data: ProblemPageData }) {
   const { problem, breadcrumbs, system, objectCategory } = data;
 
@@ -138,7 +144,7 @@ export function ProblemPage({ data }: { data: ProblemPageData }) {
           ) : null}
 
           {/* ---------------------------------------------------- BLOCK 7 */}
-          {data.resources.length > 0 ? (
+          {SHOW_USEFUL_RIGHT_NOW && data.resources.length > 0 ? (
             <section className="section" aria-labelledby="useful-now">
               <div className="section__head measure">
                 <h2 id="useful-now">Useful Right Now</h2>
