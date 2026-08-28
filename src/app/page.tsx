@@ -1,8 +1,9 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
+import { DecisionsCarousel } from '@/components/DecisionsCarousel';
 import { ProblemSearch } from '@/components/ProblemSearch';
-import { VerdictChip } from '@/components/problem/VerdictCard';
 import { getFeaturedProblems } from '@/lib/repository/problems';
 import { getPublishedDomains } from '@/lib/repository/taxonomy';
 import { buildPageMetadata } from '@/lib/seo/metadata';
@@ -24,12 +25,23 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 export default async function HomePage() {
-  const [featured, domains] = await Promise.all([getFeaturedProblems(6), getPublishedDomains()]);
+  // Fetched well above the 10 the carousel shows, so the client-side shuffle
+  // in DecisionsCarousel has a real pool to draw from as the catalogue grows.
+  const [featured, domains] = await Promise.all([getFeaturedProblems(24), getPublishedDomains()]);
 
   return (
     <div className="container">
       <main id="main">
         <section className="hero">
+          <Image
+            className="hero__illustration"
+            src="/hero-illustration.png"
+            alt="A person scratching their chin, puzzling over smoke rising from a toaster"
+            width={1100}
+            height={927}
+            sizes="280px"
+            priority
+          />
           <h1 className="hero__title">{SITE_NAME}</h1>
           <p className="hero__tagline">{SITE_TAGLINE}</p>
           <div className="hero__search">
@@ -41,23 +53,9 @@ export default async function HomePage() {
           <section className="section" aria-labelledby="decisions">
             <div className="section__head measure">
               <h2 id="decisions">{featured.length === 1 ? 'The first decision' : 'Decisions'}</h2>
-              <p className="section__lead">
-                Each one gives you the verdict first, then how it changes depending on your situation.
-              </p>
+              <p className="section__lead">Oh, right — I&rsquo;ve wondered about that.</p>
             </div>
-            <ul className="problem-list">
-              {featured.map((problem) => (
-                <li key={problem.id}>
-                  <Link className="problem-card" href={problem.path}>
-                    <span className="problem-card__top">
-                      <span className="problem-card__title">{problem.h1}</span>
-                      <VerdictChip verdict={problem.verdict} />
-                    </span>
-                    <span className="problem-card__answer">{problem.shortAnswer}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <DecisionsCarousel problems={featured} />
           </section>
         ) : (
           <section className="section measure">

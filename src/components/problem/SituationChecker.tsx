@@ -87,8 +87,8 @@ export function SituationChecker({
       <div aria-live="polite">
         {selected === null ? (
           <p className="checker__fallback" id={`${groupId}-prompt`}>
-            Pick the closest match and the answer above will be adjusted for your situation. The general
-            verdict is <strong>{verdictPresentation(defaultVerdict).label}</strong>.
+            Picking a match above updates this from the general verdict:{' '}
+            <strong>{verdictPresentation(defaultVerdict).label}</strong>.
           </p>
         ) : null}
 

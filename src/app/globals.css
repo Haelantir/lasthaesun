@@ -53,11 +53,12 @@
   --w-wide: 68rem;   /* tables and hub grids may use more */
   --gutter: 1.25rem;
 
-  /* Kept deliberately small. A page that is mostly typography does not need
-     rounded-rectangle-everywhere to read as designed. */
-  --radius-sm: 4px;
-  --radius: 6px;
-  --radius-lg: 10px;
+  /* Square corners, deliberately. A page that is mostly typography does not
+     need rounding to read as designed — the tokens stay in place so a future
+     change is one edit, not a find-and-replace. */
+  --radius-sm: 0;
+  --radius: 0;
+  --radius-lg: 0;
 
   /* A 4px rhythm, named by role rather than by size. */
   --space-1: 0.25rem;
@@ -156,7 +157,6 @@ a:hover { color: var(--accent-hover); }
 :focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 2px;
-  border-radius: 3px;
 }
 
 h1, h2, h3, h4 {

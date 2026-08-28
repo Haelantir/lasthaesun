@@ -38,8 +38,8 @@ export const lowTirePressure: ProblemSeed = {
 
   whyItMattersHeading: 'Why Does Low Tire Pressure Matter?',
   whyItMatters: [
-    "A tire isn't rigid — it carries the vehicle's weight through the air inside it, at a pressure the manufacturer chose for that job. Below that pressure, the sidewall flexes further on every rotation, and that extra flexing builds heat, which is what actually degrades the rubber and the structure underneath it.",
-    "The flex also reshapes the contact patch — the small area of tread actually touching the road — so grip and wear stop matching what the vehicle was tuned for. None of this happens instantly, which is why low pressure is so easy to ignore: it feels close to normal for a while, then the damage shows up all at once.",
+    "A tire isn't rigid — it carries the vehicle's weight through the air inside it, at a pressure the manufacturer chose for that job. Below that pressure, the sidewall flexes more on every rotation, and that extra flex builds heat, which can damage the rubber and the structure underneath it.",
+    "That flex also changes the contact patch — the small area of tread actually touching the road — so grip and wear drift from what the vehicle was tuned for. A slightly low tire may still feel normal at first, which makes the problem easy to miss.",
   ].join('\n\n'),
 
   redFlagsHeading: 'Stop Driving If You Notice:',
@@ -67,7 +67,7 @@ export const lowTirePressure: ProblemSeed = {
       urgencyOverride: 'high',
       resultHeadline: 'CHECK IT SOON',
       resultBody:
-        "A TPMS warning isn't a “slightly low” signal — by the time it's on, at least one tire is already significantly underinflated (federal rules set the threshold at roughly 25% below the vehicle's recommended pressure). The tire can still look completely normal at that point, which is why the warning matters more than a glance.",
+        "A TPMS warning isn't a “slightly low” signal. Once it's on, at least one tire is already significantly underinflated — federal rules set the threshold at roughly 25% below the vehicle's recommended pressure. The tire can still look normal, so don't just eyeball it.",
       recommendedAction:
         'Drive to somewhere you can add air and check all four tires with a gauge, inflating to the pressure on the driver’s door placard.',
     },
@@ -79,7 +79,7 @@ export const lowTirePressure: ProblemSeed = {
       urgencyOverride: 'medium',
       resultHeadline: 'TOP IT UP SOON',
       resultBody:
-        'If the tire still holds a normal shape and the car drives normally, this is a top-it-up job rather than a stop-now job. Do not settle for the eyeball test, though: a tire can sit well below the recommended pressure and still look fine, so confirm with a gauge rather than by looking.',
+        "If the tire still holds a normal shape and the car drives normally, this is a top-it-up job rather than a stop-now job. Don't settle for the eyeball test — a tire can sit well below the recommended pressure and still look fine. Check it with a gauge.",
       recommendedAction:
         'Add air to the vehicle’s recommended pressure, then re-check in a few days to see whether it is holding.',
     },
@@ -91,9 +91,8 @@ export const lowTirePressure: ProblemSeed = {
       urgencyOverride: 'critical',
       resultHeadline: "DON'T KEEP DRIVING",
       resultBody:
-        'A tire that looks flat is far past the point where the answer is “add air soon”. Driving on it generates severe heat in a structure that is already deformed, can destroy the tire outright, can damage the wheel, and makes the car’s handling unpredictable exactly when you need it.',
-      recommendedAction:
-        'Stop somewhere safe. Use the spare, a sealant kit or roadside assistance rather than driving on it.',
+        'A tire that looks flat is past the point where “add air soon” is the answer. Driving on it generates severe heat in an already-deformed structure, can destroy the tire, damage the wheel, and make the car hard to control.',
+      recommendedAction: 'Stop somewhere safe. Use the spare, a sealant kit or roadside assistance — don’t keep driving on it.',
     },
     {
       slug: 'keeps-dropping',
@@ -103,7 +102,7 @@ export const lowTirePressure: ProblemSeed = {
       urgencyOverride: 'high',
       resultHeadline: 'GET THE LEAK FOUND',
       resultBody:
-        'A tire that will not hold pressure has a reason — a puncture, a leaking valve stem, a poor seal where the tire meets the rim, or a damaged wheel. Re-inflating it treats the symptom and resets the clock without fixing any of those. NHTSA advises having a tire that will not hold pressure inspected by a professional.',
+        "A tire that won't hold pressure has a reason — a puncture, a leaking valve stem, a poor seal at the rim, or a damaged wheel. Re-inflating it treats the symptom and resets the clock without fixing any of those. NHTSA recommends having it inspected by a professional.",
       recommendedAction:
         'Have that tire inspected at a tire shop. Note which wheel it is and roughly how quickly it drops.',
     },
@@ -115,7 +114,7 @@ export const lowTirePressure: ProblemSeed = {
       urgencyOverride: 'critical',
       resultHeadline: 'STOP WHEN IT IS SAFE',
       resultBody:
-        'New noise or vibration is a different problem from simple underinflation. It can mean the tire is already damaged or coming apart internally. NHTSA lists vibration and unusual noise among the signs that a tire should be checked by a professional rather than driven on.',
+        'New thumping or vibration can mean the tire is already damaged or coming apart internally. NHTSA lists vibration and unusual noise among the signs a tire needs professional inspection.',
       recommendedAction:
         'Ease off the speed, avoid hard braking or steering, pull over where it is safe and look at all four tires.',
     },
@@ -127,7 +126,7 @@ export const lowTirePressure: ProblemSeed = {
       urgencyOverride: 'critical',
       resultHeadline: 'DO NOT IGNORE THIS ONE',
       resultBody:
-        'A bulge means the internal structure of the tire has already failed and the air is pushing against what is left. NHTSA advises having tires with cuts, cracks or bulges inspected by a professional. A nail may well be repairable — but whether it is depends on where it sits and how deep it goes, which is a shop’s judgement, not a roadside one.',
+        "A bulge means the internal structure of the tire has already failed and the air is pushing against what's left. NHTSA advises having tires with cuts, cracks or bulges inspected by a professional. A nail may be repairable, but a tire shop needs to determine that — it depends on where it sits and how deep it goes.",
       recommendedAction:
         'Do not keep driving normally on a bulge or a deep cut. Have the tire inspected before you continue.',
     },
@@ -141,7 +140,7 @@ export const lowTirePressure: ProblemSeed = {
       stageLabel: 'RIGHT NOW',
       title: 'Handling and braking start to change',
       description:
-        'Underinflation changes how the tire supports the car, so steering response and grip shift away from what the vehicle was set up for.',
+        'Underinflation changes how the tire supports the car, so steering and grip shift away from how the vehicle was tuned.',
       severity: 'caution',
       chainLabel: 'Low pressure',
     },
@@ -155,8 +154,7 @@ export const lowTirePressure: ProblemSeed = {
     {
       stageLabel: 'KEEP DRIVING',
       title: 'That flexing builds heat',
-      description:
-        'Heat is the mechanism that actually damages a tire — it degrades the rubber and the structure underneath it.',
+      description: 'That extra flex creates heat, which can damage the rubber and internal structure.',
       severity: 'warning',
       chainLabel: 'Heat / wear',
     },
@@ -178,7 +176,7 @@ export const lowTirePressure: ProblemSeed = {
       stageLabel: 'WORST CASE',
       title: 'Tire failure',
       description:
-        'NHTSA identifies underinflation and overloading as leading causes of tire failure. A failure at speed is not a gradual event.',
+        'NHTSA identifies underinflation and overloading as leading causes of tire failure. A tire can fail suddenly, especially at speed.',
       severity: 'danger',
       chainLabel: 'Possible tire failure',
     },
@@ -231,18 +229,18 @@ export const lowTirePressure: ProblemSeed = {
   actions: [
     {
       title: 'Check the pressure',
-      body: 'Find the recommended cold inflation pressure on the tire information placard — usually in the driver’s door jamb, sometimes the glovebox or fuel door — or in the owner’s manual. Do not use the number moulded into the tire sidewall; that is the tire’s maximum, not your vehicle’s recommendation. Check with a gauge when the tires are cold.',
+      body: 'Find the recommended cold inflation pressure on the tire information placard — usually in the driver’s door jamb, sometimes the glovebox or fuel door — or in the owner’s manual. Don’t use the number moulded into the tire sidewall; that’s the tire’s maximum, not the vehicle’s recommended pressure. Check it with a gauge when the tires are cold.',
     },
     {
       title: 'Add air if needed',
-      body: 'Inflate to the vehicle manufacturer’s figure, not above it, and check all four while you are there. Tires read higher once they have been driven on, so if you have just driven to the pump, expect the reading to be a little high.',
+      body: 'Inflate to the vehicle manufacturer’s figure and check all four while you are there. Tires read a little high once they’ve been driven on, so expect that if you just drove to the pump.',
       // Populated once the walkthrough exists as its own published problem. Until
       // then no link is rendered rather than a link to nothing.
       destinationLabel: 'How to inflate a car tire',
     },
     {
       title: 'See if it happens again',
-      body: 'Re-check that tire in a few days. Losing a little pressure over weeks is normal; losing it again within days points to a leak — a puncture, the valve stem, the seal at the rim, or the wheel itself — rather than something to keep topping up.',
+      body: 'Re-check the tire in a few days. If the same tire loses pressure again that quickly, have it checked for a leak.',
     },
   ],
 
@@ -262,22 +260,22 @@ export const lowTirePressure: ProblemSeed = {
     {
       question: 'Does cold weather cause the tire pressure light to come on?',
       answer:
-        'Yes. Air contracts as it cools, so pressure drops with temperature and a cold morning can push a borderline tire below the warning threshold — the warning is still accurate at that moment. Check pressure cold and inflate to the vehicle’s figure. If the light keeps returning once it warms up, that points to a leak rather than temperature.',
+        'Yes. Air contracts as it cools, so pressure drops with temperature and can push a borderline tire below the warning threshold. Check pressure cold and inflate to the vehicle’s figure — if the light keeps returning once it warms up, have it checked for a leak.',
     },
     {
       question: 'Why does the same tire keep losing air?',
       answer:
-        'Something is letting air out — a puncture, a leaking valve stem, a poor seal at the rim, or a damaged wheel. Topping it up repeatedly hides the symptom without fixing it. NHTSA recommends having a tire that won’t hold pressure inspected by a professional.',
+        'A puncture, leaking valve stem, rim leak or damaged wheel may be letting air out. If the same tire keeps losing pressure, have it inspected instead of repeatedly topping it up.',
     },
     {
       question: 'Should I use the PSI printed on the tire?',
       answer:
-        'No. The number moulded into the sidewall is the tire’s maximum cold inflation pressure, not the pressure your vehicle is designed to run. Use the figure on the tire information placard — usually the driver’s door jamb, sometimes the glovebox or fuel door — or in the owner’s manual.',
+        'No. Use the recommended pressure on the vehicle placard or in the owner’s manual, not the maximum pressure moulded into the tire sidewall.',
     },
     {
       question: 'Will the TPMS light go away after adding air?',
       answer:
-        'Usually, once pressure is back above the threshold — sometimes immediately, sometimes after driving a short distance so the system can re-read. Some vehicles need a manual reset described in the owner’s manual. If it stays on after correct inflation, that points to a sensor fault worth having checked.',
+        'Usually, once pressure is back above the threshold — sometimes right away, sometimes after driving a short distance so the system can re-read. Some vehicles need a manual reset described in the owner’s manual. If it stays on after correct inflation, have the sensor checked.',
     },
   ],
 
@@ -289,7 +287,7 @@ export const lowTirePressure: ProblemSeed = {
     {
       title: 'Digital tire pressure gauge',
       description:
-        'A pencil or dial gauge works, but a digital one is easier to read and holds the reading once you take it off the valve. Measure cold — before driving, or at least a few hours after — because tires read high once they have warmed up.',
+        'A pencil or dial gauge works, but a digital one is easier to read and holds the reading. Measure cold — before driving, or at least a few hours after — because tires read high once they have warmed up.',
       kind: 'tool',
       url: null,
       affiliate: false,
@@ -297,7 +295,7 @@ export const lowTirePressure: ProblemSeed = {
     {
       title: 'Portable tire inflator',
       description:
-        'A 12V compressor that runs from the car’s power socket, so a low tire does not depend on finding a working air pump. A built-in gauge and an auto-stop matter more than raw speed — the point is hitting a target pressure and stopping there.',
+        'A 12V compressor that runs from the car’s power socket, so a low tire does not depend on finding a working air pump. A built-in gauge and auto-stop are more useful than maximum inflation speed.',
       kind: 'tool',
       url: null,
       affiliate: false,

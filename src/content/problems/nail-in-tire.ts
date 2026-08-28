@@ -32,13 +32,13 @@ export const nailInTire: ProblemSeed = {
   canIUseItLabel: 'Sometimes, briefly',
 
   shortAnswer:
-    "Don't ignore a nail in your tire. If it is in the tread, the tire is holding the correct pressure and the car feels completely normal, you may have more options than if the tire is actively losing air. Leave the nail in place, check the pressure and arrange a professional inspection. If the tire is low, going flat, damaged near the sidewall or behaving abnormally, stop treating it as a normal drive.",
+    "Don't ignore a nail in your tire, and don't pull it out. Check the tire's pressure first. If the nail is in the tread, the pressure is holding, and the car feels normal, keep driving to a minimum and get it inspected soon. If the tire is losing pressure, the damage is near the sidewall, or the car feels off, stop driving on it.",
 
   whyItMattersHeading: 'Why Does a Nail in a Tire Matter?',
   whyItMatters: [
-    'A nail does not always produce an immediate flat tire. The object may not have penetrated completely, or it may remain in the puncture and slow the loss of air. That can make the tire appear normal even when it needs attention.',
-    'What matters most is the location and extent of the damage. Industry guidance limits normal puncture repairs to qualifying injuries in the tread area. Damage extending into the shoulder or sidewall falls outside that repair area because those parts of the tire experience substantial flex and load.',
-    'Even a puncture that appears repairable from the outside still needs an internal inspection. Industry guidance calls for the tire to be removed from the wheel, the puncture channel filled and the inner liner sealed. An external plug by itself is not considered a proper permanent repair.',
+    "A nail doesn't always cause a flat right away. It may not have gone all the way through, or it's still plugging the hole and slowing the air loss. The tire can look and feel normal even when it needs attention.",
+    "Location decides whether a shop can repair it. A puncture in the tread can usually be fixed. One in the shoulder or sidewall usually can't, because those parts of the tire flex and carry load differently than the tread does.",
+    "Even a tread puncture that looks fine from the outside needs to come off the wheel for an internal check. A proper repair fills the puncture channel and seals the inner liner — a plug on the outside alone doesn't count as a permanent fix.",
   ].join('\n\n'),
 
   redFlagsHeading: 'Stop Driving If You Notice:',
@@ -58,9 +58,9 @@ export const nailInTire: ProblemSeed = {
       urgencyOverride: 'high',
       resultHeadline: 'GET IT CHECKED',
       resultBody:
-        'A small puncture confined to the repairable tread area may be repairable, but that cannot be confirmed from the outside. The tire needs to be removed from the wheel and inspected for internal damage.',
+        "A small puncture in the tread is often repairable, but a shop needs to pull the tire off the wheel to check for damage inside before confirming that.",
       recommendedAction:
-        "Leave the nail in place, confirm that the tire is at the vehicle's recommended pressure and arrange a tire inspection promptly. Avoid unnecessary driving.",
+        "Leave the nail in place, check that the tire is at the vehicle's recommended pressure, and get it inspected soon. Keep driving to a minimum.",
     },
     {
       slug: 'near-shoulder',
@@ -70,9 +70,8 @@ export const nailInTire: ProblemSeed = {
       urgencyOverride: 'high',
       resultHeadline: "DON'T COUNT ON A REPAIR",
       resultBody:
-        'Industry repair guidance excludes punctures that extend into the shoulder or belt-edge area. Something that looks like it is still on the tread can still be outside the repairable zone.',
-      recommendedAction:
-        'Avoid unnecessary driving and have the tire professionally inspected. Do not assume it can be repaired based on appearance alone.',
+        "Punctures near the shoulder often can't be repaired. Something that looks like it's still on the tread can still be too close to the edge to fix.",
+      recommendedAction: 'Keep driving to a minimum and have the tire professionally inspected.',
     },
     {
       slug: 'sidewall',
@@ -81,10 +80,9 @@ export const nailInTire: ProblemSeed = {
       verdictOverride: 'do_not_ignore',
       urgencyOverride: 'critical',
       resultHeadline: "DON'T KEEP USING THE TIRE NORMALLY",
-      resultBody:
-        'A sidewall puncture falls outside the standard repairable tread area. Sidewall damage is generally treated as a replacement issue rather than a conventional puncture repair.',
+      resultBody: "Sidewall punctures aren't repairable. This usually means the tire needs to be replaced.",
       recommendedAction:
-        'If the tire is losing pressure or shows additional damage, use a suitable spare or roadside assistance rather than continuing to drive normally.',
+        'If the tire is losing pressure or shows more damage, switch to the spare or call roadside assistance instead of driving on it.',
     },
     {
       slug: 'slow-pressure-loss',
@@ -94,8 +92,8 @@ export const nailInTire: ProblemSeed = {
       urgencyOverride: 'high',
       resultHeadline: 'DEAL WITH IT NOW',
       resultBody:
-        'Repeated pressure loss indicates that the tire is not maintaining its proper inflation. The puncture may be leaking even if the tire does not look flat.',
-      recommendedAction: 'Check the pressure and arrange an inspection. Repeatedly adding air is not a repair.',
+        "If you keep adding air and the pressure keeps dropping, the tire is leaking. That can happen even when the tire doesn't look flat.",
+      recommendedAction: 'Check the pressure and get the tire inspected. Repeatedly adding air is not a repair.',
     },
     {
       slug: 'flat-or-hissing',
@@ -105,9 +103,9 @@ export const nailInTire: ProblemSeed = {
       urgencyOverride: 'critical',
       resultHeadline: 'STOP DRIVING',
       resultBody:
-        'Driving on a severely underinflated or flat tire can create additional internal damage. A puncture that might otherwise have been repairable may no longer qualify after the tire has been driven flat.',
+        "Driving on a flat or badly underinflated tire causes more internal damage. A puncture that could have been repaired may not qualify anymore once you've driven on it flat.",
       recommendedAction:
-        'Stop driving when safe. Use a suitable spare tire or roadside assistance and have the damaged tire inspected.',
+        'Stop driving when it is safe to pull over. Use the spare or call roadside assistance, then have the tire inspected.',
     },
     {
       slug: 'nail-removed',
@@ -117,9 +115,9 @@ export const nailInTire: ProblemSeed = {
       urgencyOverride: 'high',
       resultHeadline: 'CHECK THE PRESSURE NOW',
       resultBody:
-        'Removing the object can expose the puncture path and allow air to escape more quickly. The tire may begin losing pressure even if it looked normal beforehand.',
+        'Pulling the nail out can make the tire leak faster. It may start losing pressure even if it looked fine before.',
       recommendedAction:
-        'Check the tire pressure immediately. If the pressure is falling, the tire looks low or the vehicle feels abnormal, stop driving normally and arrange assistance or inspection.',
+        "Check the tire pressure right away. If it's falling, the tire looks low, or the car feels off, stop driving on it and get help.",
     },
   ],
 
@@ -142,8 +140,8 @@ export const nailInTire: ProblemSeed = {
     },
     {
       stageLabel: 'KEEP DRIVING UNDERINFLATED',
-      title: 'The tire flexes more and generates more heat',
-      description: 'Underinflation increases tire deformation and can accelerate wear and internal damage.',
+      title: 'The tire flexes more and builds up heat',
+      description: 'An underinflated tire flexes more with every rotation, which speeds up wear and internal damage.',
       severity: 'warning',
       chainLabel: 'Heat / flex',
     },
@@ -158,8 +156,7 @@ export const nailInTire: ProblemSeed = {
     {
       stageLabel: 'WORST CASE',
       title: 'Tire failure',
-      description:
-        'Severe pressure loss and accumulated tire damage can eventually compromise the tire and vehicle control.',
+      description: 'Severe pressure loss and built-up damage can eventually cause the tire to fail and affect your control of the vehicle.',
       severity: 'danger',
       chainLabel: 'Possible tire failure',
     },
@@ -177,7 +174,7 @@ export const nailInTire: ProblemSeed = {
       situation: 'Slow pressure loss',
       ignoreAnswer: 'No',
       severity: 'warning',
-      whatToDo: 'Minimize driving and have the puncture inspected rather than repeatedly adding air.',
+      whatToDo: "Don't just keep adding air. Minimize driving and get the puncture inspected.",
     },
     {
       situation: 'Rapid pressure loss or audible hissing',
@@ -195,7 +192,7 @@ export const nailInTire: ProblemSeed = {
       situation: 'Nail in the shoulder or sidewall',
       ignoreAnswer: 'No',
       severity: 'danger',
-      whatToDo: 'Have the tire inspected for replacement rather than assuming the puncture can be repaired.',
+      whatToDo: "Don't assume it can be repaired. Have the tire inspected for replacement.",
     },
     {
       situation: 'Tire was driven while flat',
@@ -213,13 +210,13 @@ export const nailInTire: ProblemSeed = {
     },
     {
       title: 'Check the tire pressure',
-      body: "Use a pressure gauge and compare the reading with the vehicle manufacturer's recommended cold pressure on the driver's door placard or in the owner's manual. Do not use the maximum pressure molded into the tire sidewall as the vehicle's target pressure.",
+      body: "Use a pressure gauge to check the tire. Compare the reading to the vehicle manufacturer's recommended cold pressure, found on the driver's door placard or in the owner's manual — not the maximum pressure molded into the tire's sidewall, which is a different number.",
       destinationProblemSlug: 'low-tire-pressure',
       destinationLabel: 'See low tire pressure guidance',
     },
     {
       title: 'Have the tire inspected',
-      body: 'A proper puncture assessment requires the tire to be removed from the wheel so the inside can be inspected. If the tire is losing pressure rapidly, visibly low or behaving abnormally, use a suitable spare or roadside assistance instead of continuing normally.',
+      body: "A real puncture check means pulling the tire off the wheel to look inside. If it's losing pressure fast, looks low, or the car feels off, use the spare or call roadside assistance instead of driving on it.",
     },
   ],
 
@@ -238,32 +235,31 @@ export const nailInTire: ProblemSeed = {
     {
       question: 'Can a nail in the tread be repaired?',
       answer:
-        'Sometimes. Industry guidance allows a repair to be considered when the puncture is confined to the repairable tread area, is no larger than 1/4 inch (6 mm) and the tire has not suffered other damage that rules out repair. The tire still needs to be removed from the wheel and inspected before anyone can determine whether it is safely repairable.',
+        "Sometimes — if the puncture is in the tread, no larger than 1/4 inch (6 mm), and there's no other damage. A shop still needs to pull the tire off the wheel to confirm that before repairing it.",
     },
     {
       question: 'Should I pull the nail out?',
       answer:
-        'Not before you know what you are dealing with. The nail may be slowing air loss through the puncture. Leave it in place, check the pressure and have the tire inspected rather than removing it just to see what happens.',
+        'No. It may be slowing the air loss, and pulling it out can make the leak worse. Leave it in place, check the pressure, and get the tire inspected.',
     },
     {
       question: 'Can a nail in the sidewall be repaired?',
-      answer:
-        'Not under standard passenger-tire puncture repair guidance. A sidewall puncture is outside the normal repairable tread area and generally means the tire needs to be replaced.',
+      answer: 'No. Sidewall punctures fall outside the repairable tread area, so the tire usually needs to be replaced.',
     },
     {
       question: 'What about a nail near the edge of the tread?',
       answer:
-        'Location matters. Industry guidance excludes punctures that extend into the shoulder or belt-edge area. A puncture that appears to be on the tread can still be too close to the edge for a standard repair, so have it professionally inspected.',
+        "Location matters. Punctures that extend into the shoulder or belt-edge area usually aren't repairable, even if they look close to the tread. Have it professionally inspected.",
     },
     {
       question: 'Is an external tire plug enough?',
       answer:
-        'Not as a proper permanent repair. Industry guidance calls for the tire to be removed from the wheel and inspected internally, with the puncture channel filled and the inner liner sealed. A plug-only repair from the outside does not satisfy that procedure.',
+        'No. A proper repair takes the tire off the wheel, fills the puncture channel, and seals the inner liner. A plug on the outside alone does not do that.',
     },
     {
       question: 'What if the tire is not losing any air?',
       answer:
-        'That is better than an active pressure loss, but it does not prove there is no puncture. The nail may not have penetrated completely or may be slowing the leak. Check the pressure and arrange an inspection instead of assuming the tire is fine.',
+        "That's a good sign, but it doesn't rule out a puncture. The nail may not have gone all the way through, or it's slowing the leak — check the pressure and get it inspected.",
     },
   ],
 
@@ -271,8 +267,7 @@ export const nailInTire: ProblemSeed = {
   resources: [
     {
       title: 'Tire pressure gauge',
-      description:
-        "Check whether the tire is actually holding the vehicle manufacturer's recommended pressure instead of judging it by appearance.",
+      description: "Check whether the tire is actually holding the vehicle manufacturer's recommended pressure.",
       kind: 'tool',
       url: null,
       affiliate: false,

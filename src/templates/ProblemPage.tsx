@@ -84,9 +84,7 @@ export function ProblemPage({ data }: { data: ProblemPageData }) {
                   heading rather than scrolling it under the sticky header. */}
               <div className="section__head measure" id="how-bad">
                 <h2 id="how-bad-heading">How bad is it?</h2>
-                <p className="section__lead">
-                  The answer changes with the situation. This takes one click and no account.
-                </p>
+                <p className="section__lead">Choose the closest match.</p>
               </div>
               <SituationChecker
                 scenarios={data.scenarios}
@@ -112,13 +110,12 @@ export function ProblemPage({ data }: { data: ProblemPageData }) {
               <div className="section__head measure" id="how-long">
                 <h2 id="how-long-heading">How Long Can I Ignore It?</h2>
                 <p className="section__lead">
-                  There is no honest mileage or time figure — it depends on which of these you are actually
-                  looking at.
+                  There isn&rsquo;t a single mileage or time limit that applies to every case.
                 </p>
               </div>
               <IgnoreDecisionTable
                 rows={data.windows}
-                caption={`When you can wait, and when you cannot — ${problem.name.toLowerCase()}.`}
+                caption={`Situation by situation — ${problem.name.toLowerCase()}.`}
               />
             </section>
           ) : null}
@@ -175,10 +172,6 @@ export function ProblemPage({ data }: { data: ProblemPageData }) {
             <section className="section measure" aria-labelledby="questions">
               <div className="section__head">
                 <h2 id="questions">Common Questions</h2>
-                <p className="section__lead">
-                  Different ways of asking the same thing — all answered on this page rather than scattered
-                  across separate ones.
-                </p>
               </div>
               <CommonQuestions questions={data.questions} />
             </section>

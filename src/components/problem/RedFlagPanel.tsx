@@ -26,11 +26,8 @@ export function RedFlagPanel({ heading, flags }: { heading: string; flags: RedFl
       <ul className="red-flags__list">
         {flags.map((flag) => (
           <li className="red-flags__item" key={flag.title}>
-            <ToneIcon glyph="stop" size={18} className="red-flags__glyph" />
-            <span>
-              {flag.title}
-              {flag.description ? <span className="red-flags__desc">{flag.description}</span> : null}
-            </span>
+            {flag.title}
+            {flag.description ? <span className="red-flags__desc">{flag.description}</span> : null}
           </li>
         ))}
       </ul>
