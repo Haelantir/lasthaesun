@@ -52,6 +52,11 @@ export function SituationChecker({
   function choose(slug: string) {
     setSelected(slug);
     track('scenario_selected', { problem: problemSlug, scenario: slug });
+    // Block 5's table repeats these same situations, so once a scenario is
+    // picked here it collapses — but only client-side, on interaction. The
+    // <details> defaults to open in the server HTML, so anyone who never
+    // touches this checker (or has JS off) still sees it expanded.
+    document.getElementById('how-long')?.removeAttribute('open');
   }
 
   return (
@@ -118,7 +123,14 @@ export function SituationChecker({
         })}
 
         {selected !== null ? (
-          <button type="button" className="result__reset" onClick={() => setSelected(null)}>
+          <button
+            type="button"
+            className="result__reset"
+            onClick={() => {
+              setSelected(null);
+              document.getElementById('how-long')?.setAttribute('open', '');
+            }}
+          >
             Clear my situation
           </button>
         ) : null}

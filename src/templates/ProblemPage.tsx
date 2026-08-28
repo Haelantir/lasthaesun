@@ -110,16 +110,18 @@ export function ProblemPage({ data }: { data: ProblemPageData }) {
           ) : null}
 
           {/* ---------------------------------------------------- BLOCK 5 */}
-          {/* Closed by default: Block 3 already answers this per-scenario, so
-              this table would otherwise repeat the same six situations right
-              below it. It stays a native <details> — not a JS-driven
-              show/hide — so the full table is still in the server HTML for
-              any crawler or no-JS visitor regardless of open/closed state;
-              only the on-screen disclosure is collapsed. */}
+          {/* Open by default — a visitor who never touches Block 3's checker
+              (or has JS off) still gets this table. SituationChecker closes
+              it client-side the moment a scenario is picked there, since at
+              that point it repeats what the result card just said; "Clear my
+              situation" reopens it. It's a native <details>, not a JS-driven
+              show/hide, so the full table is always in the server HTML
+              regardless of open/closed state — only the on-screen default
+              ever depends on JS. */}
           {data.windows.length > 0 ? (
             <section className="section" aria-labelledby="how-long-heading">
-              <details className="how-long">
-                <summary className="section__head measure how-long__summary" id="how-long">
+              <details className="how-long" id="how-long" open>
+                <summary className="section__head measure how-long__summary">
                   <h2 id="how-long-heading">How Long Can I Ignore It?</h2>
                   <span className="how-long__toggle" aria-hidden="true" />
                 </summary>
