@@ -15,20 +15,6 @@ export function Footer() {
             </p>
           </div>
           <div>
-            <h2>Browse</h2>
-            <ul>
-              <li>
-                <Link href="/mobility/">Mobility</Link>
-              </li>
-              <li>
-                <Link href="/cars/">Cars</Link>
-              </li>
-              <li>
-                <Link href="/cars/tires/">Tires</Link>
-              </li>
-            </ul>
-          </div>
-          <div>
             <h2>About this site</h2>
             <ul>
               <li>
