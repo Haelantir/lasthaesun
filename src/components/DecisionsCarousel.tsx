@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-import { VerdictChip } from '@/components/problem/VerdictCard';
+import { ToneIcon } from '@/components/ui/ToneIcon';
+import { verdictPresentation } from '@/lib/verdict';
 import type { ProblemSummary } from '@/lib/repository/problems';
 
 const CARD_WIDTH_PX = 240;
@@ -90,6 +91,7 @@ function DecisionCardGroup({ problems, ariaHidden }: { problems: ProblemSummary[
     <ul className="decisions-marquee__group" aria-hidden={ariaHidden}>
       {problems.map((problem, index) => {
         const { prefix, rest } = splitTitle(problem.h1);
+        const v = verdictPresentation(problem.verdict);
         return (
           <li key={`${problem.id}-${ariaHidden ? 'dup' : 'real'}-${index}`}>
             <Link className="decision-card" href={problem.path} tabIndex={ariaHidden ? -1 : undefined}>
@@ -102,7 +104,14 @@ function DecisionCardGroup({ problems, ariaHidden }: { problems: ProblemSummary[
                 ) : null}
                 <span className="decision-card__title-rest">{rest}</span>
               </span>
-              <VerdictChip verdict={problem.verdict} />
+              {/* Its own band, not the small inline VerdictChip badge used
+                  elsewhere (hub listings, search results) — this card reads
+                  as a two-row question/verdict table, so the verdict needs
+                  to span the full card width, not those other contexts. */}
+              <span className="decision-card__verdict" data-tone={v.tone}>
+                <ToneIcon glyph={v.glyph} className="decision-card__verdict-glyph" />
+                {v.label}
+              </span>
             </Link>
           </li>
         );

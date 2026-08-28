@@ -658,19 +658,16 @@
   to { transform: translateX(-50%); }
 }
 
-/* Text-only: no thumbnail, so the card is just the two-line question plus
-   the verdict chip. Fixed width, not a fixed height — height instead comes
-   from the title's reserved line boxes below, so every card in the row
-   matches regardless of how long its title is. */
+/* Text-only, two rows: the title up top, the verdict as a full-width band
+   at the bottom — the card reads like a 1x2 table, not text with a small
+   badge tacked on. `align-items: stretch` (the flex default) is what lets
+   the verdict band span edge-to-edge; the title gets its own horizontal
+   padding instead, since the card itself carries none. */
 .decision-card {
   flex: none;
   width: 15rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-3);
-  padding: var(--space-4) var(--space-4) var(--space-3);
   background: var(--surface);
   border: 1px solid var(--border);
   text-decoration: none;
@@ -681,7 +678,9 @@
 .decision-card__title {
   font-weight: var(--fw-bold);
   text-align: center;
-  line-height: 1.35;
+  line-height: 1.4;
+  font-size: 1.15rem;
+  padding: var(--space-4) var(--space-4) var(--space-4);
 }
 .decision-card__title-prefix { color: var(--text); }
 .decision-card__title-rest {
@@ -690,9 +689,26 @@
      -webkit-line-clamp only caps the max, it does not reserve the min, so
      without this a short title (e.g. "an Oil Leak?") makes its card shorter
      than a sibling whose title wraps to two lines. */
-  min-height: calc(1.35em * 2);
+  min-height: calc(1.4em * 2);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+.decision-card__verdict {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45em;
+  padding: var(--space-3) var(--space-3);
+  background: var(--tone-bg, var(--surface-sunken));
+  border-top: 1px solid var(--tone-border, var(--border));
+  color: var(--tone-fg, var(--text));
+  font-weight: var(--fw-bold);
+  font-size: 1.05rem;
+  letter-spacing: 0.01em;
+  text-align: center;
+}
+.decision-card__verdict-glyph { flex: none; width: 1.15em; height: 1.15em; }
