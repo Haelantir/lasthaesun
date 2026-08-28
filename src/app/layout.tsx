@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Atkinson_Hyperlegible_Next } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 import { Footer } from '@/components/site/Footer';
 import { Header } from '@/components/site/Header';
@@ -56,6 +57,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Footer />
         </div>
         <Analytics />
+        {/* Only in production so local dev and preview traffic never lands in
+            the real GA4 property. */}
+        {process.env.NODE_ENV === 'production' ? <GoogleAnalytics gaId="G-WDL6BXBKC1" /> : null}
       </body>
     </html>
   );
