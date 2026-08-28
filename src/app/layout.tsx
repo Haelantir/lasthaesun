@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Atkinson_Hyperlegible_Next } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
 
 import { Footer } from '@/components/site/Footer';
 import { Header } from '@/components/site/Header';
@@ -54,6 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
           <Footer />
         </div>
+        <Analytics />
       </body>
     </html>
   );
