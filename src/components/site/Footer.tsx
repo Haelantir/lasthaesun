@@ -10,6 +10,9 @@ export function Footer() {
           <div>
             <h2>{SITE_NAME}</h2>
             <p>{SITE_TAGLINE}</p>
+            <p>
+              Contact: <a href="mailto:karakoram2310@gmail.com">karakoram2310@gmail.com</a>
+            </p>
           </div>
           <div>
             <h2>Browse</h2>
