@@ -53,7 +53,7 @@ export default async function HomePage() {
           <section className="section" aria-labelledby="decisions">
             <div className="section__head measure">
               <h2 id="decisions">{featured.length === 1 ? 'The first decision' : 'Decisions'}</h2>
-              <p className="section__lead">Oh, right — I&rsquo;ve wondered about that.</p>
+              <p className="section__lead">Oh, stop! I&rsquo;ve wondered about that.</p>
             </div>
             <DecisionsCarousel problems={featured} />
           </section>
