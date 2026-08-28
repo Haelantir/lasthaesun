@@ -181,18 +181,60 @@ export const systems: SystemSeed[] = [
     status: 'published',
     indexable: false,
   },
+  {
+    objectSlug: 'cars',
+    slug: 'brakes',
+    name: 'Brakes',
+    singularName: 'Brake',
+    canonicalPath: '/cars/brakes/',
+    shortDescription: 'Pads, discs, fluid, noises.',
+    hubHeading: 'Can I Ignore These Brake Problems?',
+    seoTitle: 'Brake Problems: What Can You Ignore? | Can I Ignore It',
+    metaDescription:
+      'Brake problems sorted by how urgent they actually are — from harmless noise you can ignore to warning signs that need attention.',
+    sortOrder: 20,
+    status: 'published',
+    indexable: false,
+  },
+  {
+    objectSlug: 'cars',
+    slug: 'fluids',
+    name: 'Fluids',
+    singularName: 'Fluid',
+    canonicalPath: '/cars/fluids/',
+    shortDescription: 'Oil, coolant, brake, transmission, washer.',
+    hubHeading: 'Can I Ignore These Fluid Problems?',
+    seoTitle: 'Fluid Problems: What Can You Ignore? | Can I Ignore It',
+    metaDescription:
+      'Car fluid problems sorted by how urgent they actually are — from a small drip you can watch to leaks and warnings that need attention.',
+    sortOrder: 60,
+    status: 'published',
+    indexable: false,
+  },
+  {
+    objectSlug: 'cars',
+    slug: 'glass',
+    name: 'Glass',
+    singularName: 'Glass',
+    canonicalPath: '/cars/glass/',
+    shortDescription: 'Chips, cracks, wipers, visibility.',
+    hubHeading: 'Can I Ignore These Glass Problems?',
+    seoTitle: 'Glass Problems: What Can You Ignore? | Can I Ignore It',
+    metaDescription:
+      'Car glass problems sorted by how urgent they actually are — from a small chip you can watch to cracks and damage that need attention.',
+    sortOrder: 120,
+    status: 'published',
+    indexable: false,
+  },
   ...(
     [
       // slug, name, description, sortOrder, attributive form used in prose
-      ['brakes', 'Brakes', 'Pads, discs, fluid, noises.', 20, 'Brake'],
       ['battery-and-electrical', 'Battery & Electrical', 'Starting, charging, lights, sensors.', 40, 'Electrical'],
       ['cooling', 'Cooling', 'Coolant, radiator, thermostat, overheating.', 50, 'Cooling'],
-      ['fluids', 'Fluids', 'Oil, coolant, brake, transmission, washer.', 60, 'Fluid'],
       ['suspension', 'Suspension', 'Shocks, springs, bushings, ride quality.', 70, 'Suspension'],
       ['steering', 'Steering', 'Play, pulling, noises, alignment.', 80, 'Steering'],
       ['transmission', 'Transmission', 'Shifting, slipping, fluid, noises.', 90, 'Transmission'],
       ['lights', 'Lights', 'Bulbs, alignment, warning indicators.', 110, 'Light'],
-      ['glass', 'Glass', 'Chips, cracks, wipers, visibility.', 120, 'Glass'],
       ['body', 'Body', 'Rust, dents, seals, trim.', 130, 'Body'],
     ] as const
   ).map(

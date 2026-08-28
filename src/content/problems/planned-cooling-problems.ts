@@ -21,4 +21,13 @@ export const plannedCoolingProblems: ProblemSeed[] = [
     status: 'draft',
     indexable: false,
   },
+  {
+    systemSlug: 'cooling',
+    slug: 'engine-overheating',
+    name: 'Engine Overheating',
+    h1: 'Can I Ignore an Overheating Engine?',
+    canonicalPath: '/cars/cooling/engine-overheating/',
+    status: 'draft',
+    indexable: false,
+  },
 ];

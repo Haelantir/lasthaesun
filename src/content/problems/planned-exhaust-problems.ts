@@ -17,7 +17,6 @@ interface PlannedProblem {
 }
 
 const planned: PlannedProblem[] = [
-  { slug: 'white-smoke-from-exhaust', name: 'White Smoke From Exhaust', h1: 'Can I Ignore White Smoke From My Exhaust?' },
   { slug: 'exhaust-leak', name: 'Exhaust Leak', h1: 'Can I Ignore an Exhaust Leak?' },
 ];
 

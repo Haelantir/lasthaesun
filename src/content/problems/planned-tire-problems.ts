@@ -32,7 +32,7 @@ interface PlannedProblem {
 
 const planned: PlannedProblem[] = [
   // 'nail-in-tire' graduated to its own file: src/content/problems/nail-in-tire.ts
-  { slug: 'tpms-warning-light', name: 'TPMS Warning Light', h1: 'Can I Ignore a TPMS Warning Light?' },
+  // 'tpms-warning-light' graduated to its own file: src/content/problems/tpms-warning-light.ts
   { slug: 'cracked-tire-sidewall', name: 'Cracked Tire Sidewall', h1: 'Can I Ignore a Cracked Tire Sidewall?' },
   { slug: 'tire-rotation', name: 'Tire Rotation', h1: 'Can I Skip Tire Rotation?' },
   { slug: 'uneven-tire-wear', name: 'Uneven Tire Wear', h1: 'Can I Ignore Uneven Tire Wear?' },
