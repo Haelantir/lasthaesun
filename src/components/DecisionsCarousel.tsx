@@ -18,6 +18,12 @@ const ILLUSTRATED_SLUGS = new Set([
   'nail-in-tire',
   'water-dripping-from-exhaust',
   'high-rpm-after-cold-start',
+  'check-engine-light',
+  'squeaky-brakes',
+  'tpms-warning-light',
+  'oil-leak',
+  'white-smoke-from-exhaust',
+  'small-windshield-chip',
 ]);
 
 const CARD_WIDTH_PX = 240;
