@@ -445,6 +445,20 @@
   color: var(--text-muted);
 }
 
+/* Placeholder for a future contextual ad/affiliate placement — no items,
+   no fake product cards, just a reserved slot until a real one exists. */
+.ad-slot {
+  width: 100%;
+  aspect-ratio: 3 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ad-slot-bg);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.94rem;
+}
+
 /* --- Block 8: red flags --------------------------------------------------- */
 
 /* One of the few callouts on the page allowed to carry strong colour — but a

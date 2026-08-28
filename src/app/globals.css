@@ -48,6 +48,9 @@
   --neutral-border: #d4d5da;
   --neutral-fg: #3c4250;
 
+  /* Reserved slot for future contextual ads/affiliate placements. */
+  --ad-slot-bg: #eaf7e6;
+
   /* Layout -------------------------------------------------------------- */
   --w-read: 47rem;   /* ~800px: a comfortable reading measure */
   --w-wide: 68rem;   /* tables and hub grids may use more */

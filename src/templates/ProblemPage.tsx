@@ -8,7 +8,6 @@ import { RedFlagPanel } from '@/components/problem/RedFlagPanel';
 import { RelatedProblems } from '@/components/problem/RelatedProblems';
 import { SituationChecker } from '@/components/problem/SituationChecker';
 import { SourceList } from '@/components/problem/SourceList';
-import { UsefulResources } from '@/components/problem/UsefulResources';
 import { VerdictCard } from '@/components/problem/VerdictCard';
 import { JsonLd, problemWebPageJsonLd } from '@/lib/seo/jsonld';
 import type { ProblemPageData } from '@/lib/repository/problems';
@@ -109,9 +108,6 @@ export function ProblemPage({ data }: { data: ProblemPageData }) {
             <section className="section" aria-labelledby="how-long-heading">
               <div className="section__head measure" id="how-long">
                 <h2 id="how-long-heading">How Long Can I Ignore It?</h2>
-                <p className="section__lead">
-                  There isn&rsquo;t a single mileage or time limit that applies to every case.
-                </p>
               </div>
               <IgnoreDecisionTable
                 rows={data.windows}
@@ -137,11 +133,9 @@ export function ProblemPage({ data }: { data: ProblemPageData }) {
             <section className="section" aria-labelledby="useful-now">
               <div className="section__head measure">
                 <h2 id="useful-now">Useful Right Now</h2>
-                <p className="section__lead">
-                  What actually helps with this. We do not currently earn anything from these.
-                </p>
+                <p className="section__lead">What actually helps with this?</p>
               </div>
-              <UsefulResources resources={data.resources} />
+              <div className="ad-slot">Coming Soon...</div>
             </section>
           ) : null}
 
