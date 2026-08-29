@@ -636,25 +636,20 @@
 .decisions-marquee__track {
   display: flex;
   width: max-content;
-  animation-name: decisions-marquee-scroll;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
+  /* Position is painted every frame from JS (see DecisionsCarousel), not a
+     CSS animation — that's what lets a drag take over mid-scroll and hand
+     back cleanly instead of jumping. */
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
 }
-/* Pausing on hover/focus is what makes the cards actually clickable. */
-.decisions-marquee__track:hover,
-.decisions-marquee__track:focus-within {
-  animation-play-state: paused;
-}
+.decisions-marquee__track.is-dragging { cursor: grabbing; }
 
 .decisions-marquee__group {
   display: flex;
   gap: var(--space-4);
   list-style: none;
-}
-
-@keyframes decisions-marquee-scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
 }
 
 /* Text-only, two rows: the title up top, the verdict as a full-width band

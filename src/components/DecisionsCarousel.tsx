@@ -1,16 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from 'react';
 
 import { ToneIcon } from '@/components/ui/ToneIcon';
 import { verdictPresentation } from '@/lib/verdict';
 import type { ProblemSummary } from '@/lib/repository/problems';
 
-const CARD_WIDTH_PX = 240;
-const CARD_GAP_PX = 20;
 const SPEED_PX_PER_SEC = 26; // tuned by eye: not a blur, not a slideshow
-const CARD_COUNT = 10;
+const CARD_COUNT = 20;
+// A drag shorter than this is treated as a click-through to the card, not a swipe.
+const DRAG_CLICK_THRESHOLD_PX = 6;
 
 /** Every h1 on the site is phrased "Can I Ignore X?" — that shared prefix
  *  gets its own line so the card reads as a two-part question instead of a
@@ -38,7 +38,8 @@ function shuffled<T>(items: T[]): T[] {
 
 /**
  * A continuously-scrolling row of decisions, re-shuffled every time someone
- * opens the site.
+ * opens the site, and draggable — mouse or touch — so someone who wants a
+ * card that's already scrolled past doesn't have to wait for the loop.
  *
  * The home page is ISR-cached (`revalidate = 3600` in page.tsx), so a
  * server-computed shuffle would be baked into the static HTML and handed out
@@ -47,9 +48,24 @@ function shuffled<T>(items: T[]): T[] {
  * client render, so hydration never mismatches — and re-rolls in an effect
  * that only runs on the client, after mount. That is the point where "every
  * time you open the site" actually lives, independent of the page cache.
+ *
+ * The scroll position is driven from a rAF loop rather than a CSS
+ * `animation`, because a CSS animation can't be handed off to and back from
+ * a pointer drag mid-flight without a jump. The loop just advances (or, if a
+ * pointer is down, doesn't advance) a single `offsetRef` and paints it as a
+ * `transform`; dragging reduces to "let the pointer move that same number."
  */
 export function DecisionsCarousel({ problems }: { problems: ProblemSummary[] }) {
   const [picked, setPicked] = useState(() => problems.slice(0, CARD_COUNT));
+  const trackRef = useRef<HTMLDivElement>(null);
+  const offsetRef = useRef(0);
+  const groupWidthRef = useRef(0);
+  const pausedRef = useRef(false);
+  const draggingRef = useRef(false);
+  const pointerStartXRef = useRef(0);
+  const dragStartOffsetRef = useRef(0);
+  const dragDistanceRef = useRef(0);
+  const suppressClickRef = useRef(false);
 
   useEffect(() => {
     // Deliberate escape hatch: this exists specifically to make the client's
@@ -63,13 +79,114 @@ export function DecisionsCarousel({ problems }: { problems: ProblemSummary[] }) 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (picked.length === 0) return null;
+  // The two rendered groups are identical, so half the track's rendered
+  // width is exactly one loop — measured rather than computed from card
+  // constants, so it stays correct if the card size ever changes per
+  // breakpoint.
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const measure = () => {
+      groupWidthRef.current = track.scrollWidth / 2;
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, [picked]);
 
-  const duration = Math.max(14, (picked.length * (CARD_WIDTH_PX + CARD_GAP_PX)) / SPEED_PX_PER_SEC);
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    let raf = 0;
+    let last = performance.now();
+    const tick = (now: number) => {
+      const dt = now - last;
+      last = now;
+      const width = groupWidthRef.current;
+      if (width > 0) {
+        if (!draggingRef.current && !pausedRef.current) {
+          offsetRef.current -= (SPEED_PX_PER_SEC * dt) / 1000;
+        }
+        // Wrap into (-width, 0] so the loop is seamless in either direction.
+        offsetRef.current = ((offsetRef.current % width) + width) % width;
+        if (offsetRef.current > 0) offsetRef.current -= width;
+        track.style.transform = `translateX(${offsetRef.current}px)`;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  const pause = () => {
+    pausedRef.current = true;
+  };
+  const resume = () => {
+    pausedRef.current = false;
+  };
+
+  const handlePointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+    draggingRef.current = true;
+    dragDistanceRef.current = 0;
+    pointerStartXRef.current = event.clientX;
+    dragStartOffsetRef.current = offsetRef.current;
+    trackRef.current?.classList.add('is-dragging');
+    try {
+      event.currentTarget.setPointerCapture(event.pointerId);
+    } catch {
+      // Pointer capture can throw if the pointer already went away — the
+      // drag still works via the move/up handlers, just without capture.
+    }
+  };
+
+  const handlePointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (!draggingRef.current) return;
+    const delta = event.clientX - pointerStartXRef.current;
+    dragDistanceRef.current = Math.max(dragDistanceRef.current, Math.abs(delta));
+    offsetRef.current = dragStartOffsetRef.current + delta;
+  };
+
+  const endDrag = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (!draggingRef.current) return;
+    draggingRef.current = false;
+    trackRef.current?.classList.remove('is-dragging');
+    if (dragDistanceRef.current > DRAG_CLICK_THRESHOLD_PX) {
+      // The pointer moved enough that this was a swipe, not a tap — swallow
+      // the click a link would otherwise fire on release.
+      suppressClickRef.current = true;
+    }
+    try {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    } catch {
+      // Already released (e.g. pointercancel) — nothing to clean up.
+    }
+  };
+
+  const handleClickCapture = (event: ReactMouseEvent<HTMLDivElement>) => {
+    if (!suppressClickRef.current) return;
+    event.preventDefault();
+    event.stopPropagation();
+    suppressClickRef.current = false;
+  };
+
+  if (picked.length === 0) return null;
 
   return (
     <div className="decisions-marquee">
-      <div className="decisions-marquee__track" style={{ animationDuration: `${duration}s` }}>
+      <div
+        ref={trackRef}
+        className="decisions-marquee__track"
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+        onClickCapture={handleClickCapture}
+        onMouseEnter={pause}
+        onMouseLeave={resume}
+        onFocus={pause}
+        onBlur={resume}
+      >
         <DecisionCardGroup problems={picked} />
         {/* A visual duplicate so the scroll can loop seamlessly at -50%.
             Hidden from assistive tech and out of tab order — it is the same
@@ -94,7 +211,12 @@ function DecisionCardGroup({ problems, ariaHidden }: { problems: ProblemSummary[
         const v = verdictPresentation(problem.verdict);
         return (
           <li key={`${problem.id}-${ariaHidden ? 'dup' : 'real'}-${index}`}>
-            <Link className="decision-card" href={problem.path} tabIndex={ariaHidden ? -1 : undefined}>
+            <Link
+              className="decision-card"
+              href={problem.path}
+              tabIndex={ariaHidden ? -1 : undefined}
+              draggable={false}
+            >
               <span className="decision-card__title">
                 {prefix ? (
                   <>

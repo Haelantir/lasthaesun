@@ -25,9 +25,9 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 export default async function HomePage() {
-  // Fetched well above the 10 the carousel shows, so the client-side shuffle
+  // Fetched well above the 20 the carousel shows, so the client-side shuffle
   // in DecisionsCarousel has a real pool to draw from as the catalogue grows.
-  const [featured, domains] = await Promise.all([getFeaturedProblems(24), getPublishedDomains()]);
+  const [featured, domains] = await Promise.all([getFeaturedProblems(40), getPublishedDomains()]);
 
   return (
     <div className="container">
