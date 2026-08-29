@@ -162,6 +162,12 @@ export function DecisionsCarousel({ problems }: { problems: ProblemSummary[] }) 
     dragDistanceRef.current = 0;
     pointerStartXRef.current = event.clientX;
     dragStartOffsetRef.current = offsetRef.current;
+    // A swipe's own release doesn't produce a click on touch devices (only
+    // a tap does), so a flag set by a previous drag can outlive it. Any
+    // click that flag was meant to catch would already have fired by now —
+    // a new touch can't start mid-flight of the old one — so it's safe to
+    // drop here rather than let it wrongly swallow this gesture's tap.
+    suppressClickRef.current = false;
     trackRef.current?.classList.add('is-dragging');
     window.addEventListener('pointermove', moveDragRef.current);
     window.addEventListener('pointerup', endDragRef.current);
