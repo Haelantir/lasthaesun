@@ -15,9 +15,15 @@
     "db:migrate": "tsx --env-file-if-exists=.env.local --env-file-if-exists=.env scripts/migrate.ts",
     "db:seed": "tsx --env-file-if-exists=.env.local --env-file-if-exists=.env scripts/seed.ts",
     "db:studio": "drizzle-kit studio",
-    "verify": "npm run typecheck && npm run lint && npm run test && npm run build"
+    "verify": "npm run typecheck && npm run lint && npm run test && npm run build",
+    "content:baseline": "tsx --env-file-if-exists=.env.local --env-file-if-exists=.env scripts/content-quality/cli.ts baseline",
+    "content:quality": "tsx --env-file-if-exists=.env.local --env-file-if-exists=.env scripts/content-quality/cli.ts check",
+    "content:quality:all": "tsx --env-file-if-exists=.env.local --env-file-if-exists=.env scripts/content-quality/cli.ts check-all",
+    "content:quality:fix": "tsx --env-file-if-exists=.env.local --env-file-if-exists=.env scripts/content-quality/cli.ts fix",
+    "content:quality:deterministic": "tsx --env-file-if-exists=.env.local --env-file-if-exists=.env scripts/content-quality/cli.ts deterministic"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.122.0",
     "@next/third-parties": "^16.3.3",
     "@vercel/analytics": "^2.0.1",
     "drizzle-orm": "^0.45.2",

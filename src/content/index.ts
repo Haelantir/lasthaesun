@@ -1,15 +1,24 @@
 import type { ProblemSeed } from './types';
 import { checkEngineLight } from './problems/check-engine-light';
+import { chirpingSmokeAlarm } from './problems/chirping-smoke-alarm';
+import { crackedBikeHelmet } from './problems/cracked-bike-helmet';
 import { crackedPhoneScreen } from './problems/cracked-phone-screen';
+import { dentedCan } from './problems/dented-can';
 import { flickeringLight } from './problems/flickering-light';
+import { frayedChargingCable } from './problems/frayed-charging-cable';
 import { freezerBurn } from './problems/freezer-burn';
+import { gfciKeepsTripping } from './problems/gfci-keeps-tripping';
 import { highRpmAfterColdStart } from './problems/high-rpm-after-cold-start';
 import { hotLaptopCharger } from './problems/hot-laptop-charger';
+import { leftoversLeftOut } from './problems/leftovers-left-out';
 import { lowTirePressure } from './problems/low-tire-pressure';
+import { moldAroundWindow } from './problems/mold-around-window';
 import { nailInTire } from './problems/nail-in-tire';
 import { oilLeak } from './problems/oil-leak';
+import { plannedAlarmsProblems } from './problems/planned-alarms-problems';
 import { plannedBatteriesProblems } from './problems/planned-batteries-problems';
 import { plannedChargersProblems } from './problems/planned-chargers-problems';
+import { plannedChargingProblems } from './problems/planned-charging-problems';
 import { plannedCoolingProblems } from './problems/planned-cooling-problems';
 import { plannedDrainsProblems } from './problems/planned-drains-problems';
 import { plannedEngineProblems } from './problems/planned-engine-problems';
@@ -18,9 +27,11 @@ import { plannedFluidsProblems } from './problems/planned-fluids-problems';
 import { plannedFoodSafetyProblems } from './problems/planned-food-safety-problems';
 import { plannedFrozenFoodProblems } from './problems/planned-frozen-food-problems';
 import { plannedGlassProblems } from './problems/planned-glass-problems';
+import { plannedHelmetsProblems } from './problems/planned-helmets-problems';
 import { plannedLeaksProblems } from './problems/planned-leaks-problems';
 import { plannedLightingProblems } from './problems/planned-lighting-problems';
 import { plannedOutletsProblems } from './problems/planned-outlets-problems';
+import { plannedPantryProblems } from './problems/planned-pantry-problems';
 import { plannedScreensProblems } from './problems/planned-screens-problems';
 import { plannedTireProblems } from './problems/planned-tire-problems';
 import { plannedToiletsProblems } from './problems/planned-toilets-problems';
@@ -65,6 +76,13 @@ export const problems: ProblemSeed[] = [
   hotLaptopCharger,
   freezerBurn,
   refrigeratorDoorLeftOpenOvernight,
+  chirpingSmokeAlarm,
+  gfciKeepsTripping,
+  moldAroundWindow,
+  leftoversLeftOut,
+  dentedCan,
+  frayedChargingCable,
+  crackedBikeHelmet,
   ...plannedTireProblems,
   ...plannedExhaustProblems,
   ...plannedCoolingProblems,
@@ -81,4 +99,8 @@ export const problems: ProblemSeed[] = [
   ...plannedChargersProblems,
   ...plannedFrozenFoodProblems,
   ...plannedFoodSafetyProblems,
+  ...plannedAlarmsProblems,
+  ...plannedPantryProblems,
+  ...plannedChargingProblems,
+  ...plannedHelmetsProblems,
 ];

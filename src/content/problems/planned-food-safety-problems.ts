@@ -20,7 +20,6 @@ interface PlannedProblem {
 const planned: PlannedProblem[] = [
   { slug: 'fridge-not-cold-enough', name: 'Fridge Not Cold Enough', h1: 'Can I Ignore a Refrigerator That Is Not Cold Enough?' },
   { slug: 'milk-left-out', name: 'Milk Left Out', h1: 'Can I Ignore Milk That Was Left Out Too Long?' },
-  { slug: 'leftovers-left-out', name: 'Leftovers Left Out', h1: 'Can I Ignore Leftovers Left Out at Room Temperature?' },
 ];
 
 export const plannedFoodSafetyProblems: ProblemSeed[] = planned.map(({ slug, name, h1 }) => ({
