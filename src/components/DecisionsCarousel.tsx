@@ -125,29 +125,24 @@ export function DecisionsCarousel({ problems }: { problems: ProblemSummary[] }) 
     pausedRef.current = false;
   };
 
-  const handlePointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (event.pointerType === 'mouse' && event.button !== 0) return;
-    draggingRef.current = true;
-    dragDistanceRef.current = 0;
-    pointerStartXRef.current = event.clientX;
-    dragStartOffsetRef.current = offsetRef.current;
-    trackRef.current?.classList.add('is-dragging');
-    try {
-      event.currentTarget.setPointerCapture(event.pointerId);
-    } catch {
-      // Pointer capture can throw if the pointer already went away — the
-      // drag still works via the move/up handlers, just without capture.
-    }
-  };
-
-  const handlePointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
+  // Deliberately *not* pointer capture: capturing an element retargets the
+  // browser's synthetic `click` (and mousedown/mouseup) to the capturing
+  // element instead of the actual card link underneath the pointer, which
+  // silently breaks next/link's own click handler — a click never lands on
+  // the anchor, so navigation never fires (desktop), or the touch's
+  // compatibility click is swallowed and only a second, capture-free tap
+  // gets through (mobile). Tracking the drag via window listeners instead
+  // keeps normal hit-testing intact, so a genuine click still reaches the
+  // link.
+  // Created once — everything each reads or writes is a ref, so there is no
+  // stale-closure concern that would call for recreating them per render.
+  const moveDragRef = useRef((event: PointerEvent) => {
     if (!draggingRef.current) return;
     const delta = event.clientX - pointerStartXRef.current;
     dragDistanceRef.current = Math.max(dragDistanceRef.current, Math.abs(delta));
     offsetRef.current = dragStartOffsetRef.current + delta;
-  };
-
-  const endDrag = (event: ReactPointerEvent<HTMLDivElement>) => {
+  });
+  const endDragRef = useRef(() => {
     if (!draggingRef.current) return;
     draggingRef.current = false;
     trackRef.current?.classList.remove('is-dragging');
@@ -156,12 +151,32 @@ export function DecisionsCarousel({ problems }: { problems: ProblemSummary[] }) 
       // the click a link would otherwise fire on release.
       suppressClickRef.current = true;
     }
-    try {
-      event.currentTarget.releasePointerCapture(event.pointerId);
-    } catch {
-      // Already released (e.g. pointercancel) — nothing to clean up.
-    }
+    window.removeEventListener('pointermove', moveDragRef.current);
+    window.removeEventListener('pointerup', endDragRef.current);
+    window.removeEventListener('pointercancel', endDragRef.current);
+  });
+
+  const handlePointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+    draggingRef.current = true;
+    dragDistanceRef.current = 0;
+    pointerStartXRef.current = event.clientX;
+    dragStartOffsetRef.current = offsetRef.current;
+    trackRef.current?.classList.add('is-dragging');
+    window.addEventListener('pointermove', moveDragRef.current);
+    window.addEventListener('pointerup', endDragRef.current);
+    window.addEventListener('pointercancel', endDragRef.current);
   };
+
+  useEffect(() => {
+    const onMove = moveDragRef.current;
+    const onEnd = endDragRef.current;
+    return () => {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onEnd);
+      window.removeEventListener('pointercancel', onEnd);
+    };
+  }, []);
 
   const handleClickCapture = (event: ReactMouseEvent<HTMLDivElement>) => {
     if (!suppressClickRef.current) return;
@@ -178,9 +193,6 @@ export function DecisionsCarousel({ problems }: { problems: ProblemSummary[] }) 
         ref={trackRef}
         className="decisions-marquee__track"
         onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={endDrag}
-        onPointerCancel={endDrag}
         onClickCapture={handleClickCapture}
         onMouseEnter={pause}
         onMouseLeave={resume}
