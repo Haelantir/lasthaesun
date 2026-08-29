@@ -68,6 +68,9 @@ export default async function HomePage() {
         <section className="section" aria-labelledby="browse">
           <div className="section__head measure">
             <h2 id="browse">Browse</h2>
+            <p className="section__lead">
+              Pick an area, or <Link href="/browse/">see every decision on one page</Link>.
+            </p>
           </div>
           <ul className="hub-grid">
             {domains.map((domain) => (
@@ -82,8 +85,8 @@ export default async function HomePage() {
             ))}
           </ul>
           <p className="section__lead measure hub-note">
-            More areas — home, appliances, tech, garden, personal gear — open up as decisions are written for
-            them. We would rather show you one finished answer than fifty empty categories.
+            More areas — appliances, garden, personal gear — open up as decisions are written for them. We
+            would rather show you one finished answer than fifty empty categories.
           </p>
         </section>
       </main>

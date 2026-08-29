@@ -293,3 +293,115 @@ export const getFeaturedProblems = cache(async (limit = 6): Promise<ProblemSumma
     .limit(limit);
   return toSummaries(rows);
 });
+
+/* -------------------------------------------------------------------------- */
+/* Browse                                                                     */
+/* -------------------------------------------------------------------------- */
+
+/** One leaf category and everything published inside it. */
+export interface BrowseCategory {
+  systemId: number;
+  /** "Cars" — the object category this system belongs to. */
+  objectName: string;
+  objectPath: string;
+  /** "Tires" */
+  systemName: string;
+  systemPath: string;
+  problems: ProblemSummary[];
+}
+
+export interface BrowseDomain {
+  domainId: number;
+  name: string;
+  path: string;
+  shortDescription: string | null;
+  categories: BrowseCategory[];
+  total: number;
+}
+
+/**
+ * The whole published catalogue, grouped domain -> object -> system.
+ *
+ * One query rather than a walk down the taxonomy: the browse page wants every
+ * published problem at once, and issuing a query per system would scale with
+ * the size of the site for a page whose entire job is to show all of it.
+ *
+ * Categories with nothing published in them are absent by construction, because
+ * the join starts from problems. A browse page listing empty shelves would be
+ * the link dump the hubs deliberately avoid being.
+ */
+export const getBrowseTree = cache(async (): Promise<BrowseDomain[]> => {
+  const db = getDb();
+  const rows = await db
+    .select({
+      ...SUMMARY_COLUMNS,
+      systemId: systems.id,
+      systemName: systems.name,
+      systemPath: systems.canonicalPath,
+      systemSort: systems.sortOrder,
+      objectId: objectCategories.id,
+      objectName: objectCategories.name,
+      objectPath: objectCategories.canonicalPath,
+      objectSort: objectCategories.sortOrder,
+      domainId: domains.id,
+      domainName: domains.name,
+      domainPath: domains.canonicalPath,
+      domainDescription: domains.shortDescription,
+      domainSort: domains.sortOrder,
+    })
+    .from(problems)
+    .innerJoin(systems, eq(systems.id, problems.systemId))
+    .innerJoin(objectCategories, eq(objectCategories.id, systems.objectCategoryId))
+    .innerJoin(domains, eq(domains.id, objectCategories.domainId))
+    .where(eq(problems.status, 'published'))
+    .orderBy(
+      asc(domains.sortOrder),
+      asc(domains.name),
+      asc(objectCategories.sortOrder),
+      asc(objectCategories.name),
+      asc(systems.sortOrder),
+      asc(systems.name),
+      asc(problems.name),
+    );
+
+  const byDomain = new Map<number, BrowseDomain>();
+  const byCategory = new Map<string, BrowseCategory>();
+
+  for (const row of rows) {
+    const [summary] = toSummaries([row]);
+    if (!summary) continue; // no verdict yet — same publish gate the hubs apply
+
+    let domain = byDomain.get(row.domainId);
+    if (!domain) {
+      domain = {
+        domainId: row.domainId,
+        name: row.domainName,
+        path: row.domainPath,
+        shortDescription: row.domainDescription,
+        categories: [],
+        total: 0,
+      };
+      byDomain.set(row.domainId, domain);
+    }
+
+    const key = `${row.domainId}:${row.systemId}`;
+    let category = byCategory.get(key);
+    if (!category) {
+      category = {
+        systemId: row.systemId,
+        objectName: row.objectName,
+        objectPath: row.objectPath,
+        systemName: row.systemName,
+        systemPath: row.systemPath,
+        problems: [],
+      };
+      byCategory.set(key, category);
+      domain.categories.push(category);
+    }
+
+    category.problems.push(summary);
+    domain.total += 1;
+  }
+
+  return [...byDomain.values()];
+});
