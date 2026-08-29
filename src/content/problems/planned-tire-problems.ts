@@ -36,7 +36,6 @@ const planned: PlannedProblem[] = [
   { slug: 'cracked-tire-sidewall', name: 'Cracked Tire Sidewall', h1: 'Can I Ignore a Cracked Tire Sidewall?' },
   { slug: 'tire-rotation', name: 'Tire Rotation', h1: 'Can I Skip Tire Rotation?' },
   { slug: 'uneven-tire-wear', name: 'Uneven Tire Wear', h1: 'Can I Ignore Uneven Tire Wear?' },
-  { slug: 'wheel-vibration', name: 'Wheel Vibration', h1: 'Can I Ignore Wheel Vibration?' },
 ];
 
 export const plannedTireProblems: ProblemSeed[] = planned.map(({ slug, name, h1 }) => ({

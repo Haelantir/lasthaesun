@@ -20,7 +20,10 @@
     "content:quality": "tsx --env-file-if-exists=.env.local --env-file-if-exists=.env scripts/content-quality/cli.ts check",
     "content:quality:all": "tsx --env-file-if-exists=.env.local --env-file-if-exists=.env scripts/content-quality/cli.ts check-all",
     "content:quality:fix": "tsx --env-file-if-exists=.env.local --env-file-if-exists=.env scripts/content-quality/cli.ts fix",
-    "content:quality:deterministic": "tsx --env-file-if-exists=.env.local --env-file-if-exists=.env scripts/content-quality/cli.ts deterministic"
+    "content:quality:deterministic": "tsx --env-file-if-exists=.env.local --env-file-if-exists=.env scripts/content-quality/cli.ts deterministic",
+    "content:import": "tsx scripts/content-import/cli.ts",
+    "content:import:check": "tsx scripts/content-import/cli.ts --dry-run",
+    "content:prompt": "tsx scripts/content-import/write-prompt.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.122.0",

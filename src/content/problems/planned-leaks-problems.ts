@@ -19,7 +19,6 @@ interface PlannedProblem {
 const planned: PlannedProblem[] = [
   { slug: 'leaking-p-trap', name: 'Leaking P-Trap', h1: 'Can I Ignore a Leaking P-Trap Under the Sink?' },
   { slug: 'dripping-shutoff-valve', name: 'Dripping Shutoff Valve', h1: 'Can I Ignore a Dripping Water Shutoff Valve?' },
-  { slug: 'leaking-faucet', name: 'Leaking Faucet', h1: 'Can I Ignore a Faucet That Keeps Dripping?' },
   { slug: 'water-damaged-cabinet', name: 'Water-Damaged Cabinet', h1: 'Can I Ignore Water Damage Inside a Sink Cabinet?' },
   { slug: 'mold-under-sink', name: 'Mold Under Sink', h1: 'Can I Ignore Mold Growing Under the Sink?' },
 ];

@@ -19,7 +19,6 @@ interface PlannedProblem {
 const planned: PlannedProblem[] = [
   { slug: 'rough-idle', name: 'Rough Idle', h1: 'Can I Ignore a Rough Idle?' },
   { slug: 'engine-rpm-surging', name: 'Engine RPM Surging', h1: 'Can I Ignore Engine RPM Surging?' },
-  { slug: 'burning-smell-from-engine', name: 'Burning Smell From Engine', h1: 'Can I Ignore a Burning Smell From the Engine?' },
 ];
 
 export const plannedEngineProblems: ProblemSeed[] = planned.map(({ slug, name, h1 }) => ({

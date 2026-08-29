@@ -1,0 +1,428 @@
+CAN I IGNORE IT — 콘텐츠 작성 지시서
+generated 2026-08-29 · systems 31 · published 38 · reserved 101
+(콘텐츠가 늘면 `npm run content:prompt`로 다시 뽑을 것. 목록이 낡으면 import가 실패한다.)
+
+════════════════════════════════════════════════════════════════════════
+아래 TOPIC 하나에 대해 caniignoreit.com에 바로 넣을 수 있는 완성 콘텐츠를 작성해줘.
+
+TOPIC:
+[여기에 토픽 하나만 적는다]
+════════════════════════════════════════════════════════════════════════
+
+■ 한 번에 TOPIC 하나만 출력한다.
+  여러 토픽을 한 응답에 이어 붙이면 importer가 전부 하나의 문서로 읽어서
+  SLUG이 덮어써지고 SCENARIOS가 한 배열에 뒤섞인다. 반드시 하나씩.
+
+목적:
+나는 네 출력물을 수정하거나 재가공하지 않고 그대로 repository importer에 넣는다.
+따라서 설명, 서론, 후기, 코드블록, 형식 밖의 코멘트 없이 오직 최종 콘텐츠만 출력해야 한다.
+
+반드시 최신 웹 검색을 충분히 수행해서 사실관계를 검증한 뒤 작성한다.
+가능하면 정부기관, 규제기관, 제조사, 표준기관, 학술기관 등 1차 출처를 우선 사용한다.
+출처가 뒷받침하지 않는 수치, 기간, 거리, 고장 진행 속도, 위험 확률을 임의로 만들지 않는다.
+
+현재 caniignoreit.com의 기존 페이지를 직접 열어보고 그 수준과 문체를 기준으로 삼는다.
+(이 지시는 매우 중요하다.) 예: https://caniignoreit.com/browse/
+
+
+────────────────────────────────────────────────────────────────────────
+1. REPOSITORY 제약 — 어기면 import 자체가 거부된다
+────────────────────────────────────────────────────────────────────────
+
+1-1. SYSTEM과 CANONICAL_PATH는 아래 목록에서만 고른다.
+
+  CANONICAL_PATH = [해당 줄의 경로] + [SLUG] + "/"
+  SYSTEM         = 해당 줄의 첫 번째 값
+  EYEBROW        = 해당 줄의 마지막 값 (가운뎃점 · 으로 구분)
+
+  drainage             /appliances/dishwashers/drainage/              Appliances · Dishwashers · Drainage
+  jams-and-clogs       /appliances/garbage-disposals/jams-and-clogs/  Appliances · Garbage Disposals · Jams & Clogs
+  sparking-and-damage  /appliances/microwaves/sparking-and-damage/    Appliances · Microwaves · Sparking & Damage
+  frost-and-ice        /appliances/refrigerators/frost-and-ice/       Appliances · Refrigerators · Frost & Ice
+  noises               /appliances/refrigerators/noises/              Appliances · Refrigerators · Noises
+  gas-burners          /appliances/stoves-and-ovens/gas-burners/      Appliances · Stoves & Ovens · Gas Burners
+  helmets              /bicycles/helmets/                             Mobility · Bicycles · Helmets
+  brakes               /cars/brakes/                                  Mobility · Cars · Brakes
+  cooling              /cars/cooling/                                 Mobility · Cars · Cooling
+  engine               /cars/engine/                                  Mobility · Cars · Engine
+  exhaust              /cars/exhaust/                                 Mobility · Cars · Exhaust
+  fluids               /cars/fluids/                                  Mobility · Cars · Fluids
+  glass                /cars/glass/                                   Mobility · Cars · Glass
+  steering             /cars/steering/                                Mobility · Cars · Steering
+  suspension           /cars/suspension/                              Mobility · Cars · Suspension
+  tires                /cars/tires/                                   Mobility · Cars · Tires
+  transmission         /cars/transmission/                            Mobility · Cars · Transmission
+  frozen-food          /food-kitchen/food-storage/frozen-food/        Food & Kitchen · Food Storage · Frozen Food
+  pantry               /food-kitchen/food-storage/pantry/             Food & Kitchen · Food Storage · Pantry
+  food-safety          /food-kitchen/refrigeration/food-safety/       Food & Kitchen · Refrigeration · Food Safety
+  lighting             /home/electrical/lighting/                     Home · Electrical · Lighting
+  outlets              /home/electrical/outlets/                      Home · Electrical · Outlets
+  drains               /home/plumbing/drains/                         Home · Plumbing · Drains
+  leaks                /home/plumbing/leaks/                          Home · Plumbing · Leaks
+  toilets              /home/plumbing/toilets/                        Home · Plumbing · Toilets
+  alarms               /home/safety/alarms/                           Home · Home Safety · Alarms
+  windows              /home/structure/windows/                       Home · Structure · Windows
+  batteries            /technology/computers/batteries/               Technology · Computers · Batteries
+  chargers             /technology/computers/chargers/                Technology · Computers · Chargers
+  charging             /technology/phones/charging/                   Technology · Phones · Charging
+  screens              /technology/phones/screens/                    Technology · Phones · Screens
+
+  예) 세 번째 열이 "Home · Plumbing · Toilets" 인 줄을 고르면
+      SYSTEM: toilets
+      CANONICAL_PATH: /home/plumbing/toilets/<slug>/
+      EYEBROW: Home · Plumbing · Toilets
+
+  이 목록에 자연스럽게 들어갈 system이 없으면 콘텐츠를 쓰지 말고
+  "이 토픽에 맞는 system이 없다"는 한 줄만 답한다. 억지로 끼워 넣지 않는다.
+
+
+1-2. 아래 SLUG은 이미 발행된 페이지다. 새로 쓰지 않는다.
+     토픽이 이 중 하나와 사실상 같은 질문이면, 콘텐츠를 쓰지 말고 그렇다고만 답한다.
+
+  burning-smell-from-engine              car-jerks-when-accelerating            car-pulls-to-one-side
+  check-engine-light                     chirping-smoke-alarm                   clicking-noise-when-turning
+  clunking-noise-over-bumps              coolant-leak                           cracked-bike-helmet
+  cracked-phone-screen                   dented-can                             flickering-light
+  frayed-charging-cable                  freezer-burn                           frost-buildup-in-freezer
+  gfci-keeps-tripping                    high-rpm-after-cold-start              hot-laptop-charger
+  leaking-faucet                         leftovers-left-out                     low-tire-pressure
+  mold-around-window                     nail-in-tire                           oil-leak
+  refrigerator-door-left-open-overnight  slow-drain                             small-leak-under-sink
+  small-windshield-chip                  sparking-microwave                     squeaky-brakes
+  swollen-laptop-battery                 toilet-keeps-running                   tpms-warning-light
+  warm-electrical-outlet                 water-dripping-from-exhaust            wheel-vibration
+  white-smoke-from-exhaust               yellow-flame-on-gas-stove
+
+
+1-3. 아래 SLUG은 예약된 주제다(아직 글이 없음).
+     토픽이 이 중 하나에 해당하면 그 slug을 그대로 사용한다.
+
+  bad-smell-from-drain                 black-spot-on-phone-screen           bouncy-ride-after-bumps
+  breaker-keeps-tripping               bulging-can                          burning-smell-from-microwave
+  burning-smell-from-outlet            buzzing-electrical-outlet            buzzing-light-switch
+  buzzing-refrigerator                 can-that-hisses-when-opened          car-sitting-lower-on-one-corner
+  cheap-third-party-charger            chipped-paint-inside-microwave       clogged-toilet
+  co-alarm-beeping                     completely-clogged-drain             cracked-phone-back-glass
+  cracked-tire-sidewall                cracked-windshield                   crooked-steering-wheel
+  damaged-laptop-charger-cable         damaged-microwave-door-seal          delayed-gear-engagement
+  dimmer-switch-hot                    dishwasher-backing-up-into-sink      dishwasher-drain-hose-clogged
+  drain-gurgling                       dripping-shutoff-valve               dropped-bike-helmet
+  engine-overheating                   engine-rpm-surging                   exhaust-leak
+  expired-canned-food                  expired-smoke-alarm                  food-left-in-an-open-can
+  freezer-door-left-open               freezer-not-cold-enough              fridge-not-cold-enough
+  garbage-disposal-draining-slowly     garbage-disposal-humming             garbage-disposal-wont-turn-on
+  gas-burner-wont-light                gas-smell-near-the-stove             gas-stove-keeps-clicking
+  grinding-when-shifting               helmet-too-big-for-a-child           hot-phone-while-charging
+  ice-crystals-on-frozen-food          ice-maker-freezing-up                ice-on-freezer-back-wall
+  laptop-battery-draining-fast         laptop-case-bulging                  laptop-charger-sparking
+  laptop-not-charging                  laptop-overheating                   laptop-trackpad-lifting
+  leaking-p-trap                       leaking-shock-absorber               light-bulb-keeps-burning-out
+  loose-charging-port                  loose-electrical-outlet              loose-helmet-straps
+  loose-steering-wheel                 low-engine-oil                       milk-left-out
+  mold-under-sink                      no-smoke-alarm-in-bedroom            oil-pressure-warning-light
+  old-bike-helmet                      old-frozen-food                      partially-thawed-frozen-food
+  phone-charges-slowly                 phone-ghost-touch                    phone-not-charging
+  phone-screen-lifting                 refrigerator-clicking-on-and-off     refrigerator-rattling
+  refrigerator-running-constantly      rough-idle                           rusty-can
+  secondhand-bike-helmet               sewage-backup                        smelly-dishwasher
+  smoke-alarm-goes-off-cooking         smoke-alarm-wont-stop-beeping        something-metal-in-garbage-disposal
+  standing-water-in-dishwasher         swollen-phone-battery                tire-rotation
+  toilet-gurgling                      toilet-water-rising                  toilet-wont-flush
+  transmission-fluid-leak              uneven-tire-wear                     water-around-toilet-base
+  water-damaged-cabinet                water-pooling-under-crisper          whining-noise-when-turning
+  windshield-camera-warning            windshield-wiper-streaks
+
+
+1-4. RELATED의 slug과 ACTIONS의 destination_problem_slug는
+     1-2와 1-3의 목록에 있는 것만 쓴다.
+     목록에 없는 slug을 지어내면 import가 실패한다.
+     적당한 것이 3개가 안 되면 적게 넣는다. 하나도 없으면 RELATED를 생략해도 된다.
+     숫자를 채우려고 관련 없는 페이지를 연결하지 않는다.
+
+
+1-5. 글자 수 상한 (초과하면 import 실패)
+
+  SEO_TITLE 75          META_DESCRIPTION 170     REVIEW_SCOPE 200
+  NAME 160              EYEBROW 120              H1 200
+  CAN_I_USE_IT_QUESTION 120                      CAN_I_USE_IT_LABEL 120
+  scenario   label 200 / short_description 300 / result_headline 160 / recommended_action 300
+  consequence stage_label 120 / title 200 / chain_label 80
+  window     situation 200 / ignore_answer 80 / what_to_do 300
+  action     title 200 / destination_label 200
+  flag       title 200 / description 400
+  faq        q 300
+  source     publisher 200 / title 300 / notes 400
+  resource   title 200 / description 500
+  related    anchor_text 11자 이상 200자 이하
+
+  상한이 없는 필드: SHORT_ANSWER, WHY_IT_MATTERS, scenario result_body,
+  action body, faq a, DISCLAIMER. 여기서는 자연스러운 길이로 쓴다.
+
+
+1-6. 숫자 + 시간/거리 단위 표기 금지 (정규식으로 차단된다)
+
+  다음 필드 안에서 "2 hours", "30 minutes", "50 miles", "10 km" 형태를 쓰지 않는다.
+    SHORT_ANSWER / WHY_IT_MATTERS / scenario result_body / scenario recommended_action
+    window what_to_do / action body / faq a
+
+  출처가 뒷받침해도 차단된다. 필요하면 영어 단어로 쓴다: "two hours", "one hour".
+  허용되는 것: 온도(40°F), 퍼센트, 연 단위(10 years), 초 단위(30 seconds),
+  면적(10 square feet).
+
+
+1-7. SOURCES
+
+  source_type이 government 또는 regulation인 항목이 최소 하나 반드시 있어야 한다.
+  없으면 import가 실패한다.
+  url은 실제로 확인한 https 주소이거나 null. 추측한 URL 금지. example.com 계열 금지.
+  같은 기관의 사실상 동일한 페이지를 숫자 채우기용으로 반복하지 않는다.
+  notes에는 그 source가 실제로 말하는 범위까지만 적는다.
+
+
+1-8. RESOURCES에는 url과 affiliate를 넣지 않는다. (넣으면 실패)
+
+
+1-9. REVIEW_SCOPE에 "reviewed by", "technician", "ASE-certified", "Dr." 를 쓰지 않는다.
+     검토자 자격을 주장하는 표현이 금지되어 있다. 200자 이내 한 문장이면 충분하다.
+
+
+1-10. 출력에 markdown을 쓰지 않는다.
+      **굵게**, `코드`, # 제목, 표, 코드펜스 모두 금지.
+      값 안에 쓴 글자는 그대로 웹사이트에 나간다.
+
+
+────────────────────────────────────────────────────────────────────────
+2. 품질 기준
+────────────────────────────────────────────────────────────────────────
+
+2-1. 사용자가 이 페이지 하나만 읽어도 다음을 바로 이해할 수 있어야 한다.
+   · 지금 무시해도 되는지
+   · 얼마나 급한지
+   · 어떤 상황이면 판단이 달라지는지
+   · 지금 무엇을 해야 하는지
+
+2-2. 영어는 실제 미국 소비자용 정보 사이트처럼 자연스럽고 직접적으로 쓴다.
+
+  금지:
+   · 같은 말을 여러 section에서 문장만 바꿔 반복
+   · 과도한 hedge
+   · 쓸데없는 비교와 대조
+   · 결론을 늦게 말하는 방식
+   · AI 특유의 지나치게 정돈된 문장
+   · 추상명사 남용
+   · 불필요한 서론
+   · 독자를 훈계하는 표현
+   · dramatic하거나 공포를 과장하는 표현
+
+2-3. 판단은 충분히 단호하게 하되 근거보다 강하게 말하지 않는다.
+
+  특히 금지:
+   · 특정 제조사 guidance를 모든 제품에 일반화
+   · 특정 recall이나 특정 사건을 전체 제품군에 일반화
+   · 특정 차량 TSB를 모든 차량에 일반화
+   · 특정 지역 법규를 미국 전체 법처럼 표현
+   · "EPA says", "CPSC says", "USDA says", "Federal law requires" 라고 써 놓고
+     실제 source가 그 문장 전체를 지원하지 않는 경우
+   · source에 없는 "within days", "after several weeks", "over a season" 같은
+     임의의 진행 시간
+
+  시간 흐름이 필요하면 조건형으로 쓴다:
+   "If the problem continues" / "After repeated exposure" / "If corrosion develops"
+
+2-4. 안전 관련 문장은 자연스럽게 만들겠다고 위험 수준을 약화하지 않는다.
+     화재, 감전, 중독, 브레이크 고장, 구조물 붕괴, 배터리 발화 등은
+     실제 근거가 있다면 명확하게 유지한다.
+
+2-5. 미국 독자를 기본 대상으로 한다.
+     다만 법, 보험, 임대인 책임, 검사제도처럼 주/지역에 따라 달라지는 내용은
+     전국 공통 규칙처럼 단정하지 않는다.
+
+
+────────────────────────────────────────────────────────────────────────
+3. 출력 형식 — 아래를 정확히 지킨다
+────────────────────────────────────────────────────────────────────────
+
+SYSTEM:
+[1-1 목록의 system slug]
+
+SLUG:
+[소문자와 하이픈만. CANONICAL_PATH의 마지막 조각과 반드시 같아야 한다]
+
+CANONICAL_PATH:
+[1-1의 경로 + slug + /]
+
+NAME:
+[짧은 문제 이름]
+
+EYEBROW:
+[1-1 목록의 마지막 값]
+
+H1:
+[Can I Ignore ...? 형식의 사용자 질문]
+
+SEO_TITLE:
+[75자 이하. H1과 동일 문구 금지]
+
+META_DESCRIPTION:
+[170자 이하]
+
+VERDICT:
+[safe_to_ignore | can_wait | probably_not | do_not_ignore]
+
+URGENCY:
+[low | medium | high | critical]
+
+SAFETY_RISK:
+[low | moderate | high | severe]
+
+FIX_DIFFICULTY:
+[easy | moderate | hard | professional]
+
+CAN_I_USE_IT_QUESTION:
+[예: Can I drive? / Can I eat it? / Can I keep using it?]
+
+CAN_I_USE_IT_LABEL:
+[짧고 직관적인 답]
+
+SHORT_ANSWER:
+[1~3문장. 가장 먼저 필요한 결론]
+
+WHY_IT_MATTERS_HEADING:
+[주제에 자연스럽게 맞는 제목]
+
+WHY_IT_MATTERS:
+[문단 1]
+
+[문단 2]
+
+SCENARIOS:
+
+* slug: [scenario slug]
+  label: [상황]
+  short_description: [짧은 상황 설명]
+  verdict_override: [safe_to_ignore | can_wait | probably_not | do_not_ignore]
+  urgency_override: [low | medium | high | critical]
+  result_headline: [짧은 판정]
+  result_body: [왜 그런지]
+  recommended_action: [사용자가 할 일]
+
+[필요한 만큼 반복. 보통 8~10개.
+ 억지로 채우려고 의미 없는 상황을 만들지 않는다.
+ verdict가 실제로 달라지는 상황만 넣는다.]
+
+CONSEQUENCES:
+
+* stage_label: [RIGHT NOW 또는 조건/단계]
+  title: [짧은 제목]
+  description: [설명]
+  severity: [info | caution | warning | danger]
+  chain_label: [선택. 80자 이하]
+
+[보통 4~5단계. 마지막 단계의 severity는 보통 danger.
+ source-backed가 아닌 임의의 days/weeks/months 타임라인을 만들지 않는다.]
+
+WINDOWS:
+
+* situation: [상황]
+  ignore_answer: [Yes / No / Briefly / Only until ... — 80자 이하]
+  severity: [info | caution | warning | danger]
+  what_to_do: [행동]
+
+[보통 6~8개]
+
+ACTIONS:
+
+* title: [행동 제목]
+  body: [구체적인 설명]
+  destination_problem_slug: [1-2 / 1-3 목록에 있는 slug일 때만. 없으면 생략]
+
+[보통 4~5개]
+
+RED_FLAGS_HEADING:
+[예: Stop Using It If: / Stop Driving and Call for Help If:]
+
+FLAGS:
+
+* title: [위험 신호]
+  description: [필요한 경우 설명]
+  severity: [caution | warning | danger]
+
+[보통 5~7개]
+
+FAQS:
+
+* q: [질문]
+  a: [짧고 직접적인 답변]
+
+[보통 8~10개. 본문을 그대로 다시 말하는 FAQ를 만들지 않는다.]
+
+RESOURCES:
+
+* title: [실제로 유용한 물건/도구/서비스/가이드]
+  description: [왜 필요한지]
+  kind: [tool | part | service | guide]
+
+[보통 3~4개. 쇼핑 리스트를 억지로 만들지 않는다. url을 넣지 않는다.]
+
+SOURCES:
+
+* publisher: [기관명]
+  title: [실제 source title]
+  url: [검증된 실제 https URL 또는 null]
+  source_type: [government | regulation | manufacturer | standards_body | industry | academic | other]
+  notes: [이 source가 실제로 뒷받침하는 내용. 400자 이하]
+
+[4~6개 정도. government 또는 regulation이 최소 하나 필수.]
+
+RELATED:
+
+* slug: [1-2 / 1-3 목록의 slug]
+  anchor_text: [11자 이상의 자연스러운 질문 문구]
+  relationship_type: [sibling | escalation | cause | follow_up | related]
+
+[목록에 있는 것 중 실제로 관련 있는 것만. 0~5개.]
+
+LAST_REVIEWED:
+[오늘 날짜 YYYY-MM-DD]
+
+REVIEW_SCOPE:
+[무엇을 어떤 기관 자료에 근거해 검토했는지 한 문장. 200자 이하.]
+
+DISCLAIMER:
+[필요한 경우만. 자격증/전문가 검수 사칭 금지]
+
+ALIASES:
+
+* [/alias/path/]
+
+[같은 질문의 다른 표현을 이 페이지로 보낼 때만. 필요 없으면 ALIASES 자체를 생략.]
+
+
+────────────────────────────────────────────────────────────────────────
+4. 출력 전 자체검수
+────────────────────────────────────────────────────────────────────────
+
+· SYSTEM / CANONICAL_PATH / EYEBROW가 1-1 목록의 같은 줄에서 나왔는가
+· CANONICAL_PATH의 마지막 조각이 SLUG과 정확히 같은가
+· SLUG이 1-2(이미 발행됨) 목록에 있지 않은가
+· RELATED와 destination_problem_slug이 전부 1-2 / 1-3 목록 안에 있는가
+· government 또는 regulation source가 하나 이상 있는가
+· 1-5의 글자 수 상한을 넘긴 필드가 없는가 (특히 SEO_TITLE, META_DESCRIPTION, REVIEW_SCOPE, ignore_answer)
+· 1-6의 숫자+시간/거리 표기를 쓰지 않았는가
+· RESOURCES에 url을 넣지 않았는가
+· verdict가 본문과 일치하는가
+· urgency / safety risk가 scenario들과 충돌하지 않는가
+· 동일 사실을 여러 section에서 쓸데없이 반복하지 않았는가
+· 출처보다 강한 주장을 하지 않았는가
+· source URL이 실제 확인된 주소인가
+· manufacturer-specific 내용을 일반화하지 않았는가
+· 법/보험/임대 책임을 미국 전체에 일반화하지 않았는가
+· 서로 모순되는 문장이 없는가
+· 안전 관련 행동이 오히려 사용자를 위험하게 만들지 않는가
+· FAQ가 본문의 복사본처럼 되어 있지 않은가
+· markdown을 쓰지 않았는가
+
+문제가 있으면 출력 전에 스스로 수정한다.
+
+최종 응답에는 위 3번 양식으로 작성된 콘텐츠만 출력한다.
+설명, 분석, 평가, markdown code fence는 붙이지 않는다.
