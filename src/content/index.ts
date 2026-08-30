@@ -1,4 +1,20 @@
 import type { ProblemSeed } from './types';
+import { acLeakingWaterInside } from './problems/ac-leaking-water-inside';
+import { breakerKeepsTripping } from './problems/breaker-keeps-tripping';
+import { brownWaterFromFaucet } from './problems/brown-water-from-faucet';
+import { burningSmellFromFurnace } from './problems/burning-smell-from-furnace';
+import { crackInFoundation } from './problems/crack-in-foundation';
+import { lowWaterPressure } from './problems/low-water-pressure';
+import { missingRoofShingle } from './problems/missing-roof-shingle';
+import { plannedAirConditioningProblems } from './problems/planned-air-conditioning-problems';
+import { plannedBreakersProblems } from './problems/planned-breakers-problems';
+import { plannedCeilingsProblems } from './problems/planned-ceilings-problems';
+import { plannedFoundationProblems } from './problems/planned-foundation-problems';
+import { plannedHeatingProblems } from './problems/planned-heating-problems';
+import { plannedShinglesProblems } from './problems/planned-shingles-problems';
+import { plannedWaterHeatersProblems } from './problems/planned-water-heaters-problems';
+import { plannedWaterPressureProblems } from './problems/planned-water-pressure-problems';
+import { plannedWaterQualityProblems } from './problems/planned-water-quality-problems';
 import { burningSmellFromEngine } from './problems/burning-smell-from-engine';
 import { carJerksWhenAccelerating } from './problems/car-jerks-when-accelerating';
 import { carPullsToOneSide } from './problems/car-pulls-to-one-side';
@@ -53,6 +69,7 @@ import { plannedTireProblems } from './problems/planned-tire-problems';
 import { plannedToiletsProblems } from './problems/planned-toilets-problems';
 import { plannedTransmissionProblems } from './problems/planned-transmission-problems';
 import { refrigeratorDoorLeftOpenOvernight } from './problems/refrigerator-door-left-open-overnight';
+import { sewerGasSmell } from './problems/sewer-gas-smell';
 import { smallLeakUnderSink } from './problems/small-leak-under-sink';
 import { smallWindshieldChip } from './problems/small-windshield-chip';
 import { slowDrain } from './problems/slow-drain';
@@ -63,6 +80,8 @@ import { toiletKeepsRunning } from './problems/toilet-keeps-running';
 import { tpmsWarningLight } from './problems/tpms-warning-light';
 import { warmElectricalOutlet } from './problems/warm-electrical-outlet';
 import { waterDrippingFromExhaust } from './problems/water-dripping-from-exhaust';
+import { waterHeaterLeaking } from './problems/water-heater-leaking';
+import { waterStainOnCeiling } from './problems/water-stain-on-ceiling';
 import { wheelVibration } from './problems/wheel-vibration';
 import { whiteSmokeFromExhaust } from './problems/white-smoke-from-exhaust';
 import { yellowFlameOnGasStove } from './problems/yellow-flame-on-gas-stove';
@@ -114,6 +133,16 @@ export const problems: ProblemSeed[] = [
   burningSmellFromEngine,
   clunkingNoiseOverBumps,
   carJerksWhenAccelerating,
+  waterStainOnCeiling,
+  brownWaterFromFaucet,
+  breakerKeepsTripping,
+  acLeakingWaterInside,
+  crackInFoundation,
+  sewerGasSmell,
+  waterHeaterLeaking,
+  lowWaterPressure,
+  burningSmellFromFurnace,
+  missingRoofShingle,
   ...plannedTireProblems,
   ...plannedExhaustProblems,
   ...plannedCoolingProblems,
@@ -143,4 +172,13 @@ export const problems: ProblemSeed[] = [
   ...plannedSuspensionProblems,
   ...plannedSteeringProblems,
   ...plannedTransmissionProblems,
+  ...plannedCeilingsProblems,
+  ...plannedFoundationProblems,
+  ...plannedBreakersProblems,
+  ...plannedWaterHeatersProblems,
+  ...plannedWaterPressureProblems,
+  ...plannedWaterQualityProblems,
+  ...plannedAirConditioningProblems,
+  ...plannedHeatingProblems,
+  ...plannedShinglesProblems,
 ];

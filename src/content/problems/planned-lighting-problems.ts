@@ -18,7 +18,6 @@ interface PlannedProblem {
 
 const planned: PlannedProblem[] = [
   { slug: 'buzzing-light-switch', name: 'Buzzing Light Switch', h1: 'Can I Ignore a Buzzing Light Switch?' },
-  { slug: 'breaker-keeps-tripping', name: 'Breaker Keeps Tripping', h1: 'Can I Ignore a Circuit Breaker That Keeps Tripping?' },
   { slug: 'light-bulb-keeps-burning-out', name: 'Light Bulb Keeps Burning Out', h1: 'Can I Ignore a Light Bulb That Keeps Burning Out?' },
   { slug: 'dimmer-switch-hot', name: 'Dimmer Switch Hot', h1: 'Can I Ignore a Dimmer Switch That Feels Hot?' },
 ];
