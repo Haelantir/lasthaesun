@@ -18,7 +18,6 @@ interface PlannedProblem {
 }
 
 const planned: PlannedProblem[] = [
-  { slug: 'dog-drinking-lots-of-water', name: 'Dog Drinking a Lot of Water', h1: 'Can I Ignore My Dog Drinking More Water Than Usual?' },
 ];
 
 export const plannedDogEatingAndDrinkingProblems: ProblemSeed[] = planned.map(({ slug, name, h1 }) => ({
