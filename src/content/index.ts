@@ -3,7 +3,17 @@ import { acLeakingWaterInside } from './problems/ac-leaking-water-inside';
 import { breakerKeepsTripping } from './problems/breaker-keeps-tripping';
 import { brownWaterFromFaucet } from './problems/brown-water-from-faucet';
 import { burningSmellFromFurnace } from './problems/burning-smell-from-furnace';
+import { catSleepingAllDay } from './problems/cat-sleeping-all-day';
+import { catSneezing } from './problems/cat-sneezing';
+import { catStrainingToPee } from './problems/cat-straining-to-pee';
+import { catThrowingUp } from './problems/cat-throwing-up';
 import { crackInFoundation } from './problems/crack-in-foundation';
+import { dogAteChocolate } from './problems/dog-ate-chocolate';
+import { dogDiarrhea } from './problems/dog-diarrhea';
+import { dogEatingGrass } from './problems/dog-eating-grass';
+import { dogNotEating } from './problems/dog-not-eating';
+import { dogReverseSneezing } from './problems/dog-reverse-sneezing';
+import { dogThrowingUp } from './problems/dog-throwing-up';
 import { lowWaterPressure } from './problems/low-water-pressure';
 import { missingRoofShingle } from './problems/missing-roof-shingle';
 import { plannedAirConditioningProblems } from './problems/planned-air-conditioning-problems';
@@ -41,9 +51,17 @@ import { nailInTire } from './problems/nail-in-tire';
 import { oilLeak } from './problems/oil-leak';
 import { plannedAlarmsProblems } from './problems/planned-alarms-problems';
 import { plannedBatteriesProblems } from './problems/planned-batteries-problems';
+import { plannedCatBehaviorAndEnergyProblems } from './problems/planned-cat-behavior-and-energy-problems';
+import { plannedCatBreathingProblems } from './problems/planned-cat-breathing-problems';
+import { plannedCatDigestionProblems } from './problems/planned-cat-digestion-problems';
+import { plannedCatUrinaryAndLitterBoxProblems } from './problems/planned-cat-urinary-and-litter-box-problems';
 import { plannedChargersProblems } from './problems/planned-chargers-problems';
 import { plannedChargingProblems } from './problems/planned-charging-problems';
 import { plannedCoolingProblems } from './problems/planned-cooling-problems';
+import { plannedDogBreathingProblems } from './problems/planned-dog-breathing-problems';
+import { plannedDogDigestionProblems } from './problems/planned-dog-digestion-problems';
+import { plannedDogEatingAndDrinkingProblems } from './problems/planned-dog-eating-and-drinking-problems';
+import { plannedDogToxinsAndForeignObjectsProblems } from './problems/planned-dog-toxins-and-foreign-objects-problems';
 import { plannedDishwasherDrainageProblems } from './problems/planned-dishwasher-drainage-problems';
 import { plannedDrainsProblems } from './problems/planned-drains-problems';
 import { plannedEngineProblems } from './problems/planned-engine-problems';
@@ -143,6 +161,16 @@ export const problems: ProblemSeed[] = [
   lowWaterPressure,
   burningSmellFromFurnace,
   missingRoofShingle,
+  dogEatingGrass,
+  catStrainingToPee,
+  catSleepingAllDay,
+  dogReverseSneezing,
+  catSneezing,
+  dogDiarrhea,
+  dogThrowingUp,
+  catThrowingUp,
+  dogNotEating,
+  dogAteChocolate,
   ...plannedTireProblems,
   ...plannedExhaustProblems,
   ...plannedCoolingProblems,
@@ -181,4 +209,12 @@ export const problems: ProblemSeed[] = [
   ...plannedAirConditioningProblems,
   ...plannedHeatingProblems,
   ...plannedShinglesProblems,
+  ...plannedDogEatingAndDrinkingProblems,
+  ...plannedDogDigestionProblems,
+  ...plannedDogBreathingProblems,
+  ...plannedDogToxinsAndForeignObjectsProblems,
+  ...plannedCatDigestionProblems,
+  ...plannedCatUrinaryAndLitterBoxProblems,
+  ...plannedCatBreathingProblems,
+  ...plannedCatBehaviorAndEnergyProblems,
 ];

@@ -1,5 +1,5 @@
 CAN I IGNORE IT — 콘텐츠 작성 지시서
-generated 2026-08-30 · systems 40 · published 48 · reserved 100
+generated 2026-08-31 · systems 48 · published 58 · reserved 109
 (콘텐츠가 늘면 `npm run content:prompt`로 다시 뽑을 것. 목록이 낡으면 import가 실패한다.)
 
 ════════════════════════════════════════════════════════════════════════
@@ -35,46 +35,54 @@ TOPIC:
   SYSTEM         = 해당 줄의 첫 번째 값
   EYEBROW        = 해당 줄의 마지막 값 (가운뎃점 · 으로 구분)
 
-  drainage             /appliances/dishwashers/drainage/              Appliances · Dishwashers · Drainage
-  jams-and-clogs       /appliances/garbage-disposals/jams-and-clogs/  Appliances · Garbage Disposals · Jams & Clogs
-  sparking-and-damage  /appliances/microwaves/sparking-and-damage/    Appliances · Microwaves · Sparking & Damage
-  frost-and-ice        /appliances/refrigerators/frost-and-ice/       Appliances · Refrigerators · Frost & Ice
-  noises               /appliances/refrigerators/noises/              Appliances · Refrigerators · Noises
-  gas-burners          /appliances/stoves-and-ovens/gas-burners/      Appliances · Stoves & Ovens · Gas Burners
-  helmets              /bicycles/helmets/                             Mobility · Bicycles · Helmets
-  brakes               /cars/brakes/                                  Mobility · Cars · Brakes
-  cooling              /cars/cooling/                                 Mobility · Cars · Cooling
-  engine               /cars/engine/                                  Mobility · Cars · Engine
-  exhaust              /cars/exhaust/                                 Mobility · Cars · Exhaust
-  fluids               /cars/fluids/                                  Mobility · Cars · Fluids
-  glass                /cars/glass/                                   Mobility · Cars · Glass
-  steering             /cars/steering/                                Mobility · Cars · Steering
-  suspension           /cars/suspension/                              Mobility · Cars · Suspension
-  tires                /cars/tires/                                   Mobility · Cars · Tires
-  transmission         /cars/transmission/                            Mobility · Cars · Transmission
-  frozen-food          /food-kitchen/food-storage/frozen-food/        Food & Kitchen · Food Storage · Frozen Food
-  pantry               /food-kitchen/food-storage/pantry/             Food & Kitchen · Food Storage · Pantry
-  food-safety          /food-kitchen/refrigeration/food-safety/       Food & Kitchen · Refrigeration · Food Safety
-  breakers             /home/electrical/breakers/                     Home · Electrical · Breakers
-  lighting             /home/electrical/lighting/                     Home · Electrical · Lighting
-  outlets              /home/electrical/outlets/                      Home · Electrical · Outlets
-  air-conditioning     /home/hvac/air-conditioning/                   Home · HVAC · Air Conditioning
-  heating              /home/hvac/heating/                            Home · HVAC · Heating
-  drains               /home/plumbing/drains/                         Home · Plumbing · Drains
-  leaks                /home/plumbing/leaks/                          Home · Plumbing · Leaks
-  toilets              /home/plumbing/toilets/                        Home · Plumbing · Toilets
-  water-heaters        /home/plumbing/water-heaters/                  Home · Plumbing · Water Heaters
-  water-pressure       /home/plumbing/water-pressure/                 Home · Plumbing · Water Pressure
-  water-quality        /home/plumbing/water-quality/                  Home · Plumbing · Water Quality
-  shingles             /home/roof/shingles/                           Home · Roof · Shingles
-  alarms               /home/safety/alarms/                           Home · Home Safety · Alarms
-  ceilings             /home/structure/ceilings/                      Home · Structure · Ceilings
-  foundation           /home/structure/foundation/                    Home · Structure · Foundation
-  windows              /home/structure/windows/                       Home · Structure · Windows
-  batteries            /technology/computers/batteries/               Technology · Computers · Batteries
-  chargers             /technology/computers/chargers/                Technology · Computers · Chargers
-  charging             /technology/phones/charging/                   Technology · Phones · Charging
-  screens              /technology/phones/screens/                    Technology · Phones · Screens
+  drainage                        /appliances/dishwashers/drainage/              Appliances · Dishwashers · Drainage
+  jams-and-clogs                  /appliances/garbage-disposals/jams-and-clogs/  Appliances · Garbage Disposals · Jams & Clogs
+  sparking-and-damage             /appliances/microwaves/sparking-and-damage/    Appliances · Microwaves · Sparking & Damage
+  frost-and-ice                   /appliances/refrigerators/frost-and-ice/       Appliances · Refrigerators · Frost & Ice
+  noises                          /appliances/refrigerators/noises/              Appliances · Refrigerators · Noises
+  gas-burners                     /appliances/stoves-and-ovens/gas-burners/      Appliances · Stoves & Ovens · Gas Burners
+  helmets                         /bicycles/helmets/                             Mobility · Bicycles · Helmets
+  brakes                          /cars/brakes/                                  Mobility · Cars · Brakes
+  cooling                         /cars/cooling/                                 Mobility · Cars · Cooling
+  engine                          /cars/engine/                                  Mobility · Cars · Engine
+  exhaust                         /cars/exhaust/                                 Mobility · Cars · Exhaust
+  fluids                          /cars/fluids/                                  Mobility · Cars · Fluids
+  glass                           /cars/glass/                                   Mobility · Cars · Glass
+  steering                        /cars/steering/                                Mobility · Cars · Steering
+  suspension                      /cars/suspension/                              Mobility · Cars · Suspension
+  tires                           /cars/tires/                                   Mobility · Cars · Tires
+  transmission                    /cars/transmission/                            Mobility · Cars · Transmission
+  frozen-food                     /food-kitchen/food-storage/frozen-food/        Food & Kitchen · Food Storage · Frozen Food
+  pantry                          /food-kitchen/food-storage/pantry/             Food & Kitchen · Food Storage · Pantry
+  food-safety                     /food-kitchen/refrigeration/food-safety/       Food & Kitchen · Refrigeration · Food Safety
+  breakers                        /home/electrical/breakers/                     Home · Electrical · Breakers
+  lighting                        /home/electrical/lighting/                     Home · Electrical · Lighting
+  outlets                         /home/electrical/outlets/                      Home · Electrical · Outlets
+  air-conditioning                /home/hvac/air-conditioning/                   Home · HVAC · Air Conditioning
+  heating                         /home/hvac/heating/                            Home · HVAC · Heating
+  drains                          /home/plumbing/drains/                         Home · Plumbing · Drains
+  leaks                           /home/plumbing/leaks/                          Home · Plumbing · Leaks
+  toilets                         /home/plumbing/toilets/                        Home · Plumbing · Toilets
+  water-heaters                   /home/plumbing/water-heaters/                  Home · Plumbing · Water Heaters
+  water-pressure                  /home/plumbing/water-pressure/                 Home · Plumbing · Water Pressure
+  water-quality                   /home/plumbing/water-quality/                  Home · Plumbing · Water Quality
+  shingles                        /home/roof/shingles/                           Home · Roof · Shingles
+  alarms                          /home/safety/alarms/                           Home · Home Safety · Alarms
+  ceilings                        /home/structure/ceilings/                      Home · Structure · Ceilings
+  foundation                      /home/structure/foundation/                    Home · Structure · Foundation
+  windows                         /home/structure/windows/                       Home · Structure · Windows
+  cat-behavior-and-energy         /pets/cats/behavior-and-energy/                Pets · Cats · Behavior & Energy
+  cat-breathing                   /pets/cats/breathing/                          Pets · Cats · Breathing
+  cat-digestion                   /pets/cats/digestion/                          Pets · Cats · Digestion
+  cat-urinary-and-litter-box      /pets/cats/urinary-and-litter-box/             Pets · Cats · Urinary & Litter Box
+  dog-breathing                   /pets/dogs/breathing/                          Pets · Dogs · Breathing
+  dog-digestion                   /pets/dogs/digestion/                          Pets · Dogs · Digestion
+  dog-eating-and-drinking         /pets/dogs/eating-and-drinking/                Pets · Dogs · Eating & Drinking
+  dog-toxins-and-foreign-objects  /pets/dogs/toxins-and-foreign-objects/         Pets · Dogs · Toxins & Foreign Objects
+  batteries                       /technology/computers/batteries/               Technology · Computers · Batteries
+  chargers                        /technology/computers/chargers/                Technology · Computers · Chargers
+  charging                        /technology/phones/charging/                   Technology · Phones · Charging
+  screens                         /technology/phones/screens/                    Technology · Phones · Screens
 
   예) 세 번째 열이 "Home · Plumbing · Toilets" 인 줄을 고르면
       SYSTEM: toilets
@@ -90,20 +98,24 @@ TOPIC:
 
   ac-leaking-water-inside                breaker-keeps-tripping                 brown-water-from-faucet
   burning-smell-from-engine              burning-smell-from-furnace             car-jerks-when-accelerating
-  car-pulls-to-one-side                  check-engine-light                     chirping-smoke-alarm
-  clicking-noise-when-turning            clunking-noise-over-bumps              coolant-leak
-  crack-in-foundation                    cracked-bike-helmet                    cracked-phone-screen
-  dented-can                             flickering-light                       frayed-charging-cable
-  freezer-burn                           frost-buildup-in-freezer               gfci-keeps-tripping
-  high-rpm-after-cold-start              hot-laptop-charger                     leaking-faucet
-  leftovers-left-out                     low-tire-pressure                      low-water-pressure
-  missing-roof-shingle                   mold-around-window                     nail-in-tire
-  oil-leak                               refrigerator-door-left-open-overnight  sewer-gas-smell
-  slow-drain                             small-leak-under-sink                  small-windshield-chip
-  sparking-microwave                     squeaky-brakes                         swollen-laptop-battery
-  toilet-keeps-running                   tpms-warning-light                     warm-electrical-outlet
-  water-dripping-from-exhaust            water-heater-leaking                   water-stain-on-ceiling
-  wheel-vibration                        white-smoke-from-exhaust               yellow-flame-on-gas-stove
+  car-pulls-to-one-side                  cat-sleeping-all-day                   cat-sneezing
+  cat-straining-to-pee                   cat-throwing-up                        check-engine-light
+  chirping-smoke-alarm                   clicking-noise-when-turning            clunking-noise-over-bumps
+  coolant-leak                           crack-in-foundation                    cracked-bike-helmet
+  cracked-phone-screen                   dented-can                             dog-ate-chocolate
+  dog-diarrhea                           dog-eating-grass                       dog-not-eating
+  dog-reverse-sneezing                   dog-throwing-up                        flickering-light
+  frayed-charging-cable                  freezer-burn                           frost-buildup-in-freezer
+  gfci-keeps-tripping                    high-rpm-after-cold-start              hot-laptop-charger
+  leaking-faucet                         leftovers-left-out                     low-tire-pressure
+  low-water-pressure                     missing-roof-shingle                   mold-around-window
+  nail-in-tire                           oil-leak                               refrigerator-door-left-open-overnight
+  sewer-gas-smell                        slow-drain                             small-leak-under-sink
+  small-windshield-chip                  sparking-microwave                     squeaky-brakes
+  swollen-laptop-battery                 toilet-keeps-running                   tpms-warning-light
+  warm-electrical-outlet                 water-dripping-from-exhaust            water-heater-leaking
+  water-stain-on-ceiling                 wheel-vibration                        white-smoke-from-exhaust
+  yellow-flame-on-gas-stove
 
 
 1-3. 아래 SLUG은 예약된 주제다(아직 글이 없음).
@@ -112,12 +124,15 @@ TOPIC:
   bad-smell-from-drain                 black-spot-on-phone-screen           bouncy-ride-after-bumps
   bulging-can                          burning-smell-from-microwave         burning-smell-from-outlet
   buzzing-electrical-outlet            buzzing-light-switch                 buzzing-refrigerator
-  can-that-hisses-when-opened          car-sitting-lower-on-one-corner      cheap-third-party-charger
-  chipped-paint-inside-microwave       clogged-toilet                       co-alarm-beeping
-  completely-clogged-drain             cracked-phone-back-glass             cracked-tire-sidewall
-  cracked-windshield                   crooked-steering-wheel               damaged-laptop-charger-cable
-  damaged-microwave-door-seal          delayed-gear-engagement              dimmer-switch-hot
-  dishwasher-backing-up-into-sink      dishwasher-drain-hose-clogged        drain-gurgling
+  can-that-hisses-when-opened          car-sitting-lower-on-one-corner      cat-coughing
+  cat-diarrhea                         cat-hiding-suddenly                  cat-peeing-outside-litter-box
+  cheap-third-party-charger            chipped-paint-inside-microwave       clogged-toilet
+  co-alarm-beeping                     completely-clogged-drain             cracked-phone-back-glass
+  cracked-tire-sidewall                cracked-windshield                   crooked-steering-wheel
+  damaged-laptop-charger-cable         damaged-microwave-door-seal          delayed-gear-engagement
+  dimmer-switch-hot                    dishwasher-backing-up-into-sink      dishwasher-drain-hose-clogged
+  dog-ate-grapes                       dog-constipation                     dog-coughing
+  dog-drinking-lots-of-water           dog-swallowed-a-sock                 drain-gurgling
   dripping-shutoff-valve               dropped-bike-helmet                  engine-overheating
   engine-rpm-surging                   exhaust-leak                         expired-canned-food
   expired-smoke-alarm                  food-left-in-an-open-can             freezer-door-left-open
