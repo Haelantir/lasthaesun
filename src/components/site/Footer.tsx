@@ -26,6 +26,12 @@ export function Footer() {
               <li>
                 <Link href="/sources/">Sources policy</Link>
               </li>
+              <li>
+                <Link href="/privacy/">Privacy policy</Link>
+              </li>
+              <li>
+                <Link href="/contact/">Contact</Link>
+              </li>
             </ul>
           </div>
         </div>
