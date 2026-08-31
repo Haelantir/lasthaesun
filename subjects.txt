@@ -1,0 +1,5 @@
+# Topics for the next batch. One per line, flush left.
+# Indent a line to attach it as an editorial note (angle + scenarios only —
+# never the verdict). Blank lines and #-comments are ignored.
+#
+#   npm run content:batch
