@@ -7,7 +7,7 @@ import { SITE_NAME, SITE_TAGLINE } from '@/lib/site';
 export const metadata: Metadata = buildPageMetadata({
   seoTitle: `About | ${SITE_NAME.replace('?', '')}`.replace('  ', ' '),
   metaDescription:
-    'Can I Ignore It is a database of decisions, not articles. Find out what happens if you do nothing — and when doing nothing stops being an option.',
+    'Can I Ignore It gives you the verdict first: how urgent a problem is, what happens if you wait, and the signs that mean you should stop waiting.',
   canonicalPath: '/about/',
   indexable: true,
 });
@@ -20,39 +20,43 @@ export default function AboutPage() {
         <p className="section__lead">{SITE_TAGLINE}</p>
 
         <p>
-          Most advice about a warning light, a noise or an overdue maintenance job starts with three
-          paragraphs of background and gets to the point somewhere near the bottom. But almost nobody
-          searching has a background question. They have a decision to make, usually right now, often
-          standing next to the thing.
+          A warning light comes on. Something starts leaking. Your dog eats something weird. Your baby
+          starts doing something you have never seen before.
         </p>
-        <p>So this site answers first and explains second.</p>
-
-        <h2>Decisions, not articles</h2>
+        <p>You want to know one thing:</p>
         <p>
-          The unit here is not a page of prose — it is a decision. Each one carries a verdict, an urgency, a
-          safety risk, the chain of what happens if you keep ignoring it, the point at which you should stop,
-          and the sources behind all of it. That is stored as structured data, which is why every page looks
-          and behaves the same and why the answer is always in the same place.
+          <strong>Can I ignore it?</strong>
         </p>
+        <p>That is what this site is for.</p>
         <p>
-          It also means the site grows by researching new problems rather than by rephrasing old ones.{' '}
-          &ldquo;Can I drive with low tire pressure&rdquo; and &ldquo;how long can I drive with low tire
-          pressure&rdquo; are the same problem, so they get the same page. A nail in the tire is a different
-          problem, so it gets its own.
+          Each page gives you a verdict first, then tells you how urgent the problem is, what can happen if
+          you wait, what signs mean you should act and what to do next.
         </p>
 
-        <h2>Where we are</h2>
+        <h2>One problem, one page</h2>
+        <p>We do not make separate articles for different versions of the same question.</p>
         <p>
-          Early. There is one fully researched decision published —{' '}
-          <Link href="/cars/tires/low-tire-pressure/">Can I ignore low tire pressure?</Link> — and the rest
-          are listed as planned rather than dressed up as finished. You will not find a category here that
-          leads to an empty page.
+          &ldquo;Can I drive with low tire pressure?&rdquo; and &ldquo;How long can I drive with low tire
+          pressure?&rdquo; are the same problem, so they belong on the same page.
+        </p>
+        <p>A nail in the tire is a different problem, so it gets a separate page.</p>
+
+        <h2>How we decide</h2>
+        <p>
+          We use sources that fit the subject, including government agencies, medical organizations,
+          professional bodies and manufacturers.
+        </p>
+        <p>
+          If the answer depends on the situation, we explain what changes it. If waiting could be dangerous,
+          we say that clearly.
+        </p>
+        <p>
+          You can read more in <Link href="/methodology/">how we decide</Link> and our{' '}
+          <Link href="/sources/">sources policy</Link>.
         </p>
 
-        <h2>How verdicts are reached</h2>
         <p>
-          The factors and the limits are set out in <Link href="/methodology/">how we decide</Link>, and the
-          rules we follow about citations are in our <Link href="/sources/">sources policy</Link>.
+          You should not have to read 1,500 words to find out whether something can wait.
         </p>
       </main>
     </div>
