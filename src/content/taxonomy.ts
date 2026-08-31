@@ -100,6 +100,20 @@ export const domains: DomainSeed[] = [
     indexable: false,
   },
   {
+    slug: 'babies',
+    name: 'Babies',
+    canonicalPath: '/babies/',
+    shortDescription:
+      'Feeding, breathing, sleep and nappies — the things new parents check twenty times a day and cannot tell apart from a problem.',
+    hubHeading: 'Baby Problems: What Can You Ignore?',
+    seoTitle: 'Baby Problems: What Can You Ignore? | Can I Ignore It',
+    metaDescription:
+      'Verdicts on what newborns do that worries their parents — what is normal, what is worth a call to the pediatrician, and what means go now.',
+    sortOrder: 46,
+    status: 'published',
+    indexable: false,
+  },
+  {
     slug: 'travel',
     name: 'Travel',
     canonicalPath: '/travel/',
@@ -438,6 +452,29 @@ export const objectCategories: ObjectCategorySeed[] = [
     metaDescription:
       'Verdicts on common cat symptoms — what is safe to watch at home, what needs a vet call, and what means go now.',
     sortOrder: 20,
+    status: 'published',
+    indexable: false,
+  },
+
+  /* Babies.
+   *
+   * `newborns` rather than a bare `babies` object, because the answer to almost
+   * every question here turns on age: the same breathing, the same gap between
+   * feeds and the same nappy mean different things at three weeks and at nine
+   * months. Reserving the distinction now leaves room for `infants` and
+   * `toddlers` beside it instead of one object that has to hedge every verdict. */
+  {
+    domainSlug: 'babies',
+    slug: 'newborns',
+    name: 'Newborns',
+    singularName: 'Newborn',
+    canonicalPath: '/babies/newborns/',
+    shortDescription: 'The first weeks — feeding, breathing sounds, sleep and nappies.',
+    hubHeading: 'Newborn Problems: What Can You Ignore?',
+    seoTitle: 'Newborn Problems: What Can You Ignore? | Can I Ignore It',
+    metaDescription:
+      'Verdicts on what a newborn does that worries new parents — what is normal for the first weeks, and what means call the pediatrician.',
+    sortOrder: 10,
     status: 'published',
     indexable: false,
   },
@@ -1361,6 +1398,61 @@ export const systems: SystemSeed[] = [
     shortDescription: 'Skipped meals, appetite loss and drinking changes.',
     sortOrder: 90,
     status: 'draft',
+    indexable: false,
+  },
+
+  /* Newborn systems.
+   *
+   * Grouped by what the parent is looking at, not by organ system: a parent
+   * hearing snuffly breathing, a sneeze and a bout of hiccups experiences one
+   * category ("the noises they make"), and splitting those across respiratory
+   * and digestive headings would hide each page from the person looking for it.
+   *
+   * Every slug carries `newborn-` because `feeding`, `sneezing` and `hiccups`
+   * are exactly the words a second domain will want later. */
+  {
+    objectSlug: 'newborns',
+    slug: 'newborn-feeding',
+    name: 'Feeding',
+    singularName: 'Newborn Feeding',
+    canonicalPath: '/babies/newborns/feeding/',
+    shortDescription: 'Spitting up, missed feeds and how much is going in.',
+    hubHeading: 'Can I Ignore This About My Newborn’s Feeding?',
+    seoTitle: 'Newborn Feeding Worries: What Is Normal? | Can I Ignore It',
+    metaDescription:
+      'Newborn feeding questions sorted by how much they matter — spitting up, sleeping through a feed, and the signs that mean call someone.',
+    sortOrder: 10,
+    status: 'published',
+    indexable: false,
+  },
+  {
+    objectSlug: 'newborns',
+    slug: 'newborn-breathing-and-sounds',
+    name: 'Breathing & Sounds',
+    singularName: 'Newborn Breathing',
+    canonicalPath: '/babies/newborns/breathing-and-sounds/',
+    shortDescription: 'Snuffles, sneezes, hiccups and the noises newborns make.',
+    hubHeading: 'Can I Ignore This Noise My Newborn Makes?',
+    seoTitle: 'Newborn Breathing Sounds: Normal or Not? | Can I Ignore It',
+    metaDescription:
+      'The noises newborns make, sorted by what they mean — snuffly breathing, sneezing and hiccups, and the signs of real breathing trouble.',
+    sortOrder: 20,
+    status: 'published',
+    indexable: false,
+  },
+  {
+    objectSlug: 'newborns',
+    slug: 'newborn-diapers-and-digestion',
+    name: 'Diapers & Digestion',
+    singularName: 'Newborn Diaper',
+    canonicalPath: '/babies/newborns/diapers-and-digestion/',
+    shortDescription: 'How often, what colour, and when a gap is worth worrying about.',
+    hubHeading: 'Can I Ignore What Is in My Newborn’s Diaper?',
+    seoTitle: 'Newborn Diaper Worries: How Often Is Normal? | Can I Ignore It',
+    metaDescription:
+      'Newborn nappy questions sorted by urgency — how long a gap is normal, what the colours mean, and when to call the pediatrician.',
+    sortOrder: 30,
+    status: 'published',
     indexable: false,
   },
 

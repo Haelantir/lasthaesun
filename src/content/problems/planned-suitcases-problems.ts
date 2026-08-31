@@ -14,7 +14,6 @@ interface PlannedProblem {
 }
 
 const planned: PlannedProblem[] = [
-  { slug: 'damaged-suitcase', name: 'Damaged Suitcase', h1: 'Can I Ignore a Crack or Broken Wheel on My Suitcase?' },
   { slug: 'suitcase-zip-not-closing', name: 'Suitcase Zip Not Closing', h1: 'Can I Ignore a Suitcase Zip That Barely Closes?' },
 ];
 

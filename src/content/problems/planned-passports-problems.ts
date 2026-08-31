@@ -14,8 +14,6 @@ interface PlannedProblem {
 }
 
 const planned: PlannedProblem[] = [
-  { slug: 'passport-expiring-soon', name: 'Passport Expiring Soon', h1: 'Can I Ignore a Passport That Expires in Less Than 6 Months?' },
-  { slug: 'damaged-passport', name: 'Damaged Passport', h1: 'Can I Ignore a Damaged Passport?' },
   { slug: 'passport-out-of-blank-pages', name: 'Passport Out of Blank Pages', h1: 'Can I Ignore a Passport With Almost No Blank Pages Left?' },
 ];
 

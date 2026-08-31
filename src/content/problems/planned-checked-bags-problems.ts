@@ -14,7 +14,6 @@ interface PlannedProblem {
 }
 
 const planned: PlannedProblem[] = [
-  { slug: 'wrong-baggage-tag', name: 'Wrong Baggage Tag', h1: 'Can I Ignore the Wrong Destination on My Baggage Tag?' },
   { slug: 'bag-not-checked-through', name: 'Bag Not Checked Through', h1: 'Can I Ignore That My Bag Is Not Checked Through to My Final Stop?' },
 ];
 

@@ -14,7 +14,6 @@ interface PlannedProblem {
 }
 
 const planned: PlannedProblem[] = [
-  { slug: 'short-layover', name: 'Short Layover', h1: 'Can I Ignore a Short Layover Between Flights?' },
   { slug: 'connection-on-separate-tickets', name: 'Connection on Separate Tickets', h1: 'Can I Ignore That My Connection Is on a Separate Ticket?' },
 ];
 

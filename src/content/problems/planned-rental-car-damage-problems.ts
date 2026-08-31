@@ -14,7 +14,6 @@ interface PlannedProblem {
 }
 
 const planned: PlannedProblem[] = [
-  { slug: 'scratch-on-rental-car', name: 'Scratch on a Rental Car', h1: 'Can I Ignore a Scratch on a Rental Car?' },
   { slug: 'chip-in-rental-car-windshield', name: 'Chip in a Rental Car Windshield', h1: 'Can I Ignore a Chip in a Rental Car Windshield?' },
 ];
 

@@ -1,5 +1,7 @@
 import type { ProblemSeed } from './types';
 import { acLeakingWaterInside } from './problems/ac-leaking-water-inside';
+import { bedBugsInHotelRoom } from './problems/bed-bugs-in-hotel-room';
+import { boardingPassWontLoad } from './problems/boarding-pass-wont-load';
 import { breakerKeepsTripping } from './problems/breaker-keeps-tripping';
 import { brownWaterFromFaucet } from './problems/brown-water-from-faucet';
 import { burningSmellFromFurnace } from './problems/burning-smell-from-furnace';
@@ -8,6 +10,8 @@ import { catSneezing } from './problems/cat-sneezing';
 import { catStrainingToPee } from './problems/cat-straining-to-pee';
 import { catThrowingUp } from './problems/cat-throwing-up';
 import { crackInFoundation } from './problems/crack-in-foundation';
+import { damagedPassport } from './problems/damaged-passport';
+import { damagedSuitcase } from './problems/damaged-suitcase';
 import { dogAteChocolate } from './problems/dog-ate-chocolate';
 import { dogDiarrhea } from './problems/dog-diarrhea';
 import { dogDrinkingLotsOfWater } from './problems/dog-drinking-lots-of-water';
@@ -15,8 +19,17 @@ import { dogEatingGrass } from './problems/dog-eating-grass';
 import { dogNotEating } from './problems/dog-not-eating';
 import { dogReverseSneezing } from './problems/dog-reverse-sneezing';
 import { dogThrowingUp } from './problems/dog-throwing-up';
+import { hotelRoomSmellsLikeMold } from './problems/hotel-room-smells-like-mold';
 import { lowWaterPressure } from './problems/low-water-pressure';
 import { missingRoofShingle } from './problems/missing-roof-shingle';
+import { nameTypoOnPlaneTicket } from './problems/name-typo-on-plane-ticket';
+import { newbornHiccups } from './problems/newborn-hiccups';
+import { newbornNoisyBreathing } from './problems/newborn-noisy-breathing';
+import { newbornNotPooping } from './problems/newborn-not-pooping';
+import { newbornSleepingThroughFeedings } from './problems/newborn-sleeping-through-feedings';
+import { newbornSneezing } from './problems/newborn-sneezing';
+import { newbornSpittingUp } from './problems/newborn-spitting-up';
+import { passportExpiringSoon } from './problems/passport-expiring-soon';
 import { plannedAirConditioningProblems } from './problems/planned-air-conditioning-problems';
 import { plannedBreakersProblems } from './problems/planned-breakers-problems';
 import { plannedCeilingsProblems } from './problems/planned-ceilings-problems';
@@ -94,8 +107,13 @@ import { plannedSuitcasesProblems } from './problems/planned-suitcases-problems'
 import { plannedCheckedBagsProblems } from './problems/planned-checked-bags-problems';
 import { plannedHotelRoomsProblems } from './problems/planned-hotel-rooms-problems';
 import { plannedRentalCarDamageProblems } from './problems/planned-rental-car-damage-problems';
+import { plannedNewbornFeedingProblems } from './problems/planned-newborn-feeding-problems';
+import { plannedNewbornBreathingAndSoundsProblems } from './problems/planned-newborn-breathing-and-sounds-problems';
+import { plannedNewbornDiapersAndDigestionProblems } from './problems/planned-newborn-diapers-and-digestion-problems';
 import { refrigeratorDoorLeftOpenOvernight } from './problems/refrigerator-door-left-open-overnight';
+import { scratchOnRentalCar } from './problems/scratch-on-rental-car';
 import { sewerGasSmell } from './problems/sewer-gas-smell';
+import { shortLayover } from './problems/short-layover';
 import { smallLeakUnderSink } from './problems/small-leak-under-sink';
 import { smallWindshieldChip } from './problems/small-windshield-chip';
 import { slowDrain } from './problems/slow-drain';
@@ -110,6 +128,7 @@ import { waterHeaterLeaking } from './problems/water-heater-leaking';
 import { waterStainOnCeiling } from './problems/water-stain-on-ceiling';
 import { wheelVibration } from './problems/wheel-vibration';
 import { whiteSmokeFromExhaust } from './problems/white-smoke-from-exhaust';
+import { wrongBaggageTag } from './problems/wrong-baggage-tag';
 import { yellowFlameOnGasStove } from './problems/yellow-flame-on-gas-stove';
 
 export { domains, objectCategories, systems } from './taxonomy';
@@ -180,6 +199,22 @@ export const problems: ProblemSeed[] = [
   dogNotEating,
   dogAteChocolate,
   dogDrinkingLotsOfWater,
+  nameTypoOnPlaneTicket,
+  passportExpiringSoon,
+  damagedPassport,
+  shortLayover,
+  bedBugsInHotelRoom,
+  hotelRoomSmellsLikeMold,
+  damagedSuitcase,
+  scratchOnRentalCar,
+  boardingPassWontLoad,
+  wrongBaggageTag,
+  newbornSpittingUp,
+  newbornNoisyBreathing,
+  newbornSleepingThroughFeedings,
+  newbornSneezing,
+  newbornHiccups,
+  newbornNotPooping,
   ...plannedTireProblems,
   ...plannedExhaustProblems,
   ...plannedCoolingProblems,
@@ -233,4 +268,7 @@ export const problems: ProblemSeed[] = [
   ...plannedCheckedBagsProblems,
   ...plannedHotelRoomsProblems,
   ...plannedRentalCarDamageProblems,
+  ...plannedNewbornFeedingProblems,
+  ...plannedNewbornBreathingAndSoundsProblems,
+  ...plannedNewbornDiapersAndDigestionProblems,
 ];

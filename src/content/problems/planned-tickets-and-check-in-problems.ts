@@ -14,8 +14,6 @@ interface PlannedProblem {
 }
 
 const planned: PlannedProblem[] = [
-  { slug: 'name-typo-on-plane-ticket', name: 'Name Typo on a Plane Ticket', h1: 'Can I Ignore a Small Typo in My Name on a Plane Ticket?' },
-  { slug: 'boarding-pass-wont-load', name: 'Boarding Pass Won’t Load', h1: 'Can I Ignore a Boarding Pass That Won’t Load on My Phone?' },
   { slug: 'wrong-date-on-flight-booking', name: 'Wrong Date on a Flight Booking', h1: 'Can I Ignore a Wrong Date on My Flight Booking?' },
 ];
 

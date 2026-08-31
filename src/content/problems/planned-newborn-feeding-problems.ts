@@ -1,7 +1,7 @@
 import type { ProblemSeed } from '../types';
 
 /**
- * Reserved problem records for the Hotel Rooms system.
+ * Reserved problem records for the Newborn Feeding system.
  *
  * Same rationale as `planned-tire-problems.ts`: name, question and URL only, so
  * the related-problems graph has real rows to point at before the pages exist.
@@ -14,15 +14,15 @@ interface PlannedProblem {
 }
 
 const planned: PlannedProblem[] = [
-  { slug: 'stain-on-hotel-bedding', name: 'Stain on Hotel Bedding', h1: 'Can I Ignore a Stain on the Hotel Bedding?' },
+  { slug: 'newborn-feeding-less-than-usual', name: 'Newborn Feeding Less Than Usual', h1: 'Can I Ignore My Newborn Feeding Less Than Usual?' },
 ];
 
-export const plannedHotelRoomsProblems: ProblemSeed[] = planned.map(({ slug, name, h1 }) => ({
-  systemSlug: 'hotel-rooms',
+export const plannedNewbornFeedingProblems: ProblemSeed[] = planned.map(({ slug, name, h1 }) => ({
+  systemSlug: 'newborn-feeding',
   slug,
   name,
   h1,
-  canonicalPath: `/travel/lodging/hotel-rooms/${slug}/`,
+  canonicalPath: `/babies/newborns/feeding/${slug}/`,
   status: 'draft',
   indexable: false,
 }));
