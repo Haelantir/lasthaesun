@@ -42,6 +42,13 @@ export const metadata: Metadata = {
   verification: {
     google: 'mg3GemRDrca-591iTKs2AhumwynLOX7HbLfirr11C3o',
   },
+  /* AdSense ownership check, the second of two signals — the loader script in
+   * the body below is the first. Page metadata is merged field by field, and no
+   * page sets `other`, so this reaches every route including the problem pages
+   * that build their metadata in `generateMetadata`. */
+  other: {
+    'google-adsense-account': 'ca-pub-6323439373011689',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
