@@ -11,11 +11,14 @@ import { describe, expect, it } from 'vitest';
 import { buildPlacementPrompt, parsePlacement } from './placement';
 import { parseSubjects, promptFor, type Subject } from './run';
 
+/** The tests care about the topics; the loose-mode metadata is asserted separately. */
+const parseSubjectsRaw = (source: string) => parseSubjects(source).subjects;
+
 const BASE = ['header', '', 'TOPIC:', '[여기에 토픽 하나만 적는다]', '', 'rest'].join('\n');
 
 describe('subjects file', () => {
   it('reads one topic per unindented line', () => {
-    const subjects = parseSubjects('Can I Ignore A?\nCan I Ignore B?\n');
+    const subjects = parseSubjectsRaw('Can I Ignore A?\nCan I Ignore B?\n');
     expect(subjects).toEqual([
       { topic: 'Can I Ignore A?', notes: '' },
       { topic: 'Can I Ignore B?', notes: '' },
@@ -23,12 +26,12 @@ describe('subjects file', () => {
   });
 
   it('ignores blank lines, comments and list bullets', () => {
-    const subjects = parseSubjects('# a comment\n\n- Can I Ignore A?\n\n* Can I Ignore B?\n');
+    const subjects = parseSubjectsRaw('# a comment\n\n- Can I Ignore A?\n\n* Can I Ignore B?\n');
     expect(subjects.map((subject) => subject.topic)).toEqual(['Can I Ignore A?', 'Can I Ignore B?']);
   });
 
   it('attaches indented lines to the topic above as notes', () => {
-    const subjects = parseSubjects(
+    const subjects = parseSubjectsRaw(
       ['Can I Ignore a Damaged Passport?', '  Water damage, a torn page,', '  a bent cover.', '', 'Can I Ignore B?'].join(
         '\n',
       ),
@@ -39,16 +42,15 @@ describe('subjects file', () => {
     ]);
   });
 
-  it('does not treat an indented first line as notes with no topic to hold them', () => {
-    expect(parseSubjects('  orphaned note\nCan I Ignore A?')).toEqual([
-      { topic: 'orphaned note', notes: '' },
-      { topic: 'Can I Ignore A?', notes: '' },
-    ]);
+  it('drops an indented line that has no topic above it to hold it', () => {
+    const { subjects, dropped } = parseSubjects('  orphaned note\nCan I Ignore A?');
+    expect(subjects).toEqual([{ topic: 'Can I Ignore A?', notes: '' }]);
+    expect(dropped).toEqual(['orphaned note']);
   });
 
   it('reads CRLF and a BOM the same as plain LF', () => {
-    const plain = parseSubjects('Can I Ignore A?\n  a note\n');
-    expect(parseSubjects('﻿Can I Ignore A?\r\n  a note\r\n')).toEqual(plain);
+    const plain = parseSubjectsRaw('Can I Ignore A?\n  a note\n');
+    expect(parseSubjectsRaw('﻿Can I Ignore A?\r\n  a note\r\n')).toEqual(plain);
   });
 });
 
@@ -125,5 +127,63 @@ describe('placement', () => {
     expect(prompt).toContain('이미 발행된 problem slug');
     expect(prompt).toContain('예약된 problem slug');
     expect(prompt).toContain('토픽이 "예약된 slug"에 해당하면 그것은 중복이 아니다');
+  });
+});
+
+/* The topics usually arrive as a pasted answer, not a tidy list: preamble, a
+ * suggested verdict under each title, a paragraph of reasoning. Reformatting
+ * that by hand every morning is the chore this pipeline exists to remove. */
+describe('subjects file, pasted as-is', () => {
+  const messy = [
+    '응. 여행 카테고리는 먹힐 가능성 높아요.',
+    '제가 첫 10개를 깐다면 이 순서로 갑니다.',
+    'Can I Ignore a Damaged Passport?',
+    '→ PROBABLY NOT',
+    '물에 젖음·찢어짐·사진면 손상으로 상황 selector 만들기 좋습니다.',
+    'Can I Ignore a Short Layover Between Flights?',
+    '→ IT DEPENDS',
+    '같은 티켓인지 별도 티켓인지에 따라 답이 갈립니다.',
+  ].join('\n');
+
+  it('picks the questions out and drops the preamble', () => {
+    const { subjects, loose } = parseSubjects(messy);
+    expect(loose).toBe(true);
+    expect(subjects.map((subject) => subject.topic)).toEqual([
+      'Can I Ignore a Damaged Passport?',
+      'Can I Ignore a Short Layover Between Flights?',
+    ]);
+  });
+
+  it('keeps the reasoning under each topic as its notes', () => {
+    const { subjects } = parseSubjects(messy);
+    expect(subjects[0]!.notes).toContain('물에 젖음');
+    expect(subjects[1]!.notes).toContain('별도 티켓');
+  });
+
+  /* The one line that must never survive. Kept as a note it would hand the
+   * writer its conclusion before it had read a single source. */
+  it('drops a suggested verdict rather than passing it on as a note', () => {
+    const { subjects, dropped } = parseSubjects(messy);
+    for (const subject of subjects) {
+      expect(subject.notes).not.toContain('PROBABLY NOT');
+      expect(subject.notes).not.toContain('IT DEPENDS');
+    }
+    expect(dropped.some((line) => line.includes('PROBABLY NOT'))).toBe(true);
+  });
+
+  it('leaves a clean list alone', () => {
+    const clean = parseSubjects('Can I Ignore A?\nCan I Ignore B?\n  a note\n');
+    expect(clean.loose).toBe(false);
+    expect(clean.dropped).toEqual([]);
+    expect(clean.subjects).toEqual([
+      { topic: 'Can I Ignore A?', notes: '' },
+      { topic: 'Can I Ignore B?', notes: 'a note' },
+    ]);
+  });
+
+  it('leaves a list of non-question topics alone too', () => {
+    const clean = parseSubjects('Dog Eating Grass\nCat Sneezing\n');
+    expect(clean.loose).toBe(false);
+    expect(clean.subjects.map((subject) => subject.topic)).toEqual(['Dog Eating Grass', 'Cat Sneezing']);
   });
 });

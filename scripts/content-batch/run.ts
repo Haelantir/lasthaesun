@@ -64,6 +64,23 @@ export interface Subject {
   notes: string;
 }
 
+export interface SubjectsFile {
+  subjects: Subject[];
+  /** True when the file was read as a pasted answer rather than a clean list. */
+  loose: boolean;
+  /** Lines discarded in loose mode, so a bad read is visible rather than silent. */
+  dropped: string[];
+}
+
+/** Topics on this site are English questions. Korean text is commentary. */
+const HANGUL = /[ㄱ-ㆎ가-힣]/;
+/** `→ IT DEPENDS / PROBABLY NOT` — a suggested verdict, never a note. */
+const VERDICT_ARROW = /^\s*(?:→|->|=>)/;
+
+function looksLikeTopic(line: string): boolean {
+  return line.trim().endsWith('?') && !HANGUL.test(line);
+}
+
 /**
  * One topic per unindented line. Indented lines beneath it are notes for that
  * topic. Blank lines, `#` comments and list bullets are ignored.
@@ -76,29 +93,67 @@ export interface Subject {
  * from a bare title gets thin. They are deliberately not a place to pre-assign a
  * verdict: see the guard in `promptFor`.
  */
-export function parseSubjects(source: string): Subject[] {
+export function parseSubjects(source: string): SubjectsFile {
+  const lines = source
+    .replace(/^﻿/, '')
+    .split(/\r?\n/)
+    .map((raw) => raw.replace(/\s+$/, ''))
+    .filter((line) => line.trim() !== '' && !line.trim().startsWith('#'));
+
+  // Loose mode exists because the topics usually arrive as a pasted answer —
+  // preamble, a verdict arrow under each title, a paragraph of reasoning — and
+  // reformatting that by hand every morning is exactly the chore this pipeline
+  // is supposed to remove. It turns on only when the file is unambiguously not
+  // a clean list: some flush-left lines are questions and some are not. A list
+  // where every line is a topic is still read exactly as before.
+  const flush = lines.filter((line) => !/^\s/.test(line));
+  const loose = flush.some(looksLikeTopic) && flush.some((line) => !looksLikeTopic(line));
+
   const subjects: Subject[] = [];
+  const dropped: string[] = [];
 
-  for (const raw of source.replace(/^﻿/, '').split(/\r?\n/)) {
-    const line = raw.replace(/\s+$/, '');
-    if (line.trim() === '' || line.trim().startsWith('#')) continue;
+  const addNote = (text: string) => {
+    const current = subjects[subjects.length - 1];
+    if (!current) {
+      dropped.push(text);
+      return;
+    }
+    current.notes = current.notes === '' ? text : `${current.notes} ${text}`;
+  };
 
-    const indented = /^\s/.test(line);
+  for (const line of lines) {
     const text = line.replace(/^\s*[-*]\s+/, '').trim();
 
-    if (indented && subjects.length > 0) {
-      const current = subjects[subjects.length - 1]!;
-      current.notes = current.notes === '' ? text : `${current.notes} ${text}`;
+    if (/^\s/.test(line)) {
+      addNote(text);
       continue;
     }
-    subjects.push({ topic: text, notes: '' });
+
+    if (!loose) {
+      subjects.push({ topic: text, notes: '' });
+      continue;
+    }
+
+    if (looksLikeTopic(line)) {
+      subjects.push({ topic: text, notes: '' });
+      continue;
+    }
+
+    // A suggested verdict is the one thing that must never survive as a note:
+    // kept, it hands the writer its conclusion before it has read a source.
+    if (VERDICT_ARROW.test(line)) {
+      dropped.push(text);
+      continue;
+    }
+
+    addNote(text);
   }
 
-  return subjects;
+  return { subjects, loose, dropped };
 }
 
 /** One topic per line. Blank lines, `#` comments and list bullets are ignored. */
-function readSubjects(file: string): Subject[] {
+function readSubjects(file: string): SubjectsFile {
   const resolved = path.resolve(ROOT, file);
   if (!fs.existsSync(resolved)) {
     throw new Error(
@@ -108,20 +163,20 @@ function readSubjects(file: string): Subject[] {
         '    Can I Ignore My Cat Sneezing?',
     );
   }
-  const subjects = parseSubjects(fs.readFileSync(resolved, 'utf8'));
+  const parsed = parseSubjects(fs.readFileSync(resolved, 'utf8'));
 
-  if (subjects.length === 0) {
+  if (parsed.subjects.length === 0) {
     throw new Error(`${path.relative(ROOT, resolved)} has no topics in it — only blank lines and comments.`);
   }
 
-  const titles = subjects.map((subject) => subject.topic);
+  const titles = parsed.subjects.map((subject) => subject.topic);
   const duplicates = titles.filter((topic, index) => titles.indexOf(topic) !== index);
   if (duplicates.length > 0) {
     // Two identical topics would race for one filename and one slug.
     throw new Error(`Duplicate topic(s) in ${path.relative(ROOT, resolved)}:\n  ${[...new Set(duplicates)].join('\n  ')}`);
   }
 
-  return subjects;
+  return parsed;
 }
 
 /**
@@ -441,12 +496,24 @@ async function main(): Promise<number> {
 
   if (!options.importOnly) {
     const config = writerConfig();
-    const subjects = readSubjects(options.subjects);
+    const { subjects, loose, dropped } = readSubjects(options.subjects);
     const annotated = subjects.filter((subject) => subject.notes !== '').length;
     console.log(
       `${subjects.length} topic(s) from ${options.subjects}` +
         (annotated > 0 ? `, ${annotated} with editorial notes` : ''),
     );
+
+    // Print what was read before spending anything on it. A misread subjects
+    // file is the cheapest failure to catch and the most annoying to discover
+    // twenty minutes in.
+    if (loose) {
+      console.log(`read as a pasted answer — ${dropped.length} line(s) dropped as commentary or a suggested verdict`);
+      for (const subject of subjects) {
+        console.log(`  ${subject.topic}`);
+        if (subject.notes !== '') console.log(`     notes: ${subject.notes.slice(0, 100)}${subject.notes.length > 100 ? '…' : ''}`);
+      }
+    }
+
     console.log(`model ${config.model} · reasoning ${config.effort} · web search ${config.webSearch ? 'on' : 'OFF'}`);
 
     const planned = subjects.map((subject, index) => {

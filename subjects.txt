@@ -3,3 +3,48 @@
 # never the verdict). Blank lines and #-comments are ignored.
 #
 #   npm run content:batch
+
+Can I Ignore a Small Typo in My Name on a Plane Ticket?
+  Separate a simple misspelling from an actual name change — airlines handle
+  those differently. Scenario candidates: one letter wrong, first and middle
+  names swapped, a missing middle name, a married-name mismatch.
+
+Can I Ignore a Passport That Expires in Less Than 6 Months?
+  Six months is not a universal rule; the validity a destination requires
+  varies. The hook is "it hasn't expired, so why can't I fly?"
+
+Can I Ignore a Damaged Passport?
+  A separate question from expiry — physical condition alone can matter.
+  Scenario candidates: water damage, a torn page, a damaged photo page, a
+  damaged cover, loose binding.
+
+Can I Ignore a Short Layover Between Flights?
+  Same ticket versus separate tickets changes the answer completely, as does
+  whether immigration, a security re-screen or a terminal change is involved.
+
+Can I Ignore Signs of Bed Bugs in a Hotel Room?
+  Scenario candidates: dark spots on the mattress seam, blood stains on the
+  sheets, shed skins, a live insect. What makes this different from a household
+  pest page is that it can follow you home in the luggage.
+
+Can I Ignore a Hotel Room That Smells Like Mold?
+  Scenario candidates: musty on opening the door, only when the AC runs, only
+  in the bathroom. Different search intent from the existing Home mold page —
+  the action here is whether to ask for another room.
+
+Can I Ignore a Crack or Broken Wheel on My Suitcase?
+  A spectrum rather than one answer. Scenario candidates: a hairline surface
+  crack, one wobbling wheel, a zip that barely closes, a broken frame.
+
+Can I Ignore a Scratch on a Rental Car?
+  A money question rather than a safety one, which is what makes it different
+  from the existing car pages. Scenario candidates: a small scratch, a curbed
+  wheel, a glass chip, a bumper scuff, damage you are not sure predates you.
+
+Can I Ignore a Boarding Pass That Won't Load on My Phone?
+  Cover the alternatives that actually exist: the airport counter, a kiosk, a
+  printed pass, a dead battery at the gate.
+
+Can I Ignore the Wrong Destination on My Baggage Tag?
+  The related question people ask is whether a bag is checked through to the
+  final destination and whether it has to be re-collected at a connection.
