@@ -17,8 +17,15 @@
  *
  * So "It is important: check the label" stays prose, and only "SOURCES:" or
  * "  notes:" inside SOURCES starts something new.
+ *
+ * Bullets are optional. `- slug: …` is the documented form, but a writer who
+ * omits the bullet is understood anyway: inside a list, a declared key opens an
+ * item when none is open, and the list's OPENING key coming round again ends the
+ * current item and starts the next. Without that, a bullet-less document parsed
+ * to zero items and failed much later as "SCENARIOS is required and missing",
+ * which points at the wrong thing entirely.
  */
-import type { FieldName } from './spec';
+import type { FieldName, FieldSpec } from './spec';
 import { fieldSpec, isFieldName } from './spec';
 
 export interface ParseIssue {
@@ -112,6 +119,29 @@ function joinValue(lines: string[]): string {
   if (current.length > 0) paragraphs.push(current.join(' '));
 
   return paragraphs.join('\n\n').trim();
+}
+
+/**
+ * True when a bullet-less `key: value` line inside a list starts the NEXT item
+ * rather than the next key of the current one — that is, when the list's opening
+ * key has come round again.
+ *
+ * Only the opening key can do this. Any other declared key still belongs to the
+ * item being read, so bulleted input behaves exactly as it always did: an item
+ * never legitimately repeats the key it started with.
+ */
+function opensNextItem(
+  spec: Extract<FieldSpec, { kind: 'list' }>,
+  item: RawItem,
+  currentKey: string | null,
+  name: string,
+): boolean {
+  const normalise = (k: string) => spec.aliases?.[k] ?? k;
+  const opener = normalise(spec.keys[0]!);
+  if (normalise(name) !== opener) return false;
+  // The opener is either already stored on this item, or is the key currently
+  // being read and not yet flushed.
+  return item.values.has(opener) || (currentKey !== null && normalise(currentKey) === opener);
 }
 
 export function parseDocument(source: string): RawDocument {
@@ -226,12 +256,28 @@ export function parseDocument(source: string): RawDocument {
       continue;
     }
 
-    // A text line. Inside a list item it may open the next key.
-    if (spec.kind === 'list' && item !== null) {
+    // A bare list holds exactly one value per line, so an unbulleted line is a
+    // whole entry. Left to accumulate it would glue the next alias onto this one
+    // and produce a single unusable path.
+    if (spec.kind === 'bareList') {
+      buffer.push(token.text);
+      flush();
+      continue;
+    }
+
+    // A text line. Inside a list it may open the next key — or, when the writer
+    // omitted the bullets, the next item.
+    if (spec.kind === 'list') {
       const next = ITEM_KEY.exec(token.text);
-      if (next && spec.keys.includes(next[1] as string)) {
-        flush();
-        key = next[1]!;
+      const name = next?.[1];
+      if (next && name !== undefined && spec.keys.includes(name)) {
+        if (item === null || opensNextItem(spec, item, key, name)) {
+          closeItem();
+          item = { line: token.line, values: new Map() };
+        } else {
+          flush();
+        }
+        key = name;
         buffer.push(next[2] ?? '');
         continue;
       }

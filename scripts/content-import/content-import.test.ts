@@ -174,6 +174,69 @@ describe('parser', () => {
     const result = build(makeDoc({}, extra));
     expect(result.errors.some((e) => e.message.includes('does not start with a known key'))).toBe(true);
   });
+
+  /* Bullets are the documented form, but a writer — especially a model asked for
+   * a long structured document — drops them often enough that the importer has
+   * to understand the result. Left unhandled, every list parsed as empty and the
+   * failure surfaced as "SCENARIOS is required and missing", which points at the
+   * wrong thing and invites someone to start editing the prose. */
+  it('reads a document with no bullets identically to the bulleted form', () => {
+    const bare = build(makeDoc({}, LISTS.replace(/^\* /gm, '')));
+    expect(bare.errors).toEqual([]);
+    expect(bare.seed).toEqual(build(makeDoc()).seed);
+  });
+
+  it('starts a new unbulleted item each time the opening key comes round again', () => {
+    const extra = `
+SCENARIOS:
+
+slug: first-case
+label: The first case
+result_headline: Deal with it
+result_body: Because it gets worse.
+recommended_action: Fix it today.
+
+slug: second-case
+label: The second case
+result_headline: Leave it
+result_body: Because nothing follows from it.
+recommended_action: Check again next week.
+
+${LISTS.slice(LISTS.indexOf('CONSEQUENCES:'))}`;
+    const { seed, errors } = build(makeDoc({}, extra));
+    expect(errors).toEqual([]);
+    expect(seed?.scenarios).toHaveLength(2);
+    expect(seed?.scenarios?.[0]?.slug).toBe('first-case');
+    expect(seed?.scenarios?.[1]?.slug).toBe('second-case');
+    expect(seed?.scenarios?.[1]?.resultBody).toBe('Because nothing follows from it.');
+  });
+
+  it('splits unbulleted items on the opening key only, never on a later one', () => {
+    // `title` opens ACTIONS, FLAGS and RESOURCES but is merely the second key of
+    // SOURCES, so it must continue the source it belongs to.
+    const extra = `${LISTS.replace(/^\* /gm, '')}
+publisher: U.S. Consumer Product Safety Commission
+title: Second Source
+source_type: government
+`;
+    const { seed, errors } = build(makeDoc({}, extra));
+    expect(errors).toEqual([]);
+    expect(seed?.sources).toHaveLength(2);
+    expect(seed?.sources?.[0]?.title).toBe('Smoke Alarms');
+    expect(seed?.sources?.[1]?.publisher).toBe('U.S. Consumer Product Safety Commission');
+  });
+
+  it('reads one unbulleted alias per line instead of joining them into one path', () => {
+    const extra = `${LISTS}
+ALIASES:
+
+/home/safety/alarms/first-alias/
+/home/safety/alarms/second-alias/
+`;
+    const { seed, errors } = build(makeDoc({}, extra));
+    expect(errors).toEqual([]);
+    expect(seed?.aliases).toEqual(['/home/safety/alarms/first-alias/', '/home/safety/alarms/second-alias/']);
+  });
 });
 
 /* ---------------------------------------------------------------- validation */
