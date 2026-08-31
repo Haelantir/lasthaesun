@@ -8,7 +8,6 @@
  */
 import { describe, expect, it } from 'vitest';
 
-import { buildPlacementPrompt, parsePlacement } from './placement';
 import { parseSubjects, promptFor, type Subject } from './run';
 
 /** The tests care about the topics; the loose-mode metadata is asserted separately. */
@@ -76,57 +75,6 @@ describe('prompt assembly', () => {
     expect(prompt).toContain('사실 아님');
     expect(prompt).toContain('VERDICT, URGENCY, SAFETY_RISK는 반드시 네가 직접 검증한 출처에서 나와야 한다.');
     expect(prompt).toContain('조사 결과가 다르면 조사 결과를 따른다.');
-  });
-});
-
-describe('placement', () => {
-  const subjects: Subject[] = [
-    { topic: 'Can I Ignore a Damaged Passport?', notes: '' },
-    { topic: 'Can I Ignore a Late Credit Card Payment?', notes: '' },
-    { topic: 'Can I Ignore Low Tire Pressure?', notes: '' },
-    { topic: 'Can I Ignore a Fourth Thing?', notes: '' },
-  ];
-
-  const response = ['1: passports', '2: NONE', '3: DUPLICATE', '4: not-a-real-system', 'PROPOSAL:', 'Money -> Cards -> Payments'].join(
-    '\n',
-  );
-
-  it('maps each answer back to its topic by number', () => {
-    const { placements } = parsePlacement(response, subjects);
-    expect(placements[0]).toEqual({ topic: subjects[0]!.topic, system: 'passports' });
-  });
-
-  it('separates "nothing fits" from "already published"', () => {
-    const { placements } = parsePlacement(response, subjects);
-    expect(placements[1]).toEqual({ topic: subjects[1]!.topic, system: null });
-    expect(placements[2]).toEqual({ topic: subjects[2]!.topic, system: null, duplicate: true });
-  });
-
-  /* A slug that does not exist is not a placement. Accepted as one, the topic
-   * would be generated and then fail at import on an unknown system — three
-   * minutes and a web-search bill later. */
-  it('refuses a system slug that does not exist', () => {
-    const { placements } = parsePlacement(response, subjects);
-    expect(placements[3]).toEqual({ topic: subjects[3]!.topic, system: null, invalid: 'not-a-real-system' });
-  });
-
-  it('treats a missing answer as no placement rather than a silent pass', () => {
-    expect(parsePlacement('1: passports', subjects).placements[1]).toEqual({ topic: subjects[1]!.topic, system: null });
-  });
-
-  it('extracts the proposal block', () => {
-    expect(parsePlacement(response, subjects).proposal).toBe('Money -> Cards -> Payments');
-    expect(parsePlacement('1: passports', subjects).proposal).toBe('');
-  });
-
-  /* Reserved slugs are the pages a topic is MEANT to fill. Listed alongside
-   * published ones, every topic the roadmap already planned for comes back as a
-   * duplicate — which is exactly what happened before they were split. */
-  it('presents published and reserved slugs as separate lists', () => {
-    const prompt = buildPlacementPrompt(subjects);
-    expect(prompt).toContain('이미 발행된 problem slug');
-    expect(prompt).toContain('예약된 problem slug');
-    expect(prompt).toContain('토픽이 "예약된 slug"에 해당하면 그것은 중복이 아니다');
   });
 });
 

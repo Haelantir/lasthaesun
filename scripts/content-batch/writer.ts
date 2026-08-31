@@ -215,19 +215,3 @@ export async function writeTopic(
   if (cleaned === '') throw new Error('The model returned an empty response.');
   return { text: cleaned, ms: Date.now() - started, searches };
 }
-
-/** Lists model ids, so the exact one can be confirmed instead of guessed. */
-export async function listModels(filter: string): Promise<string[]> {
-  const response = await fetch('https://api.openai.com/v1/models', {
-    headers: { authorization: `Bearer ${apiKey()}` },
-    signal: AbortSignal.timeout(60_000),
-  });
-  if (!response.ok) {
-    throw new Error(`OpenAI ${response.status} ${response.statusText}\n${await response.text().catch(() => '')}`);
-  }
-  const payload = (await response.json()) as { data?: { id?: unknown }[] };
-  return (payload.data ?? [])
-    .map((model) => String(model.id ?? ''))
-    .filter((id) => id !== '' && id.toLowerCase().includes(filter.toLowerCase()))
-    .sort();
-}

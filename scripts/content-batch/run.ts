@@ -1,12 +1,19 @@
 /**
  * One command for a day's batch: topics in, imported content out.
  *
- *   npm run content:batch -- --fresh       subjects.txt -> generate -> import -> verify
- *   npm run content:batch -- --generate    stop after writing incoming/
- *   npm run content:batch -- --import      skip generation, import what is there
- *   npm run content:batch -- --models gpt  list model ids, to confirm one rather than guess
+ *   npm run content:batch                subjects.txt -> generate -> import -> verify
+ *   npm run content:batch -- --generate  stop after writing incoming/
+ *   npm run content:batch -- --import    skip generation, import what is there
  *
- * What it deliberately does NOT do: seed a database, commit, push or deploy.
+ * This is the mechanical half of the loop and only the mechanical half. Deciding
+ * WHAT to write — reading a pasted answer, judging which topics belong to which
+ * system, noticing that a whole group of them has no home and needs taxonomy
+ * first — is editorial work done before this runs. The script deliberately makes
+ * no such judgement: the taxonomy is the site's permanent URL structure, and a
+ * loop that mints a system whenever a topic does not fit would mint one per
+ * page, since it only ever sees one topic at a time.
+ *
+ * What it also does not do: seed a database, commit, push or deploy.
  * `DATABASE_URL` points at production, so seeding stays a separate sentence a
  * person has to say out loud. This script stops at a verified working tree.
  *
@@ -20,8 +27,7 @@ import { pathToFileURL } from 'node:url';
 
 import { buildSeed } from '../content-import/build';
 import { parseDocument } from '../content-import/parser';
-import { placeTopics } from './placement';
-import { listModels, writeTopic, writerConfig, type Progress, type WriterConfig } from './writer';
+import { writeTopic, writerConfig, type Progress, type WriterConfig } from './writer';
 
 const ROOT = process.cwd();
 const INCOMING = path.join(ROOT, 'incoming');
@@ -38,8 +44,6 @@ interface Options {
   importOnly: boolean;
   fresh: boolean;
   concurrency: number;
-  models: string | null;
-  placement: boolean;
 }
 
 function parseArgs(argv: string[]): Options {
@@ -53,8 +57,6 @@ function parseArgs(argv: string[]): Options {
     importOnly: argv.includes('--import'),
     fresh: argv.includes('--fresh'),
     concurrency: Math.max(1, Number(value('--concurrency')) || 3),
-    models: argv.includes('--models') ? (value('--models') ?? '') : null,
-    placement: !argv.includes('--no-placement'),
   };
 }
 
@@ -302,30 +304,28 @@ function statusLine(job: TopicJob): string {
 }
 
 /**
- * Repaints the job table in place.
+ * Mirrors the state of every topic to STATUS.log once a second.
  *
- * Only when stdout is a terminal — piped into a file or a CI log, cursor moves
- * would turn into escape-code noise, so there the same lines are simply written
- * to STATUS.log and printed once per completed topic.
+ * The run itself prints one line per topic as it settles, which is all the
+ * transcript needs. This file is for looking in on a batch that is still going —
+ * from another terminal, or an editor — without that process's stdout.
  */
-function createBoard(jobs: TopicJob[]): { tick: () => void; stop: () => void } {
-  const tty = Boolean(process.stdout.isTTY);
-  let painted = 0;
-
+function createStatusLog(jobs: TopicJob[]): { tick: () => void; stop: () => void } {
   const render = () => {
-    const width = (process.stdout.columns ?? 100) - 1;
-    const lines = jobs.map((job) => statusLine(job).slice(0, width));
-    fs.writeFileSync(STATUS_FILE, `${new Date().toISOString()}\n${lines.join('\n')}\n`, 'utf8');
-    if (!tty) return;
-    if (painted > 0) process.stdout.write(`\u001b[${painted}A`);
-    for (const line of lines) process.stdout.write(`\u001b[2K${line}\n`);
-    painted = lines.length;
+    const body = jobs.map(statusLine).join('\n');
+    fs.writeFileSync(STATUS_FILE, `${new Date().toISOString()}\n${body}\n`, 'utf8');
   };
 
   render();
   const timer = setInterval(render, 1000);
   timer.unref();
-  return { tick: render, stop: () => { clearInterval(timer); render(); } };
+  return {
+    tick: render,
+    stop: () => {
+      clearInterval(timer);
+      render();
+    },
+  };
 }
 
 /* ------------------------------------------------------------ generation */
@@ -441,11 +441,11 @@ async function generate(jobs: TopicJob[], config: WriterConfig, concurrency: num
   }
 
   const queue = jobs.filter((job) => job.state.kind === 'waiting');
-  const board = createBoard(jobs);
-  const tty = Boolean(process.stdout.isTTY);
-  // The board repaints in place on a terminal; piped output gets one line per
-  // topic instead, so a resumed run still shows what it decided to skip.
-  if (!tty) for (const job of jobs) if (job.state.kind === 'skipped') console.log(statusLine(job));
+  const status = createStatusLog(jobs);
+  // One line per topic as it settles. Live per-topic detail — phase, elapsed
+  // time, search count — goes to STATUS.log, which can be read while the run is
+  // still going without needing this process's terminal.
+  for (const job of jobs) if (job.state.kind === 'skipped') console.log(statusLine(job));
 
   const worker = async (): Promise<void> => {
     for (;;) {
@@ -453,7 +453,7 @@ async function generate(jobs: TopicJob[], config: WriterConfig, concurrency: num
       if (!job) return;
       const startedAt = Date.now();
       job.state = { kind: 'running', startedAt, progress: { phase: 'thinking', searches: 0, chars: 0 } };
-      board.tick();
+      status.tick();
 
       try {
         const result = await writeTopic(promptFor(basePrompt, job), config, (progress) => {
@@ -473,13 +473,13 @@ async function generate(jobs: TopicJob[], config: WriterConfig, concurrency: num
         job.state = { kind: 'failed', ms: Date.now() - startedAt, reason: (error as Error).message.split('\n')[0] ?? 'failed' };
       }
 
-      board.tick();
-      if (!tty) console.log(statusLine(job));
+      status.tick();
+      console.log(statusLine(job));
     }
   };
 
   await Promise.all(Array.from({ length: Math.min(concurrency, Math.max(queue.length, 1)) }, worker));
-  board.stop();
+  status.stop();
   return jobs.filter((job) => job.state.kind === 'failed');
 }
 
@@ -487,12 +487,6 @@ async function generate(jobs: TopicJob[], config: WriterConfig, concurrency: num
 
 async function main(): Promise<number> {
   const options = parseArgs(process.argv.slice(2));
-
-  if (options.models !== null) {
-    const ids = await listModels(options.models);
-    console.log(ids.length === 0 ? '(no model ids matched)' : ids.join('\n'));
-    return 0;
-  }
 
   if (!options.importOnly) {
     const config = writerConfig();
@@ -538,59 +532,6 @@ async function main(): Promise<number> {
       state: fs.existsSync(job.file) ? { kind: 'skipped' } : { kind: 'waiting' },
     }));
 
-    // Placement before generation. A topic with no home costs three minutes and
-    // returns a refusal; ten of them cost the afternoon. One cheap call up front
-    // answers for the whole batch — and, crucially, proposes a shape for the
-    // homeless ones *as a group*, which is the only way to get a taxonomy that
-    // is not one system per page.
-    const pendingJobs = jobs.filter((job) => job.state.kind === 'waiting');
-    if (options.placement && pendingJobs.length > 0) {
-      console.log('\nplacing topics against the existing taxonomy');
-      const { placements, proposal } = await placeTopics(pendingJobs, config);
-
-      for (const placement of placements) {
-        const where = placement.system
-          ? placement.system
-          : placement.duplicate
-            ? 'already published'
-            : placement.invalid
-              ? `no home (model said "${placement.invalid}")`
-              : 'no home';
-        console.log(`  ${placement.system ? '  ' : '! '}${where.padEnd(34)}${placement.topic}`);
-      }
-
-      const duplicates = placements.filter((placement) => placement.duplicate);
-      if (duplicates.length > 0) {
-        console.log(`\n${duplicates.length} topic(s) are already covered by a published page:`);
-        for (const placement of duplicates) console.log(`  ${placement.topic}`);
-        console.log(
-          '\nA keyword variation of an existing page belongs in that page\'s aliases[], not\n' +
-            'in a new record. Drop them from subjects.txt and re-run. Nothing was written.',
-        );
-        return 1;
-      }
-
-      const homeless = placements.filter((placement) => placement.system === null);
-      if (homeless.length > 0) {
-        console.log(
-          [
-            '',
-            `${homeless.length} of ${placements.length} topic(s) have nowhere to go. Generating them would`,
-            'spend three minutes each to be told the same thing, so nothing was written.',
-            '',
-            'Either drop them from subjects.txt, or add the taxonomy they need. A shape',
-            'to react to — proposed for these topics together, not one system per page:',
-            '',
-            proposal === '' ? '  (the model offered no proposal)' : proposal,
-            '',
-            'Creating taxonomy is a deliberate decision, not a side effect of a batch:',
-            'the URLs are permanent. Approve a shape, then re-run.',
-            'To generate the topics that DO have a home, remove the others and re-run.',
-          ].join('\n'),
-        );
-        return 1;
-      }
-    }
 
     console.log(`\nwriting — live status also in ${path.relative(ROOT, STATUS_FILE)}\n`);
     const failed = await generate(jobs, config, options.concurrency);
