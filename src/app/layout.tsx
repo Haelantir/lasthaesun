@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Atkinson_Hyperlegible_Next } from 'next/font/google';
+import Script from 'next/script';
 import { Analytics } from '@vercel/analytics/next';
 import { GoogleAnalytics } from '@next/third-parties/google';
 
@@ -60,6 +61,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Only in production so local dev and preview traffic never lands in
             the real GA4 property. */}
         {process.env.NODE_ENV === 'production' ? <GoogleAnalytics gaId="G-WDL6BXBKC1" /> : null}
+        {/* AdSense.
+         *
+         * `beforeInteractive` rather than the default, because this tag is what
+         * Google reads to confirm the site is ours: the strategy puts it in the
+         * server-rendered <head>, where a verifier finds it without having to
+         * execute the page first. It is also NOT gated on NODE_ENV — the whole
+         * job of this script is to be present, and an environment check is one
+         * more way for it to be missing on the day it is looked for. */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6323439373011689"
+          crossOrigin="anonymous"
+          strategy="beforeInteractive"
+        />
       </body>
     </html>
   );
