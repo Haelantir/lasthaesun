@@ -100,6 +100,20 @@ export const domains: DomainSeed[] = [
     indexable: false,
   },
   {
+    slug: 'travel',
+    name: 'Travel',
+    canonicalPath: '/travel/',
+    shortDescription:
+      'Passports, tickets, connections, luggage, hotel rooms and rental cars — the things that go wrong on the way.',
+    hubHeading: 'Travel Problems: What Can You Ignore?',
+    seoTitle: 'Travel Problems: What Can You Ignore? | Can I Ignore It',
+    metaDescription:
+      'Verdicts on the travel problems people spot too late — what still lets you fly, what to fix before you go, and what to raise at the desk now.',
+    sortOrder: 48,
+    status: 'published',
+    indexable: false,
+  },
+  {
     slug: 'garden-and-outdoors',
     name: 'Garden & Outdoors',
     canonicalPath: '/garden-and-outdoors/',
@@ -424,6 +438,89 @@ export const objectCategories: ObjectCategorySeed[] = [
     metaDescription:
       'Verdicts on common cat symptoms — what is safe to watch at home, what needs a vet call, and what means go now.',
     sortOrder: 20,
+    status: 'published',
+    indexable: false,
+  },
+
+  /* Travel.
+   *
+   * Split by what the traveller is holding when the doubt hits — a document, a
+   * booking, a bag, a room, a rented car — rather than by trip stage. Stage
+   * ("before you go" / "at the airport") would put a damaged passport and an
+   * expiring one in different places, which is exactly where a reader looks for
+   * them together. */
+  {
+    domainSlug: 'travel',
+    slug: 'travel-documents',
+    name: 'Travel Documents',
+    singularName: 'Travel Document',
+    canonicalPath: '/travel/documents/',
+    shortDescription: 'Passports and the paperwork that decides whether you board at all.',
+    hubHeading: 'Travel Document Problems: What Can You Ignore?',
+    seoTitle: 'Passport and Travel Document Problems | Can I Ignore It',
+    metaDescription:
+      'Verdicts on passport and travel document problems — what still gets you on the plane, and what has to be fixed before you leave.',
+    sortOrder: 10,
+    status: 'published',
+    indexable: false,
+  },
+  {
+    domainSlug: 'travel',
+    slug: 'air-travel',
+    name: 'Air Travel',
+    singularName: 'Air Travel',
+    canonicalPath: '/travel/air-travel/',
+    shortDescription: 'Tickets, boarding passes and connections.',
+    hubHeading: 'Air Travel Problems: What Can You Ignore?',
+    seoTitle: 'Airline Ticket and Boarding Problems | Can I Ignore It',
+    metaDescription:
+      'Verdicts on ticket, boarding pass and connection problems — what the airline will sort out at the desk, and what to fix before you fly.',
+    sortOrder: 20,
+    status: 'published',
+    indexable: false,
+  },
+  {
+    domainSlug: 'travel',
+    slug: 'luggage',
+    name: 'Luggage',
+    singularName: 'Luggage',
+    canonicalPath: '/travel/luggage/',
+    shortDescription: 'Suitcases, checked bags and the tags attached to them.',
+    hubHeading: 'Luggage Problems: What Can You Ignore?',
+    seoTitle: 'Suitcase and Checked Baggage Problems | Can I Ignore It',
+    metaDescription:
+      'Verdicts on suitcase damage and checked baggage problems — what will survive the trip, and what to raise before the bag goes down the belt.',
+    sortOrder: 30,
+    status: 'published',
+    indexable: false,
+  },
+  {
+    domainSlug: 'travel',
+    slug: 'lodging',
+    name: 'Lodging',
+    singularName: 'Lodging',
+    canonicalPath: '/travel/lodging/',
+    shortDescription: 'Hotel and rental rooms, and what to do about the state of one.',
+    hubHeading: 'Hotel Room Problems: What Can You Ignore?',
+    seoTitle: 'Hotel Room Problems: What Can You Ignore? | Can I Ignore It',
+    metaDescription:
+      'Verdicts on what you find in a hotel room — what is worth a night, what means ask for another room, and what means do not unpack.',
+    sortOrder: 40,
+    status: 'published',
+    indexable: false,
+  },
+  {
+    domainSlug: 'travel',
+    slug: 'rental-cars',
+    name: 'Rental Cars',
+    singularName: 'Rental Car',
+    canonicalPath: '/travel/rental-cars/',
+    shortDescription: 'Pickup, damage and the argument at drop-off.',
+    hubHeading: 'Rental Car Problems: What Can You Ignore?',
+    seoTitle: 'Rental Car Damage and Return Problems | Can I Ignore It',
+    metaDescription:
+      'Verdicts on rental car damage and return disputes — what to photograph before you drive off, and what you will be billed for if you say nothing.',
+    sortOrder: 50,
     status: 'published',
     indexable: false,
   },
@@ -1264,6 +1361,117 @@ export const systems: SystemSeed[] = [
     shortDescription: 'Skipped meals, appetite loss and drinking changes.',
     sortOrder: 90,
     status: 'draft',
+    indexable: false,
+  },
+
+  /* Travel systems.
+   *
+   * Slugs carry their object where a bare word would be ambiguous the moment a
+   * second domain wants it — `connections` and `suitcases` are safe, but a
+   * `damage` or `documents` system would be the next `noises`. */
+  {
+    objectSlug: 'travel-documents',
+    slug: 'passports',
+    name: 'Passports',
+    singularName: 'Passport',
+    canonicalPath: '/travel/documents/passports/',
+    shortDescription: 'Expiry dates, damage and the state of the book itself.',
+    hubHeading: 'Can I Ignore This Passport Problem?',
+    seoTitle: 'Passport Problems: Expiry, Damage and Blank Pages | Can I Ignore It',
+    metaDescription:
+      'Passport problems sorted by whether they actually stop you travelling — expiry rules, physical damage, and what to fix before you book.',
+    sortOrder: 10,
+    status: 'published',
+    indexable: false,
+  },
+  {
+    objectSlug: 'air-travel',
+    slug: 'tickets-and-check-in',
+    name: 'Tickets & Check-In',
+    singularName: 'Ticket and Check-In',
+    canonicalPath: '/travel/air-travel/tickets-and-check-in/',
+    shortDescription: 'Booking details, name mismatches and boarding passes.',
+    hubHeading: 'Can I Ignore This Ticket Problem?',
+    seoTitle: 'Airline Ticket and Boarding Pass Problems | Can I Ignore It',
+    metaDescription:
+      'Ticket and boarding pass problems sorted by urgency — what the desk fixes in a minute, and what has to be corrected before you get to the airport.',
+    sortOrder: 20,
+    status: 'published',
+    indexable: false,
+  },
+  {
+    objectSlug: 'air-travel',
+    slug: 'connections',
+    name: 'Connections',
+    singularName: 'Connection',
+    canonicalPath: '/travel/air-travel/connections/',
+    shortDescription: 'Layovers, transfers and the time between two flights.',
+    hubHeading: 'Can I Ignore This Connection Problem?',
+    seoTitle: 'Flight Connection and Layover Problems | Can I Ignore It',
+    metaDescription:
+      'Layover and transfer problems sorted by how much time you actually need — same ticket or separate, and what changes when immigration is involved.',
+    sortOrder: 30,
+    status: 'published',
+    indexable: false,
+  },
+  {
+    objectSlug: 'luggage',
+    slug: 'suitcases',
+    name: 'Suitcases',
+    singularName: 'Suitcase',
+    canonicalPath: '/travel/luggage/suitcases/',
+    shortDescription: 'Wheels, zips, handles and cracked shells.',
+    hubHeading: 'Can I Ignore This Suitcase Problem?',
+    seoTitle: 'Suitcase Damage: What Survives a Trip? | Can I Ignore It',
+    metaDescription:
+      'Suitcase damage sorted by whether it survives the trip — a hairline crack, a wobbling wheel, a failing zip, and what not to check at all.',
+    sortOrder: 10,
+    status: 'published',
+    indexable: false,
+  },
+  {
+    objectSlug: 'luggage',
+    slug: 'checked-bags',
+    name: 'Checked Bags',
+    singularName: 'Checked Bag',
+    canonicalPath: '/travel/luggage/checked-bags/',
+    shortDescription: 'Tags, routing and what happens to a bag out of sight.',
+    hubHeading: 'Can I Ignore This Checked Bag Problem?',
+    seoTitle: 'Checked Baggage and Bag Tag Problems | Can I Ignore It',
+    metaDescription:
+      'Checked baggage problems sorted by how fast you have to speak up — wrong tags, routing errors, and what to settle before the bag leaves the desk.',
+    sortOrder: 20,
+    status: 'published',
+    indexable: false,
+  },
+  {
+    objectSlug: 'lodging',
+    slug: 'hotel-rooms',
+    name: 'Hotel Rooms',
+    singularName: 'Hotel Room',
+    canonicalPath: '/travel/lodging/hotel-rooms/',
+    shortDescription: 'Smells, stains, pests and the state of the room you were given.',
+    hubHeading: 'Can I Ignore This in My Hotel Room?',
+    seoTitle: 'Hotel Room Problems: Smells, Stains and Pests | Can I Ignore It',
+    metaDescription:
+      'What you find in a hotel room, sorted by what to do about it — sleep on it, ask for another room, or do not put the suitcase down.',
+    sortOrder: 10,
+    status: 'published',
+    indexable: false,
+  },
+  {
+    objectSlug: 'rental-cars',
+    slug: 'rental-car-damage',
+    name: 'Damage & Returns',
+    singularName: 'Rental Car Damage',
+    canonicalPath: '/travel/rental-cars/damage-and-returns/',
+    shortDescription: 'Marks found at pickup, marks found at drop-off, and who pays for them.',
+    hubHeading: 'Can I Ignore This on a Rental Car?',
+    seoTitle: 'Rental Car Damage: What You Get Billed For | Can I Ignore It',
+    metaDescription:
+      'Rental car damage sorted by what it costs you — what to photograph before driving off, what to report, and what you pay for by staying quiet.',
+    sortOrder: 10,
+    status: 'published',
     indexable: false,
   },
 ];

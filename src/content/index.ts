@@ -10,6 +10,7 @@ import { catThrowingUp } from './problems/cat-throwing-up';
 import { crackInFoundation } from './problems/crack-in-foundation';
 import { dogAteChocolate } from './problems/dog-ate-chocolate';
 import { dogDiarrhea } from './problems/dog-diarrhea';
+import { dogDrinkingLotsOfWater } from './problems/dog-drinking-lots-of-water';
 import { dogEatingGrass } from './problems/dog-eating-grass';
 import { dogNotEating } from './problems/dog-not-eating';
 import { dogReverseSneezing } from './problems/dog-reverse-sneezing';
@@ -86,6 +87,13 @@ import { plannedScreensProblems } from './problems/planned-screens-problems';
 import { plannedTireProblems } from './problems/planned-tire-problems';
 import { plannedToiletsProblems } from './problems/planned-toilets-problems';
 import { plannedTransmissionProblems } from './problems/planned-transmission-problems';
+import { plannedPassportsProblems } from './problems/planned-passports-problems';
+import { plannedTicketsAndCheckInProblems } from './problems/planned-tickets-and-check-in-problems';
+import { plannedConnectionsProblems } from './problems/planned-connections-problems';
+import { plannedSuitcasesProblems } from './problems/planned-suitcases-problems';
+import { plannedCheckedBagsProblems } from './problems/planned-checked-bags-problems';
+import { plannedHotelRoomsProblems } from './problems/planned-hotel-rooms-problems';
+import { plannedRentalCarDamageProblems } from './problems/planned-rental-car-damage-problems';
 import { refrigeratorDoorLeftOpenOvernight } from './problems/refrigerator-door-left-open-overnight';
 import { sewerGasSmell } from './problems/sewer-gas-smell';
 import { smallLeakUnderSink } from './problems/small-leak-under-sink';
@@ -171,6 +179,7 @@ export const problems: ProblemSeed[] = [
   catThrowingUp,
   dogNotEating,
   dogAteChocolate,
+  dogDrinkingLotsOfWater,
   ...plannedTireProblems,
   ...plannedExhaustProblems,
   ...plannedCoolingProblems,
@@ -217,4 +226,11 @@ export const problems: ProblemSeed[] = [
   ...plannedCatUrinaryAndLitterBoxProblems,
   ...plannedCatBreathingProblems,
   ...plannedCatBehaviorAndEnergyProblems,
+  ...plannedPassportsProblems,
+  ...plannedTicketsAndCheckInProblems,
+  ...plannedConnectionsProblems,
+  ...plannedSuitcasesProblems,
+  ...plannedCheckedBagsProblems,
+  ...plannedHotelRoomsProblems,
+  ...plannedRentalCarDamageProblems,
 ];
