@@ -9,6 +9,7 @@ import {
   getPublishedProblemsBySystem,
   getPublishedProblemsByObject,
 } from '@/lib/repository/problems';
+import { getPairingsByDomain, getPairingsByObject } from '@/lib/repository/compat';
 import { resolveRoute } from '@/lib/repository/routes';
 import { getDomainHub, getObjectHub, getSystemHub } from '@/lib/repository/taxonomy';
 import { normalizePath } from '@/lib/site';
@@ -144,7 +145,10 @@ export default async function CatchAllPage({ params }: RouteProps) {
   if (route.kind === 'objectCategory') {
     const hub = await getObjectHub(route.id);
     if (!hub) notFound();
-    const problems = await getPublishedProblemsByObject(hub.objectCategory.id);
+    const [problems, pairings] = await Promise.all([
+      getPublishedProblemsByObject(hub.objectCategory.id),
+      getPairingsByObject(hub.objectCategory.id),
+    ]);
     return (
       <HubPage
         heading={hub.objectCategory.hubHeading ?? `${hub.objectCategory.name} Problems: What Can You Ignore?`}
@@ -154,12 +158,14 @@ export default async function CatchAllPage({ params }: RouteProps) {
         childHubs={hub.children}
         planned={hub.planned}
         problems={problems}
+        pairings={pairings}
       />
     );
   }
 
   const hub = await getDomainHub(route.id);
   if (!hub) notFound();
+  const domainPairings = await getPairingsByDomain(hub.domain.id);
   return (
     <HubPage
       heading={hub.domain.hubHeading ?? `${hub.domain.name} Problems: What Can You Ignore?`}
@@ -169,6 +175,7 @@ export default async function CatchAllPage({ params }: RouteProps) {
       childHubs={hub.children}
       planned={hub.planned}
       problems={[]}
+      pairings={domainPairings}
     />
   );
 }

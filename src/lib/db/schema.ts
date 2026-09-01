@@ -549,6 +549,22 @@ export const pairings = pgTable(
     /** `/use/<subject>/<target>/`. The single source of truth for the URL. */
     canonicalPath: varchar('canonical_path', { length: 512 }).notNull(),
 
+    /* Where this sits in the site's taxonomy, so a hub can show everything it
+     * knows about a subject rather than only the half phrased as a decision.
+     *
+     * Placement is keyed on the TARGET, in `src/content/compat/placement.ts` —
+     * a question about foil in an oven is a question about the oven. It does
+     * NOT give the pairing its URL: `/use/…` stays flat, exactly as taxonomy
+     * and URL are independent on the decision side.
+     *
+     * `objectCategoryId` is nullable because not every target has an object
+     * node — there is no "air fryers" category, and minting one to hold eight
+     * pairings would be taxonomy inflation. Those still place at domain level. */
+    domainId: integer('domain_id').references(() => domains.id, { onDelete: 'set null' }),
+    objectCategoryId: integer('object_category_id').references(() => objectCategories.id, {
+      onDelete: 'set null',
+    }),
+
     eyebrow: varchar('eyebrow', { length: 120 }),
     h1: varchar('h1', { length: 200 }).notNull(),
     seoTitle: varchar('seo_title', { length: 256 }),
@@ -585,6 +601,9 @@ export const pairings = pgTable(
     index('pairings_subject_idx').on(t.subjectSlug, t.status),
     // Sitemap generation.
     index('pairings_published_idx').on(t.status, t.indexable, t.updatedAt),
+    // Hub listings: "published pairings filed under this domain / object".
+    index('pairings_domain_idx').on(t.domainId, t.status),
+    index('pairings_object_idx').on(t.objectCategoryId, t.status),
     // Site search. Must stay character-for-character identical to the tsvector
     // `searchPairings` builds, or it silently becomes a sequential scan.
     index('pairings_search_idx').using(

@@ -1,7 +1,9 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
+import { CompatChip } from '@/components/compat/CompatChip';
 import { VerdictChip } from '@/components/problem/VerdictCard';
+import { getPairingsWithDomain } from '@/lib/repository/compat';
 import { getBrowseTree } from '@/lib/repository/problems';
 import { buildPageMetadata } from '@/lib/seo/metadata';
 import { SITE_NAME } from '@/lib/site';
@@ -14,12 +16,17 @@ import { SITE_NAME } from '@/lib/site';
  * in taxonomy order and does not re-sort anything. One vertical run of
  * categories, each with its problems under it, no pagination and no tiles to
  * click through. If you can see the whole catalogue by scrolling, you should.
+ *
+ * "Everything" means both content types. A domain's compatibility answers sit
+ * under its decisions, in their own block: they answer a different question on
+ * a different verdict scale, and merging the two lists would say they were the
+ * same kind of thing.
  */
 
 export const metadata: Metadata = buildPageMetadata({
-  seoTitle: `Browse Every Decision | ${SITE_NAME.replace('?', '')}`.replace('  ', ' '),
+  seoTitle: `Browse Everything | ${SITE_NAME.replace('?', '')}`.replace('  ', ' '),
   metaDescription:
-    'Every question answered on Can I Ignore It, listed by category — cars, home, food and kitchen, and technology.',
+    'Every question answered on this site, listed by category — what you can ignore, and what goes with what.',
   canonicalPath: '/browse/',
   indexable: true,
 });
@@ -27,8 +34,17 @@ export const metadata: Metadata = buildPageMetadata({
 export const revalidate = 3600;
 
 export default async function BrowsePage() {
-  const tree = await getBrowseTree();
-  const total = tree.reduce((sum, domain) => sum + domain.total, 0);
+  const [tree, pairings] = await Promise.all([getBrowseTree(), getPairingsWithDomain()]);
+  const problemTotal = tree.reduce((sum, domain) => sum + domain.total, 0);
+  const total = problemTotal + pairings.length;
+
+  const pairingsByDomain = new Map<number, typeof pairings>();
+  for (const pairing of pairings) {
+    if (pairing.domainId === null) continue;
+    const list = pairingsByDomain.get(pairing.domainId);
+    if (list) list.push(pairing);
+    else pairingsByDomain.set(pairing.domainId, [pairing]);
+  }
 
   return (
     <div className="container">
@@ -38,7 +54,7 @@ export default async function BrowsePage() {
           <p className="section__lead">
             {total === 0
               ? 'Nothing is published yet.'
-              : `All ${total} decisions, grouped by where they sit on the site.`}
+              : `All ${total} answers, grouped by where they sit on the site.`}
           </p>
         </div>
 
@@ -46,7 +62,10 @@ export default async function BrowsePage() {
           <nav className="browse-jump" aria-label="Jump to a category">
             {tree.map((domain) => (
               <a className="browse-jump__link" key={domain.domainId} href={`#${slugify(domain.name)}`}>
-                {domain.name} <span className="browse-jump__count">{domain.total}</span>
+                {domain.name}{' '}
+                <span className="browse-jump__count">
+                  {domain.total + (pairingsByDomain.get(domain.domainId)?.length ?? 0)}
+                </span>
               </a>
             ))}
           </nav>
@@ -85,6 +104,25 @@ export default async function BrowsePage() {
                 </ul>
               </div>
             ))}
+
+            {(pairingsByDomain.get(domain.domainId)?.length ?? 0) > 0 ? (
+              <div className="browse-category">
+                <h3 className="browse-category__heading">What goes with what</h3>
+                <ul className="problem-list">
+                  {pairingsByDomain.get(domain.domainId)!.map((pairing) => (
+                    <li key={pairing.id}>
+                      <Link className="problem-card" href={pairing.path}>
+                        <span className="problem-card__top">
+                          <span className="problem-card__title">{pairing.h1}</span>
+                          <CompatChip verdict={pairing.verdict} />
+                        </span>
+                        <span className="problem-card__answer">{pairing.shortAnswer}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
           </section>
         ))}
 

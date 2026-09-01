@@ -12,6 +12,7 @@ import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 
 import { PAIRINGS, pairingPath } from '../src/content/compat';
+import { placementFor } from '../src/content/compat/placement';
 import type { Pairing } from '../src/content/compat/types';
 import { domains, objectCategories, problems as problemSeeds, systems } from '../src/content/index';
 import type { ProblemSeed } from '../src/content/types';
@@ -372,7 +373,37 @@ async function seedRelationships(db: Db, idBySlug: Map<string, number>) {
  * are what stays out of the index, exactly as the taxonomy hubs do.
  */
 async function seedPairings(db: Db) {
+  // Resolved once: placement is keyed on the target, and nine targets share
+  // fifty-six pairings.
+  const domainIds = new Map(
+    (await db.select({ id: schema.domains.id, slug: schema.domains.slug }).from(schema.domains)).map(
+      (r) => [r.slug, r.id] as const,
+    ),
+  );
+  const objectIds = new Map(
+    (
+      await db
+        .select({ id: schema.objectCategories.id, slug: schema.objectCategories.slug })
+        .from(schema.objectCategories)
+    ).map((r) => [r.slug, r.id] as const),
+  );
+
   for (const pairing of PAIRINGS) {
+    const placement = placementFor(pairing.targetSlug);
+    if (!placement) {
+      throw new Error(
+        `No taxonomy placement for target "${pairing.targetSlug}".
+` +
+          '  Add it to src/content/compat/placement.ts — a pairing is not placed by guess.',
+      );
+    }
+    const domainId = domainIds.get(placement.domain);
+    if (!domainId) throw new Error(`Placement for "${pairing.targetSlug}" names unknown domain "${placement.domain}"`);
+    const objectCategoryId = placement.object ? objectIds.get(placement.object) : null;
+    if (placement.object && !objectCategoryId) {
+      throw new Error(`Placement for "${pairing.targetSlug}" names unknown object "${placement.object}"`);
+    }
+
     const [row] = await db
       .insert(schema.pairings)
       .values({
@@ -386,6 +417,8 @@ async function seedPairings(db: Db) {
         targetKind: pairing.targetKind,
         targetNote: pairing.targetNote,
         canonicalPath: pairingPath(pairing),
+        domainId,
+        objectCategoryId: objectCategoryId ?? null,
         eyebrow: pairing.eyebrow,
         h1: pairing.h1,
         seoTitle: pairing.seoTitle,
@@ -414,6 +447,8 @@ async function seedPairings(db: Db) {
           targetKind: pairing.targetKind,
           targetNote: pairing.targetNote,
           canonicalPath: pairingPath(pairing),
+          domainId,
+          objectCategoryId: objectCategoryId ?? null,
           eyebrow: pairing.eyebrow,
           h1: pairing.h1,
           seoTitle: pairing.seoTitle,

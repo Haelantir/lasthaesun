@@ -231,6 +231,42 @@ async function getEntity(slug: string): Promise<{
   return { slug, name: row.name, kind: row.kind, note: row.note, asSubject, asTarget };
 }
 
+/**
+ * Everything filed under one taxonomy node.
+ *
+ * A hub asks "what does this site know about appliances?", and the answer is
+ * both content types. Placement lives on the pairing (see
+ * `src/content/compat/placement.ts`) precisely so this can be one indexed query
+ * rather than a join through a hierarchy pairings do not belong to.
+ */
+async function listByDomain(domainId: number): Promise<PairingSummary[]> {
+  const rows = await getDb()
+    .select()
+    .from(schema.pairings)
+    .where(and(published, eq(schema.pairings.domainId, domainId)))
+    .orderBy(asc(schema.pairings.targetName), asc(schema.pairings.id));
+  return rows.map(summarize);
+}
+
+async function listByObject(objectCategoryId: number): Promise<PairingSummary[]> {
+  const rows = await getDb()
+    .select()
+    .from(schema.pairings)
+    .where(and(published, eq(schema.pairings.objectCategoryId, objectCategoryId)))
+    .orderBy(asc(schema.pairings.targetName), asc(schema.pairings.id));
+  return rows.map(summarize);
+}
+
+/** Published pairings with the domain they are filed under, for /browse/. */
+async function listWithDomain(): Promise<(PairingSummary & { domainId: number | null })[]> {
+  const rows = await getDb()
+    .select()
+    .from(schema.pairings)
+    .where(published)
+    .orderBy(asc(schema.pairings.targetName), asc(schema.pairings.id));
+  return rows.map((row) => ({ ...summarize(row), domainId: row.domainId }));
+}
+
 /** Published and indexable pairings, for the sitemap. */
 async function listIndexable(): Promise<{ path: string; updatedAt: Date }[]> {
   const rows = await getDb()
@@ -241,6 +277,9 @@ async function listIndexable(): Promise<{ path: string; updatedAt: Date }[]> {
 }
 
 export const getAllPairings = cache(listAll);
+export const getPairingsByDomain = cache(listByDomain);
+export const getPairingsByObject = cache(listByObject);
+export const getPairingsWithDomain = cache(listWithDomain);
 export const getPairingsByTarget = cache(listByTarget);
 export const getPairingsBySubject = cache(listBySubject);
 export const getFeaturedPairings = cache(listFeatured);
