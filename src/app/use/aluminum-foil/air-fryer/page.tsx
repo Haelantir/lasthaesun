@@ -11,23 +11,21 @@ import { buildPageMetadata } from '@/lib/seo/metadata';
 /**
  * SAMPLE — "Can I Use It With…", the compatibility section.
  *
- * Hand-written at the URL the taxonomy would generate, so the shape can be
+ * Hand-placed at the URL the taxonomy would generate, so the shape can be
  * judged before any schema, importer or seed work is done. A real section would
  * store all of this and render it from one template, exactly as ProblemPage.tsx
  * does for decisions; nothing below is specific to foil except the strings.
  *
- * The block order mirrors the decision pages on purpose — answer first,
- * explanation later:
+ * The prose was written by the pinned content writer (CONTENT_WRITER_MODEL,
+ * scripts/content-batch/writer.ts) against the same voice rules as
+ * docs/content-authoring-prompt.txt §2, and is reproduced verbatim. Every source
+ * URL below returned 200 when this file was written.
  *
- *   1  pairing box + breadcrumb      4  why (mechanism)
- *   2  verdict                       5  what else fits (the matrix)
+ * Block order mirrors the decision pages — answer first, explanation later:
+ *
+ *   1  pairing box + breadcrumb      4  why
+ *   2  verdict                       5  where the question comes from
  *   3  the conditions                6  sources + related
- *
- * Note on sources: every URL below is null. The pairing is governed by
- * manufacturer guidance, and none of those pages were opened and verified in
- * the session that wrote this file, so under the repository's "never invent a
- * URL" rule they are listed without links. This is also the section's first
- * real design problem — see the note in the Sources block.
  */
 
 const CANONICAL_PATH = '/use/aluminum-foil/air-fryer/';
@@ -42,12 +40,30 @@ const CRUMBS: Crumb[] = [
 ];
 
 export const metadata: Metadata = buildPageMetadata({
-  seoTitle: 'Can You Put Aluminum Foil in an Air Fryer? | Can I Use It With',
+  seoTitle: 'Aluminum Foil in Air Fryers: Safe Use Rules | Can I Use It With',
   metaDescription:
-    'Yes, with limits. Foil is safe in an air fryer only when food weighs it down and it never covers the perforated floor. Here is the rule and the reason behind it.',
+    'Sometimes. Use aluminum foil only when your air fryer’s manual allows it, keep airflow openings clear, and secure the foil under food before cooking.',
   canonicalPath: CANONICAL_PATH,
   indexable: true,
 });
+
+const SOURCES = [
+  {
+    publisher: 'Philips',
+    title: 'Can I use baking paper/tin foil in my Philips Airfryer?',
+    url: 'https://www.usa.philips.com/c-f/XC000003625/can-i-use-baking-paper-tin-foil-in-my-philips-airfryer',
+  },
+  {
+    publisher: 'Instant Pot',
+    title: 'Frequently Asked Questions',
+    url: 'https://instantpot.com/pages/frequently-asked-questions',
+  },
+  {
+    publisher: 'Hamilton Beach',
+    title: 'Hamilton Beach FAQs',
+    url: 'https://hamiltonbeach.com/frequently-asked-questions',
+  },
+];
 
 export default function AluminumFoilInAirFryerPage() {
   const v = compatPresentation(VERDICT);
@@ -60,10 +76,10 @@ export default function AluminumFoilInAirFryerPage() {
           problemWebPageJsonLd({
             name: 'Can I Use Aluminum Foil in an Air Fryer?',
             description:
-              'Whether aluminum foil can be used in an air fryer basket, the conditions that make it safe, and the mechanism behind each one.',
+              'Whether aluminum foil can be used in an air fryer, the conditions that make it safe, and what the fan changes.',
             canonicalPath: CANONICAL_PATH,
             lastReviewedAt: new Date('2026-09-01T00:00:00Z'),
-            citations: [],
+            citations: SOURCES.map((s) => ({ title: s.title, url: s.url })),
           }),
         ]}
       />
@@ -85,13 +101,13 @@ export default function AluminumFoilInAirFryerPage() {
             <Link className="pairing__entity" href="/use/aluminum-foil/">
               <span className="pairing__kind">Material</span>
               <span className="pairing__name">Aluminum Foil</span>
-              <span className="pairing__note">Thin rolled aluminium, kitchen wrap</span>
+              <span className="pairing__note">Thin rolled aluminum kitchen wrap</span>
             </Link>
             <span className="pairing__relation">in</span>
             <span className="pairing__entity">
               <span className="pairing__kind">Appliance</span>
               <span className="pairing__name">Air Fryer</span>
-              <span className="pairing__note">Countertop convection oven, fan-driven</span>
+              <span className="pairing__note">Fan-driven countertop cooking appliance</span>
             </span>
           </div>
 
@@ -104,10 +120,9 @@ export default function AluminumFoilInAirFryerPage() {
             <p className="verdict__gloss">{v.gloss}</p>
 
             <p className="verdict__answer">
-              Foil can go in an air fryer basket, but only underneath food that is heavy enough to hold it
-              down, and never spread across the perforated floor. Loose foil gets picked up by the fan and
-              pushed onto the heating element. Leave it out entirely for acidic food and for an empty
-              preheat.
+              Sometimes. Manuals differ, so use foil only if your air fryer&rsquo;s instructions allow it.
+              Keep the piece small, hold it down with food, leave airflow openings clear, and keep it away
+              from the heating element. If your manual says no, cook directly in the basket.
             </p>
 
             <h2 className="sr-only">Compatibility summary</h2>
@@ -116,14 +131,14 @@ export default function AluminumFoilInAirFryerPage() {
                 <span className="metric__label">Can I use them together?</span>
                 <span className="metric__value">
                   <ToneIcon glyph={v.glyph} className="metric__glyph" />
-                  Yes, under conditions
+                  Sometimes, if the manual allows
                 </span>
               </li>
               <li className="metric" data-tone="danger">
                 <span className="metric__label">Main risk</span>
                 <span className="metric__value">
                   <ToneIcon glyph="stop" className="metric__glyph" />
-                  Fire
+                  Foil burning
                 </span>
               </li>
               <li className="metric" data-tone="warning">
@@ -134,10 +149,10 @@ export default function AluminumFoilInAirFryerPage() {
                 </span>
               </li>
               <li className="metric" data-tone="safe">
-                <span className="metric__label">Safer option exists</span>
+                <span className="metric__label">Alternative</span>
                 <span className="metric__value">
                   <ToneIcon glyph="check" className="metric__glyph" />
-                  Yes — perforated liner
+                  Cook in bare basket
                 </span>
               </li>
             </ul>
@@ -154,9 +169,6 @@ export default function AluminumFoilInAirFryerPage() {
           <section className="section" aria-labelledby="conditions-heading">
             <div className="section__head measure" id="conditions">
               <h2 id="conditions-heading">The conditions</h2>
-              <p className="section__lead">
-                On a &ldquo;yes, with limits&rdquo; pairing the limits are the answer, not a footnote.
-              </p>
             </div>
 
             <div className="conditions">
@@ -166,10 +178,19 @@ export default function AluminumFoilInAirFryerPage() {
                   Fine to do
                 </p>
                 <ul className="conditions__list">
-                  <li>A small sheet sitting under the food, with the food&rsquo;s own weight holding it flat.</li>
-                  <li>Foil that leaves the perforations around and beside the food clear.</li>
-                  <li>Foil kept well clear of the heating element and the fan opening.</li>
-                  <li>Loosely tenting a finished item to rest it — with the appliance off.</li>
+                  <li>The owner&rsquo;s manual for your exact model allows foil.</li>
+                  <li>
+                    The piece is no larger than needed for the food, with open space around it for
+                    circulation.
+                  </li>
+                  <li>
+                    Food is already on top before the fan starts and is heavy enough to keep the foil from
+                    moving.
+                  </li>
+                  <li>
+                    The foil sits only in the location approved by the manual and stays away from the
+                    heating element.
+                  </li>
                 </ul>
               </div>
 
@@ -179,11 +200,14 @@ export default function AluminumFoilInAirFryerPage() {
                   Never do
                 </p>
                 <ul className="conditions__list">
-                  <li>Preheat with foil in an empty basket. Nothing is holding it down.</li>
-                  <li>Line the whole basket floor. That is the appliance&rsquo;s air path, not a pan.</li>
-                  <li>Use foil with tomato, citrus or vinegar-based food.</li>
-                  <li>Let foil touch, or blow against, the heating element.</li>
-                  <li>Wrap food completely. Sealed food steams; it does not air-fry.</li>
+                  <li>Never use foil when the manual prohibits or discourages it.</li>
+                  <li>Never cover the entire basket or block its perforations.</li>
+                  <li>
+                    Never line a grease-collection pan unless the manual specifically allows that
+                    placement.
+                  </li>
+                  <li>Never run the fan with loose, unweighted foil inside.</li>
+                  <li>Never let foil protrude toward or touch the heating element.</li>
                 </ul>
               </div>
             </div>
@@ -193,27 +217,17 @@ export default function AluminumFoilInAirFryerPage() {
           <section className="section" aria-labelledby="why-heading">
             <div className="section__head measure">
               <h2 id="why-heading">Why those conditions exist</h2>
-              <p className="section__lead">Three separate mechanisms, not one rule.</p>
             </div>
 
             <ol className="mechanisms measure">
               <li className="mechanism">
                 <span className="mechanism__number" aria-hidden="true" />
                 <div>
-                  <p className="mechanism__title">The fan can lift it</p>
+                  <p className="mechanism__title">Blocked airflow</p>
                   <div className="mechanism__body">
                     <p>
-                      An air fryer is a small convection oven: a heating element with a high-speed fan
-                      moving air past it and down through the basket. That airflow is strong enough to
-                      lift a light sheet of foil. If it lands on the element it scorches, and burning
-                      material inside a closed, very hot chamber is how this pairing becomes a fire
-                      rather than a mess.
-                    </p>
-                    <p>
-                      This is why every condition above reduces to the same test:{' '}
-                      <strong>is something heavy holding the foil down right now?</strong> During a
-                      preheat the answer is no, which is why the preheat is the single worst moment for
-                      it.
+                      The fan pushes heated air through and around the basket. A broad foil sheet closes
+                      openings, so less hot air reaches the food and cooking becomes uneven.
                     </p>
                   </div>
                 </div>
@@ -222,121 +236,29 @@ export default function AluminumFoilInAirFryerPage() {
               <li className="mechanism">
                 <span className="mechanism__number" aria-hidden="true" />
                 <div>
-                  <p className="mechanism__title">The holes are the appliance</p>
+                  <p className="mechanism__title">Lifted into heater</p>
                   <div className="mechanism__body">
                     <p>
-                      The basket floor is perforated on purpose. Hot air has to pass through it and
-                      around the food — that circulation is the entire difference between an air fryer
-                      and a small oven. Foil laid across the floor converts it back into a covered pan:
-                      food cooks unevenly and browns poorly, and the chamber holds heat differently
-                      than the design assumes.
-                    </p>
-                  </div>
-                </div>
-              </li>
-
-              <li className="mechanism">
-                <span className="mechanism__number" aria-hidden="true" />
-                <div>
-                  <p className="mechanism__title">Acid attacks aluminium</p>
-                  <div className="mechanism__body">
-                    <p>
-                      Aluminium protects itself with a thin oxide layer. Acidic food — tomato, citrus,
-                      a vinegar marinade — strips that layer, so the foil pits and some aluminium
-                      transfers into the food, usually with a metallic taste. This one has nothing to
-                      do with air fryers; it is true of foil in any hot dish, and it is why the answer
-                      changes with what you are cooking rather than with the appliance.
+                      Moving air can raise thin foil when food does not hold it down. Foil that reaches
+                      the heating element can start to burn.
                     </p>
                   </div>
                 </div>
               </li>
             </ol>
 
+            {/* --------------------------------------------------- BLOCK 5 */}
             <div className="callout measure">
-              <p className="callout__label">Where this question comes from</p>
+              <p className="callout__label">Oven-safe assumption</p>
               <p>
-                Almost everyone arrives here carrying the microwave rule: metal does not go in a
-                microwave. That rule does not transfer. A microwave cooks with electromagnetic
-                radiation, which metal reflects and can arc across — see{' '}
-                <Link href="/appliances/microwaves/sparking-and-damage/sparking-microwave/">
-                  why a microwave sparks and what to do about it
-                </Link>
-                .
+                Foil handles normal oven heat, so lining an air fryer can look like an easy way to catch
+                drips and speed cleanup.
               </p>
               <p>
-                An air fryer has no radiation to reflect. It cooks with a hot element and moving air,
-                and the basket it cooks in is itself metal. So the risk here is{' '}
-                <strong>mechanical and thermal, never electrical</strong> — which is exactly why the
-                answer is &ldquo;yes, if it cannot move&rdquo; instead of the flat no people expect.
+                The fan changes the decision. Foil can cover the openings that move hot air around the
+                food, and an unsecured sheet can rise toward the heater. Manufacturers allow different
+                placements, so the manual for the exact model controls.
               </p>
-            </div>
-          </section>
-
-          {/* ------------------------------------------------------- BLOCK 5 */}
-          <section className="section" aria-labelledby="matrix-heading">
-            <div className="section__head measure">
-              <h2 id="matrix-heading">What else can line an air fryer basket?</h2>
-              <p className="section__lead">
-                The row you came for is one of eight. This table is the part an AI summary cannot hand
-                back in three sentences.
-              </p>
-            </div>
-
-            <div className="table-scroll">
-              <table className="decision-table">
-                <caption className="sr-only">
-                  Air fryer basket liners, with a compatibility verdict and the reason for each
-                </caption>
-                <thead>
-                  <tr>
-                    <th scope="col">Liner</th>
-                    <th scope="col">Verdict</th>
-                    <th scope="col">Why</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <MatrixRow
-                    liner="Aluminum foil"
-                    verdict="yes_with_limits"
-                    why="Must be weighed down by food and kept off the perforations. Not with acidic food."
-                  />
-                  <MatrixRow
-                    liner="Perforated parchment liner"
-                    verdict="yes"
-                    why="Cut for airflow, which is the whole problem foil creates. Still needs food on top of it."
-                  />
-                  <MatrixRow
-                    liner="Plain parchment, uncut"
-                    verdict="risky"
-                    why="Blocks the air path and lifts as easily as foil. Scorches above its rated temperature."
-                  />
-                  <MatrixRow
-                    liner="Silicone basket liner"
-                    verdict="yes"
-                    why="Heavy enough not to lift. Check the liner's stated temperature rating against your setting."
-                  />
-                  <MatrixRow
-                    liner="Oven-safe glass or ceramic dish"
-                    verdict="yes_with_limits"
-                    why="Only if rated for oven use and small enough to leave air moving around it."
-                  />
-                  <MatrixRow
-                    liner="Paper towel"
-                    verdict="no"
-                    why="Lifts on the first fan cycle and is flammable. There is no safe version of this."
-                  />
-                  <MatrixRow
-                    liner="Wax paper"
-                    verdict="no"
-                    why="Not heat-rated. The wax melts onto the food and the basket."
-                  />
-                  <MatrixRow
-                    liner="Nothing — bare basket"
-                    verdict="yes"
-                    why="What the appliance is designed for. Every liner is a trade against airflow."
-                  />
-                </tbody>
-              </table>
             </div>
           </section>
 
@@ -346,30 +268,20 @@ export default function AluminumFoilInAirFryerPage() {
               <h2 id="sources-heading">Sources</h2>
             </div>
             <ul className="conditions__list" style={{ paddingLeft: '1.1rem' }}>
-              <li>
-                Ninja Kitchen — air fryer owner&rsquo;s guide, accessories and liners.{' '}
-                <em>No verified URL.</em>
-              </li>
-              <li>
-                Instant Brands — air fryer support: using foil and parchment. <em>No verified URL.</em>
-              </li>
-              <li>
-                Philips — Airfryer FAQ: what may be placed in the basket. <em>No verified URL.</em>
-              </li>
+              {SOURCES.map((source) => (
+                <li key={source.url}>
+                  {source.publisher} &mdash;{' '}
+                  <a href={source.url} rel="nofollow noopener" target="_blank">
+                    {source.title}
+                  </a>
+                </li>
+              ))}
             </ul>
             <p className="section__lead">
-              Reviewed 1 September 2026 · Scope: air fryer basket liners and airflow.
+              Reviewed 1 September 2026 · Reviewed against manufacturer support and owner guidance from
+              Philips, Instant Pot and Hamilton Beach, with differences between models and brands
+              preserved.
             </p>
-            <div className="callout">
-              <p className="callout__label">Sample note — not part of the page</p>
-              <p>
-                This pairing is governed by manufacturer guidance. No government or regulation source
-                exists for it, so the publish gate that every decision page passes (&ldquo;at least one
-                government or regulation source&rdquo;) cannot be copied over to this section unchanged.
-                The URLs are null because they were not opened and checked. Both need deciding before
-                anything here ships.
-              </p>
-            </div>
           </section>
 
           {/* ------------------------------------------------------- RELATED */}
@@ -393,7 +305,7 @@ export default function AluminumFoilInAirFryerPage() {
                 >
                   <span className="pair-card__title">My microwave is sparking — can I ignore it?</span>
                   <span className="pair-card__meta">
-                    Can I Ignore It? · Why metal behaves completely differently in a microwave
+                    Can I Ignore It? · Why metal behaves differently in a microwave
                   </span>
                 </Link>
               </li>
@@ -406,29 +318,5 @@ export default function AluminumFoilInAirFryerPage() {
         </main>
       </div>
     </>
-  );
-}
-
-function MatrixRow({
-  liner,
-  verdict,
-  why,
-}: {
-  liner: string;
-  verdict: CompatVerdict;
-  why: string;
-}) {
-  const v = compatPresentation(verdict);
-  return (
-    <tr>
-      <th scope="row">{liner}</th>
-      <td data-tone={v.tone}>
-        <span className="compat-verdict">
-          <ToneIcon glyph={v.glyph} className="compat-verdict__glyph" size={16} />
-          {v.label}
-        </span>
-      </td>
-      <td>{why}</td>
-    </tr>
   );
 }
