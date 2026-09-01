@@ -12,16 +12,26 @@ export function Header() {
   return (
     <header className="site-header">
       <div className="site-header__inner">
-        <Link className="wordmark" href="/">
-          <span className="wordmark__mark" aria-hidden="true">
-            ?
-          </span>
-          {SITE_NAME}
-        </Link>
-        <nav className="site-header__nav" aria-label="Main">
-          <Link className="site-header__link" href="/use/">
-            Can I Use It With…
+        {/* The site answers two questions, so it carries two wordmarks. The
+            second is not navigation — it is the other half of what this site is,
+            and putting it in the nav beside "Browse" said the opposite. Its
+            question mark is the accent blue rather than the warning orange, so
+            the pair reads as siblings rather than as one long string. */}
+        <div className="site-header__marks">
+          <Link className="wordmark" href="/">
+            <span className="wordmark__mark" aria-hidden="true">
+              ?
+            </span>
+            {SITE_NAME}
           </Link>
+          <Link className="wordmark wordmark--use" href="/use/">
+            <span className="wordmark__mark" aria-hidden="true">
+              ?
+            </span>
+            Can I Use It With&hellip;
+          </Link>
+        </div>
+        <nav className="site-header__nav" aria-label="Main">
           <Link className="site-header__link" href="/browse/">
             Browse
           </Link>

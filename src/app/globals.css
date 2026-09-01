@@ -234,11 +234,37 @@ ul, ol { padding-left: 1.35em; }
 .site-header__inner {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-4);
   min-height: 3.5rem;
+  padding-block: var(--space-2);
   max-width: var(--w-wide);
   margin-inline: auto;
   padding-inline: var(--gutter);
+}
+
+/* Two wordmarks, one per question the site answers. They wrap together rather
+   than one of them wrapping alone, and a hairline keeps them from reading as a
+   single run of bold text. */
+.site-header__marks {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.wordmark--use {
+  padding-left: var(--space-3);
+  border-left: 1px solid var(--border);
+}
+.wordmark--use .wordmark__mark { color: var(--accent); }
+
+@media (max-width: 32rem) {
+  /* Below this the divider sits under the first mark rather than beside it. */
+  .wordmark--use {
+    padding-left: 0;
+    border-left: none;
+  }
 }
 
 .wordmark {
