@@ -2,8 +2,9 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 import { ProblemSearch } from '@/components/ProblemSearch';
+import { CompatChip } from '@/components/compat/CompatChip';
 import { VerdictChip } from '@/components/problem/VerdictCard';
-import { normalizeQuery, searchProblems } from '@/lib/repository/search';
+import { normalizeQuery, searchPairings, searchProblems } from '@/lib/repository/search';
 import { SITE_NAME } from '@/lib/site';
 
 /**
@@ -31,8 +32,14 @@ export default async function SearchPage({
 }) {
   const { q } = await searchParams;
   const query = normalizeQuery(q);
-  const results = query.length >= 2 ? await searchProblems(query) : [];
   const searched = query.length >= 2;
+  // Two content types, searched in parallel and shown under their own headings.
+  // "can I put foil in an air fryer" and "my microwave is sparking" are not the
+  // same kind of answer, and flattening them into one ranked list hides that.
+  const [results, pairings] = searched
+    ? await Promise.all([searchProblems(query), searchPairings(query)])
+    : [[], []];
+  const total = results.length + pairings.length;
 
   return (
     <div className="container">
@@ -54,7 +61,7 @@ export default async function SearchPage({
             <p className="empty-state measure">
               Type at least two characters. Try <strong>low tire pressure</strong>.
             </p>
-          ) : results.length === 0 ? (
+          ) : total === 0 ? (
             <div className="empty-state measure">
               <p>
                 Nothing published matches <strong>{query}</strong> yet.
@@ -69,21 +76,54 @@ export default async function SearchPage({
           ) : (
             <>
               <p className="section__lead measure">
-                {results.length} {results.length === 1 ? 'result' : 'results'} for <strong>{query}</strong>
+                {total} {total === 1 ? 'result' : 'results'} for <strong>{query}</strong>
               </p>
-              <ul className="problem-list">
-                {results.map((result) => (
-                  <li key={result.id}>
-                    <Link className="problem-card" href={result.path}>
-                      <span className="problem-card__top">
-                        <span className="problem-card__title">{result.h1}</span>
-                        <VerdictChip verdict={result.verdict} />
-                      </span>
-                      <span className="problem-card__answer">{result.shortAnswer}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+
+              {results.length > 0 ? (
+                <div className="browse-category">
+                  {pairings.length > 0 ? (
+                    <h3 className="browse-category__heading" id="results-decisions">
+                      Can I ignore it?
+                    </h3>
+                  ) : null}
+                  <ul className="problem-list">
+                    {results.map((result) => (
+                      <li key={result.id}>
+                        <Link className="problem-card" href={result.path}>
+                          <span className="problem-card__top">
+                            <span className="problem-card__title">{result.h1}</span>
+                            <VerdictChip verdict={result.verdict} />
+                          </span>
+                          <span className="problem-card__answer">{result.shortAnswer}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+
+              {pairings.length > 0 ? (
+                <div className="browse-category">
+                  {results.length > 0 ? (
+                    <h3 className="browse-category__heading" id="results-pairings">
+                      Can I use it with&hellip;
+                    </h3>
+                  ) : null}
+                  <ul className="problem-list">
+                    {pairings.map((result) => (
+                      <li key={result.id}>
+                        <Link className="problem-card" href={result.path}>
+                          <span className="problem-card__top">
+                            <span className="problem-card__title">{result.h1}</span>
+                            <CompatChip verdict={result.verdict} />
+                          </span>
+                          <span className="problem-card__answer">{result.shortAnswer}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
             </>
           )}
         </section>

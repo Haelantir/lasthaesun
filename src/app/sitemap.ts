@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-import { PAIRINGS, pairingPath } from '@/content/compat';
+import { getIndexablePairings } from '@/lib/repository/compat';
 import { getIndexableUrls } from '@/lib/repository/taxonomy';
 import { absoluteUrl } from '@/lib/site';
 
@@ -12,11 +12,11 @@ import { absoluteUrl } from '@/lib/site';
  * from search until they hold enough content to be worth ranking, because a
  * sitemap listing thin category pages is a quality signal working against you.
  *
- * The "Can I Use It With…" pairings come from `src/content/compat`, which is not
- * in the database at all. They were invisible here for their first eight
- * batches: 56 live pages with no sitemap entry, because this file only knew how
- * to ask Postgres. Their hubs stay out on the same rule as the taxonomy hubs —
- * `/use/` and `/use/<subject>/` are both `indexable: false` today.
+ * The "Can I Use It With…" pairings are a second table rather than a second
+ * source: they were TypeScript records once, and invisible here for their first
+ * eight batches because this file only knew how to ask Postgres. Their hub stays
+ * out on the same rule the taxonomy hubs follow; an entity page joins the index
+ * once it answers enough to be worth ranking.
  *
  * At tens of thousands of URLs this should be split into a sitemap index
  * (Google's limit is 50,000 URLs / 50MB per file); `getIndexableUrls` is already
@@ -24,26 +24,16 @@ import { absoluteUrl } from '@/lib/site';
  */
 export const revalidate = 3600;
 
-/** Pairing pages, which are `indexable: true` in their route. */
-const compatUrls: MetadataRoute.Sitemap = PAIRINGS.map((pairing) => ({
-  url: absoluteUrl(pairingPath(pairing)),
-  lastModified: pairing.reviewedAt,
-  changeFrequency: 'monthly' as const,
-  priority: 0.9,
-}));
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let urls: Awaited<ReturnType<typeof getIndexableUrls>>;
+  let pairings: Awaited<ReturnType<typeof getIndexablePairings>> = [];
 
   try {
-    urls = await getIndexableUrls();
+    [urls, pairings] = await Promise.all([getIndexableUrls(), getIndexablePairings()]);
   } catch {
-    // A database blip must not take the pairings down with it: they do not come
-    // from Postgres, so there is no reason for them to disappear when it hiccups.
-    return [
-      { url: absoluteUrl('/'), changeFrequency: 'weekly', priority: 1 },
-      ...compatUrls,
-    ];
+    // A sitemap listing only the home page beats a 500 during a database blip.
+    return [{ url: absoluteUrl('/'), changeFrequency: 'weekly', priority: 1 }];
   }
 
   return [
@@ -72,6 +62,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly' as const,
       priority: 0.9,
     })),
-    ...compatUrls,
+    ...pairings.map((row) => ({
+      url: absoluteUrl(row.path),
+      lastModified: row.updatedAt,
+      changeFrequency: 'monthly' as const,
+      priority: 0.9,
+    })),
   ];
 }

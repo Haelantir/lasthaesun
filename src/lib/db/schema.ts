@@ -478,3 +478,167 @@ export const recommendedResources = pgTable(
   },
   (t) => [index('recommended_resources_problem_idx').on(t.problemId, t.sortOrder)],
 );
+
+/* -------------------------------------------------------------------------- */
+/* Can I Use It With… — compatibility pairings                                */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * A second content type, not a second site.
+ *
+ * The decision pages answer "may I leave this alone?"; these answer "do these
+ * two things go together?". Different question, different verdict scale, so a
+ * separate table rather than a nullable column bolted onto `problems`.
+ *
+ * They live here for the same three reasons the problems do: site search is one
+ * indexed full-text query and cannot see a TypeScript file; the sitemap reads
+ * one source; and pages render on demand rather than being pre-built, so
+ * publishing a pairing costs one render instead of a rebuild.
+ *
+ * There is no taxonomy above a pairing. Its URL is `/use/<subject>/<target>/`
+ * and its grouping is the target itself, which is why nothing here references
+ * `systems`.
+ */
+
+/** The compatibility answer. Deliberately not `verdictLevel`: "DON'T IGNORE" is
+ *  meaningless for a pairing, and one enum serving two questions would make both
+ *  harder to reword. Labels live in `src/lib/compat.ts`. */
+export const compatVerdict = pgEnum('compat_verdict', ['yes', 'yes_with_limits', 'risky', 'no']);
+
+/** How the two halves meet. `washed-in` / `dried-in` / `stored-in` all render as
+ *  "in"; the distinction is what the appliance DOES to the thing, which decides
+ *  the question's wording and the mechanisms worth explaining.
+ *
+ *  Hyphenated to match `PairingRelation` in `src/lib/compat.ts` exactly. One
+ *  spelling across the content files, the pipeline, the template and the column
+ *  beats a conversion layer nobody remembers is there. */
+export const pairingRelation = pgEnum('pairing_relation', [
+  'in',
+  'on',
+  'with',
+  'plugged-into',
+  'washed-in',
+  'dried-in',
+  'stored-in',
+]);
+
+/** Which column of the conditions panel a row belongs to. */
+export const pairingConditionKind = pgEnum('pairing_condition_kind', ['ok', 'never']);
+
+export const pairings = pgTable(
+  'pairings',
+  {
+    id: serial('id').primaryKey(),
+
+    /** Left half. `subject_slug` is a URL segment, not a foreign key: an entity
+     *  is whatever has been written about, and giving it a table before it has
+     *  attributes of its own would be a taxonomy nobody needs yet. */
+    subjectSlug: varchar('subject_slug', { length: 128 }).notNull(),
+    subjectName: varchar('subject_name', { length: 160 }).notNull(),
+    subjectKind: varchar('subject_kind', { length: 60 }).notNull(),
+    subjectNote: varchar('subject_note', { length: 200 }).notNull(),
+
+    relation: pairingRelation('relation').notNull().default('in'),
+
+    /** Right half. */
+    targetSlug: varchar('target_slug', { length: 128 }).notNull(),
+    targetName: varchar('target_name', { length: 160 }).notNull(),
+    targetKind: varchar('target_kind', { length: 60 }).notNull(),
+    targetNote: varchar('target_note', { length: 200 }).notNull(),
+
+    /** `/use/<subject>/<target>/`. The single source of truth for the URL. */
+    canonicalPath: varchar('canonical_path', { length: 512 }).notNull(),
+
+    eyebrow: varchar('eyebrow', { length: 120 }),
+    h1: varchar('h1', { length: 200 }).notNull(),
+    seoTitle: varchar('seo_title', { length: 256 }),
+    metaDescription: varchar('meta_description', { length: 512 }),
+
+    verdict: compatVerdict('verdict'),
+    shortAnswer: text('short_answer'),
+
+    /** The three decision metrics beside the verdict. Free text, because the
+     *  honest answer ("only under conditions", "coating damage") is not an enum. */
+    mainRisk: varchar('main_risk', { length: 120 }),
+    damages: varchar('damages', { length: 120 }),
+    alternative: varchar('alternative', { length: 160 }),
+
+    calloutLabel: varchar('callout_label', { length: 120 }),
+    /** Paragraphs joined by a blank line, as `problems.why_it_matters` is. */
+    calloutBody: text('callout_body'),
+
+    status: contentStatus('status').notNull().default('draft'),
+    indexable: boolean('indexable').notNull().default(false),
+    lastReviewedAt: timestamp('last_reviewed_at', { withTimezone: true }),
+    reviewScope: varchar('review_scope', { length: 300 }),
+
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    uniqueIndex('pairings_subject_target_key').on(t.subjectSlug, t.targetSlug),
+    // The hot path: one indexed lookup renders one page.
+    uniqueIndex('pairings_canonical_path_key').on(t.canonicalPath),
+    // The /use/ listing and the target-side switcher.
+    index('pairings_target_idx').on(t.targetSlug, t.status),
+    // The subject dossier and the subject-side switcher.
+    index('pairings_subject_idx').on(t.subjectSlug, t.status),
+    // Sitemap generation.
+    index('pairings_published_idx').on(t.status, t.indexable, t.updatedAt),
+    // Site search. Must stay character-for-character identical to the tsvector
+    // `searchPairings` builds, or it silently becomes a sequential scan.
+    index('pairings_search_idx').using(
+      'gin',
+      sql`to_tsvector('english', ${t.subjectName} || ' ' || ${t.targetName} || ' ' || ${t.h1} || ' ' || coalesce(${t.shortAnswer}, ''))`,
+    ),
+  ],
+);
+
+/** The two-column "fine to do / never do" panel. */
+export const pairingConditions = pgTable(
+  'pairing_conditions',
+  {
+    id: serial('id').primaryKey(),
+    pairingId: integer('pairing_id')
+      .notNull()
+      .references(() => pairings.id, { onDelete: 'cascade' }),
+    kind: pairingConditionKind('kind').notNull(),
+    body: text('body').notNull(),
+    sortOrder: integer('sort_order').notNull().default(0),
+  },
+  (t) => [index('pairing_conditions_pairing_idx').on(t.pairingId, t.kind, t.sortOrder)],
+);
+
+/** Why the conditions exist — one physical mechanism per row. */
+export const pairingMechanisms = pgTable(
+  'pairing_mechanisms',
+  {
+    id: serial('id').primaryKey(),
+    pairingId: integer('pairing_id')
+      .notNull()
+      .references(() => pairings.id, { onDelete: 'cascade' }),
+    title: varchar('title', { length: 160 }).notNull(),
+    body: text('body').notNull(),
+    sortOrder: integer('sort_order').notNull().default(0),
+  },
+  (t) => [index('pairing_mechanisms_pairing_idx').on(t.pairingId, t.sortOrder)],
+);
+
+/** Citations. `url` is NOT NULL here, unlike `sources.url`: a compatibility
+ *  claim rests on a document a reader can open, and the pipeline refuses to
+ *  write a pairing whose citations do not resolve. */
+export const pairingSources = pgTable(
+  'pairing_sources',
+  {
+    id: serial('id').primaryKey(),
+    pairingId: integer('pairing_id')
+      .notNull()
+      .references(() => pairings.id, { onDelete: 'cascade' }),
+    publisher: varchar('publisher', { length: 200 }).notNull(),
+    title: varchar('title', { length: 300 }).notNull(),
+    url: varchar('url', { length: 1024 }).notNull(),
+    sourceType: sourceType('source_type').notNull().default('other'),
+    sortOrder: integer('sort_order').notNull().default(0),
+  },
+  (t) => [index('pairing_sources_pairing_idx').on(t.pairingId, t.sortOrder)],
+);

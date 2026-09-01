@@ -2,17 +2,24 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
-import { DecisionsCarousel } from '@/components/DecisionsCarousel';
+import { Carousel, type CarouselItem } from '@/components/Carousel';
 import { ProblemSearch } from '@/components/ProblemSearch';
+import { getFeaturedPairings } from '@/lib/repository/compat';
 import { getFeaturedProblems } from '@/lib/repository/problems';
 import { getPublishedDomains } from '@/lib/repository/taxonomy';
+import { compatPresentation } from '@/lib/compat';
 import { buildPageMetadata } from '@/lib/seo/metadata';
+import { verdictPresentation } from '@/lib/verdict';
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE } from '@/lib/site';
 
 /**
  * The home page states what the site is and puts the search field in front of
  * the visitor. It is not a marketing essay: someone who lands here already has
  * a problem in mind, and the fastest useful thing is a text box.
+ *
+ * Two marquees, one per content type. They use the same component and differ
+ * only in the rows handed to it — the carousel takes a presentation shape
+ * precisely so a second question could be added without a second carousel.
  */
 
 export const revalidate = 3600;
@@ -25,9 +32,37 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 export default async function HomePage() {
-  // Fetched well above the 20 the carousel shows, so the client-side shuffle
-  // in DecisionsCarousel has a real pool to draw from as the catalogue grows.
-  const [featured, domains] = await Promise.all([getFeaturedProblems(40), getPublishedDomains()]);
+  // Fetched well above the 20 each carousel shows, so the client-side shuffle
+  // has a real pool to draw from as the catalogue grows.
+  const [featured, pairings, domains] = await Promise.all([
+    getFeaturedProblems(40),
+    getFeaturedPairings(40),
+    getPublishedDomains(),
+  ]);
+
+  const decisionItems: CarouselItem[] = featured.map((problem) => {
+    const v = verdictPresentation(problem.verdict);
+    return {
+      key: `problem-${problem.id}`,
+      href: problem.path,
+      title: problem.h1,
+      tone: v.tone,
+      glyph: v.glyph,
+      verdictLabel: v.label,
+    };
+  });
+
+  const pairingItems: CarouselItem[] = pairings.map((pairing) => {
+    const v = compatPresentation(pairing.verdict);
+    return {
+      key: `pairing-${pairing.id}`,
+      href: pairing.path,
+      title: pairing.h1,
+      tone: v.tone,
+      glyph: v.glyph,
+      verdictLabel: v.label,
+    };
+  });
 
   return (
     <div className="container">
@@ -49,13 +84,13 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {featured.length > 0 ? (
+        {decisionItems.length > 0 ? (
           <section className="section" aria-labelledby="decisions">
             <div className="section__head measure">
-              <h2 id="decisions">{featured.length === 1 ? 'The first decision' : 'Decisions'}</h2>
+              <h2 id="decisions">{decisionItems.length === 1 ? 'The first decision' : 'Decisions'}</h2>
               <p className="section__lead">Oh, stop! I&rsquo;ve wondered about that.</p>
             </div>
-            <DecisionsCarousel problems={featured} />
+            <Carousel items={decisionItems} />
           </section>
         ) : (
           <section className="section measure">
@@ -64,6 +99,21 @@ export default async function HomePage() {
             </p>
           </section>
         )}
+
+        {pairingItems.length > 0 ? (
+          <section className="section" aria-labelledby="what-goes-with-what">
+            <div className="section__head measure">
+              <h2 id="what-goes-with-what">What goes with what</h2>
+              <p className="section__lead">
+                Foil in an air fryer. Pyrex in an oven. A space heater in a power strip.
+              </p>
+            </div>
+            <Carousel items={pairingItems} />
+            <p className="section__lead measure hub-note">
+              <Link href="/use/">See every pairing on one page</Link>.
+            </p>
+          </section>
+        ) : null}
 
         <section className="section" aria-labelledby="browse">
           <div className="section__head measure">

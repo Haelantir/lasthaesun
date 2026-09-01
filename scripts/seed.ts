@@ -11,6 +11,8 @@ import { and, eq, inArray } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 
+import { PAIRINGS, pairingPath } from '../src/content/compat';
+import type { Pairing } from '../src/content/compat/types';
 import { domains, objectCategories, problems as problemSeeds, systems } from '../src/content/index';
 import type { ProblemSeed } from '../src/content/types';
 import { publishedProblemSchema } from '../src/lib/content/schema';
@@ -357,6 +359,128 @@ async function seedRelationships(db: Db, idBySlug: Map<string, number>) {
   }
 }
 
+/**
+ * "Can I Use It With…" records.
+ *
+ * Idempotent the same way the problems are: the row is upserted on its
+ * (subject, target) pair and its child rows are deleted and rewritten, so a
+ * re-seed publishes an edit rather than duplicating anything.
+ *
+ * Every pairing is `published` and `indexable`. There is no draft state on this
+ * side — the compat pipeline refuses to write a record whose citations do not
+ * resolve, so a pairing that exists is a pairing that is finished. Their hubs
+ * are what stays out of the index, exactly as the taxonomy hubs do.
+ */
+async function seedPairings(db: Db) {
+  for (const pairing of PAIRINGS) {
+    const [row] = await db
+      .insert(schema.pairings)
+      .values({
+        subjectSlug: pairing.subjectSlug,
+        subjectName: pairing.subjectName,
+        subjectKind: pairing.subjectKind,
+        subjectNote: pairing.subjectNote,
+        relation: pairing.relation,
+        targetSlug: pairing.targetSlug,
+        targetName: pairing.targetName,
+        targetKind: pairing.targetKind,
+        targetNote: pairing.targetNote,
+        canonicalPath: pairingPath(pairing),
+        eyebrow: pairing.eyebrow,
+        h1: pairing.h1,
+        seoTitle: pairing.seoTitle,
+        metaDescription: pairing.metaDescription,
+        verdict: pairing.verdict,
+        shortAnswer: pairing.shortAnswer,
+        mainRisk: pairing.mainRisk,
+        damages: pairing.damages,
+        alternative: pairing.alternative,
+        calloutLabel: pairing.calloutLabel,
+        calloutBody: pairing.calloutBody.join('\n\n'),
+        status: 'published',
+        indexable: true,
+        lastReviewedAt: pairing.reviewedAt,
+        reviewScope: pairing.reviewScope,
+        updatedAt: new Date(),
+      })
+      .onConflictDoUpdate({
+        target: [schema.pairings.subjectSlug, schema.pairings.targetSlug],
+        set: {
+          subjectName: pairing.subjectName,
+          subjectKind: pairing.subjectKind,
+          subjectNote: pairing.subjectNote,
+          relation: pairing.relation,
+          targetName: pairing.targetName,
+          targetKind: pairing.targetKind,
+          targetNote: pairing.targetNote,
+          canonicalPath: pairingPath(pairing),
+          eyebrow: pairing.eyebrow,
+          h1: pairing.h1,
+          seoTitle: pairing.seoTitle,
+          metaDescription: pairing.metaDescription,
+          verdict: pairing.verdict,
+          shortAnswer: pairing.shortAnswer,
+          mainRisk: pairing.mainRisk,
+          damages: pairing.damages,
+          alternative: pairing.alternative,
+          calloutLabel: pairing.calloutLabel,
+          calloutBody: pairing.calloutBody.join('\n\n'),
+          status: 'published',
+          indexable: true,
+          lastReviewedAt: pairing.reviewedAt,
+          reviewScope: pairing.reviewScope,
+          updatedAt: new Date(),
+        },
+      })
+      .returning({ id: schema.pairings.id });
+
+    const id = row!.id;
+
+    await db.delete(schema.pairingConditions).where(eq(schema.pairingConditions.pairingId, id));
+    await db.delete(schema.pairingMechanisms).where(eq(schema.pairingMechanisms.pairingId, id));
+    await db.delete(schema.pairingSources).where(eq(schema.pairingSources.pairingId, id));
+
+    const conditions = [
+      ...pairing.conditionsOk.map((body, i) => ({ pairingId: id, kind: 'ok' as const, body, sortOrder: i })),
+      ...pairing.conditionsNever.map((body, i) => ({ pairingId: id, kind: 'never' as const, body, sortOrder: i })),
+    ];
+    if (conditions.length > 0) await db.insert(schema.pairingConditions).values(conditions);
+
+    if (pairing.mechanisms.length > 0) {
+      await db.insert(schema.pairingMechanisms).values(
+        pairing.mechanisms.map((m, i) => ({ pairingId: id, title: m.title, body: m.body, sortOrder: i })),
+      );
+    }
+
+    if (pairing.sources.length > 0) {
+      await db.insert(schema.pairingSources).values(
+        pairing.sources.map((s, i) => ({
+          pairingId: id,
+          publisher: s.publisher,
+          title: s.title,
+          url: s.url,
+          sourceType: s.kind,
+          sortOrder: i,
+        })),
+      );
+    }
+  }
+}
+
+/** A pairing whose citations do not resolve should never have been written, so
+ *  the only thing left to check here is that the record is structurally whole. */
+function validatePairing(pairing: Pairing): void {
+  const missing = (['h1', 'seoTitle', 'metaDescription', 'verdict', 'shortAnswer'] as const).filter(
+    (field) => !pairing[field],
+  );
+  if (missing.length > 0) {
+    throw new Error(`Pairing "${pairingPath(pairing)}" is missing: ${missing.join(', ')}`);
+  }
+  if (pairing.sources.length === 0) {
+    throw new Error(`Pairing "${pairingPath(pairing)}" has no sources`);
+  }
+}
+
 async function main() {
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) throw new Error('DATABASE_URL is not set. Copy .env.example to .env.local first.');
@@ -364,6 +488,8 @@ async function main() {
   console.log('Validating content…');
   problemSeeds.forEach(validate);
   console.log(`  ✓ ${problemSeeds.length} problem records validated`);
+  PAIRINGS.forEach(validatePairing);
+  console.log(`  ✓ ${PAIRINGS.length} pairing records validated`);
 
   const pool = new Pool({
     connectionString,
@@ -390,6 +516,11 @@ async function main() {
 
     await seedRelationships(db, idBySlug);
     console.log('  ✓ relationships linked');
+
+    console.log('Seeding pairings…');
+    await seedPairings(db);
+    console.log(`  ✓ ${PAIRINGS.length} pairings`);
+
     console.log('\n✓ seed complete');
   } finally {
     await pool.end();

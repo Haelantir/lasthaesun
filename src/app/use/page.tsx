@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import { Breadcrumbs, type Crumb } from '@/components/Breadcrumbs';
 import { CompatChip } from '@/components/compat/CompatChip';
 import { buildPageMetadata } from '@/lib/seo/metadata';
-import { PAIRINGS, pairingPath, type Pairing } from '@/content/compat';
+import { getAllPairings, type PairingSummary } from '@/lib/repository/compat';
 
 /**
  * Every pairing on one page, grouped by the thing on the right of the pair.
@@ -34,17 +34,19 @@ export const metadata: Metadata = buildPageMetadata({
   indexable: false,
 });
 
+export const revalidate = 3600;
+
 interface TargetGroup {
   slug: string;
   name: string;
-  pairings: Pairing[];
+  pairings: PairingSummary[];
 }
 
 /** Groups in the order their first pairing was authored, like the browse tree. */
-function groupByTarget(): TargetGroup[] {
+function groupByTarget(all: PairingSummary[]): TargetGroup[] {
   const groups = new Map<string, TargetGroup>();
 
-  for (const pairing of PAIRINGS) {
+  for (const pairing of all) {
     const group = groups.get(pairing.targetSlug);
     if (group) group.pairings.push(pairing);
     else {
@@ -59,8 +61,9 @@ function groupByTarget(): TargetGroup[] {
   return [...groups.values()];
 }
 
-export default function UseHubPage() {
-  const groups = groupByTarget();
+export default async function UseHubPage() {
+  const all = await getAllPairings();
+  const groups = groupByTarget(all);
 
   return (
     <div className="container">
@@ -70,9 +73,9 @@ export default function UseHubPage() {
         <div className="measure">
           <h1>Can I Use It With&hellip;</h1>
           <p className="section__lead">
-            {PAIRINGS.length === 0
+            {all.length === 0
               ? 'Nothing is published yet.'
-              : `All ${PAIRINGS.length} answers, grouped by what you are using it with.`}
+              : `All ${all.length} answers, grouped by what you are using it with.`}
           </p>
         </div>
 
@@ -94,8 +97,8 @@ export default function UseHubPage() {
 
             <ul className="problem-list">
               {group.pairings.map((pairing) => (
-                <li key={pairingPath(pairing)}>
-                  <Link className="problem-card" href={pairingPath(pairing)}>
+                <li key={pairing.path}>
+                  <Link className="problem-card" href={pairing.path}>
                     <span className="problem-card__top">
                       <span className="problem-card__title">{pairing.subjectName}</span>
                       <CompatChip verdict={pairing.verdict} />

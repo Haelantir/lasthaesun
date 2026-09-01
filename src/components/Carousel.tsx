@@ -4,25 +4,38 @@ import Link from 'next/link';
 import { useEffect, useRef, useState, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from 'react';
 
 import { ToneIcon } from '@/components/ui/ToneIcon';
-import { verdictPresentation } from '@/lib/verdict';
-import type { ProblemSummary } from '@/lib/repository/problems';
+import type { Glyph, Tone } from '@/lib/verdict';
+
+/**
+ * One card. Deliberately a presentation shape rather than either content type:
+ * the marquee is shared by the decisions and the pairings, whose verdicts are
+ * different enums entirely, and the drag-and-rAF machinery below has no business
+ * knowing which of them it is scrolling.
+ */
+export interface CarouselItem {
+  key: string;
+  href: string;
+  title: string;
+  tone: Tone;
+  glyph: Glyph;
+  verdictLabel: string;
+}
 
 const SPEED_PX_PER_SEC = 26; // tuned by eye: not a blur, not a slideshow
 const CARD_COUNT = 20;
 // A drag shorter than this is treated as a click-through to the card, not a swipe.
 const DRAG_CLICK_THRESHOLD_PX = 6;
 
-/** Every h1 on the site is phrased "Can I Ignore X?" — that shared prefix
- *  gets its own line so the card reads as a two-part question instead of a
- *  wrapped sentence. Falls back to the whole title if a future h1 doesn't
- *  follow the convention. */
-const CAN_I_IGNORE_PREFIX = 'Can I Ignore ';
+/** Every h1 on the site opens with the same handful of words — "Can I Ignore",
+ *  "Can I Use", "Can I Put", "Can I Plug". That shared prefix gets its own line
+ *  so the card reads as a two-part question instead of a wrapped sentence.
+ *  Falls back to the whole title if a future h1 does not follow the convention. */
+const TITLE_PREFIX = /^(Can I (?:Ignore|Use|Put|Plug))\s+/;
 
-function splitTitle(h1: string): { prefix: string | null; rest: string } {
-  if (h1.startsWith(CAN_I_IGNORE_PREFIX)) {
-    return { prefix: 'Can I Ignore', rest: h1.slice(CAN_I_IGNORE_PREFIX.length) };
-  }
-  return { prefix: null, rest: h1 };
+function splitTitle(title: string): { prefix: string | null; rest: string } {
+  const match = TITLE_PREFIX.exec(title);
+  if (!match) return { prefix: null, rest: title };
+  return { prefix: match[1]!, rest: title.slice(match[0].length) };
 }
 
 function shuffled<T>(items: T[]): T[] {
@@ -55,8 +68,8 @@ function shuffled<T>(items: T[]): T[] {
  * pointer is down, doesn't advance) a single `offsetRef` and paints it as a
  * `transform`; dragging reduces to "let the pointer move that same number."
  */
-export function DecisionsCarousel({ problems }: { problems: ProblemSummary[] }) {
-  const [picked, setPicked] = useState(() => problems.slice(0, CARD_COUNT));
+export function Carousel({ items }: { items: CarouselItem[] }) {
+  const [picked, setPicked] = useState(() => items.slice(0, CARD_COUNT));
   const trackRef = useRef<HTMLDivElement>(null);
   const offsetRef = useRef(0);
   const groupWidthRef = useRef(0);
@@ -73,7 +86,7 @@ export function DecisionsCarousel({ problems }: { problems: ProblemSummary[] }) 
     // "randomised every time you open the site" requires when the page
     // itself is ISR-cached. Not a data sync — a one-time reroll.
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setPicked(shuffled(problems).slice(0, CARD_COUNT));
+    setPicked(shuffled(items).slice(0, CARD_COUNT));
     // Deliberately mount-only: this is "once per page load", not "once per
     // time the `problems` prop happens to get a new reference".
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -205,17 +218,17 @@ export function DecisionsCarousel({ problems }: { problems: ProblemSummary[] }) 
         onFocus={pause}
         onBlur={resume}
       >
-        <DecisionCardGroup problems={picked} />
+        <CardGroup items={picked} />
         {/* A visual duplicate so the scroll can loop seamlessly at -50%.
             Hidden from assistive tech and out of tab order — it is the same
             content, not additional content. */}
-        <DecisionCardGroup problems={picked} ariaHidden />
+        <CardGroup items={picked} ariaHidden />
       </div>
     </div>
   );
 }
 
-function DecisionCardGroup({ problems, ariaHidden }: { problems: ProblemSummary[]; ariaHidden?: boolean }) {
+function CardGroup({ items, ariaHidden }: { items: CarouselItem[]; ariaHidden?: boolean }) {
   return (
     // `inert` (not used here) would also block pointer clicks, not just
     // keyboard focus and screen readers — and half of every scroll cycle,
@@ -224,14 +237,13 @@ function DecisionCardGroup({ problems, ariaHidden }: { problems: ProblemSummary[
     // tabIndex={-1} per link to keep it out of Tab order, but mouse clicks
     // still work on whichever copy happens to be on screen.
     <ul className="decisions-marquee__group" aria-hidden={ariaHidden}>
-      {problems.map((problem, index) => {
-        const { prefix, rest } = splitTitle(problem.h1);
-        const v = verdictPresentation(problem.verdict);
+      {items.map((item, index) => {
+        const { prefix, rest } = splitTitle(item.title);
         return (
-          <li key={`${problem.id}-${ariaHidden ? 'dup' : 'real'}-${index}`}>
+          <li key={`${item.key}-${ariaHidden ? 'dup' : 'real'}-${index}`}>
             <Link
               className="decision-card"
-              href={problem.path}
+              href={item.href}
               tabIndex={ariaHidden ? -1 : undefined}
               draggable={false}
             >
@@ -248,9 +260,9 @@ function DecisionCardGroup({ problems, ariaHidden }: { problems: ProblemSummary[
                   elsewhere (hub listings, search results) — this card reads
                   as a two-row question/verdict table, so the verdict needs
                   to span the full card width, not those other contexts. */}
-              <span className="decision-card__verdict" data-tone={v.tone}>
-                <ToneIcon glyph={v.glyph} className="decision-card__verdict-glyph" />
-                {v.label}
+              <span className="decision-card__verdict" data-tone={item.tone}>
+                <ToneIcon glyph={item.glyph} className="decision-card__verdict-glyph" />
+                {item.verdictLabel}
               </span>
             </Link>
           </li>

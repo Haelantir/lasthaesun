@@ -6,13 +6,7 @@ import { PairingSwitcher } from '@/components/compat/PairingSwitcher';
 import { ToneIcon } from '@/components/ui/ToneIcon';
 import { compatPresentation, relationPhrase } from '@/lib/compat';
 import { JsonLd, problemWebPageJsonLd } from '@/lib/seo/jsonld';
-import {
-  PAIRINGS,
-  pairingPath,
-  pairingsForSubject,
-  pairingsForTarget,
-  type Pairing,
-} from '@/content/compat';
+import type { PairingPageData, PairingSummary } from '@/lib/repository/compat';
 
 /**
  * "What else can go in an oven?" / "…be plugged into a power strip?"
@@ -20,7 +14,7 @@ import {
  * The verb has to follow the relation, or a power strip ends up being something
  * things "go in".
  */
-function subjectSwapHint(pairing: Pairing): string {
+function subjectSwapHint(pairing: PairingPageData): string {
   const target = pairing.targetName.toLowerCase();
   const a = /^[aeiou]/i.test(target) ? 'an' : 'a';
 
@@ -53,11 +47,21 @@ function subjectSwapHint(pairing: Pairing): string {
  *   3  the conditions                6  sources + related
  *
  * Nothing here is specific to foil or to air fryers. Every string comes from
- * src/content/compat/.
+ * the database.
  */
-export function CompatPage({ pairing }: { pairing: Pairing }) {
+export function CompatPage({
+  pairing,
+  sameTarget,
+  sameSubject,
+}: {
+  pairing: PairingPageData;
+  /** Every pairing sharing this target — the subject-side switcher. */
+  sameTarget: PairingSummary[];
+  /** Every pairing sharing this subject — the target-side switcher. */
+  sameSubject: PairingSummary[];
+}) {
   const v = compatPresentation(pairing.verdict);
-  const path = pairingPath(pairing);
+  const path = pairing.canonicalPath;
   const relation = relationPhrase(pairing.relation);
 
   const crumbs: Crumb[] = [
@@ -69,9 +73,6 @@ export function CompatPage({ pairing }: { pairing: Pairing }) {
     } ${pairing.targetName}`, path },
   ];
 
-  const sameTarget = pairingsForTarget(pairing.targetSlug);
-  const sameSubject = pairingsForSubject(pairing.subjectSlug);
-
   return (
     <>
       <JsonLd
@@ -81,7 +82,7 @@ export function CompatPage({ pairing }: { pairing: Pairing }) {
             name: pairing.h1,
             description: pairing.metaDescription,
             canonicalPath: path,
-            lastReviewedAt: pairing.reviewedAt,
+            lastReviewedAt: pairing.lastReviewedAt,
             citations: pairing.sources.map((s) => ({ title: s.title, url: s.url })),
           }),
         ]}
@@ -116,7 +117,7 @@ export function CompatPage({ pairing }: { pairing: Pairing }) {
                 options={sameTarget.map((sibling) => ({
                   slug: sibling.subjectSlug,
                   name: sibling.subjectName,
-                  href: pairingPath(sibling),
+                  href: sibling.path,
                   verdict: sibling.verdict,
                 }))}
               />
@@ -142,7 +143,7 @@ export function CompatPage({ pairing }: { pairing: Pairing }) {
                 options={sameSubject.map((sibling) => ({
                   slug: sibling.targetSlug,
                   name: sibling.targetName,
-                  href: pairingPath(sibling),
+                  href: sibling.path,
                   verdict: sibling.verdict,
                 }))}
               />
@@ -278,7 +279,7 @@ export function CompatPage({ pairing }: { pairing: Pairing }) {
             </ul>
             <p className="section__lead">
               Reviewed{' '}
-              {pairing.reviewedAt.toLocaleDateString('en-GB', {
+              {(pairing.lastReviewedAt ?? new Date()).toLocaleDateString('en-GB', {
                 day: 'numeric',
                 month: 'long',
                 year: 'numeric',
@@ -301,9 +302,7 @@ export function CompatPage({ pairing }: { pairing: Pairing }) {
                   </span>
                   {/* The targets that actually exist, never a list of promises. */}
                   <span className="pair-card__meta">
-                    {PAIRINGS.filter((p) => p.subjectSlug === pairing.subjectSlug)
-                      .map((p) => p.targetName)
-                      .join(' · ')}
+                    {sameSubject.map((p) => p.targetName).join(' · ')}
                   </span>
                 </Link>
               </li>
