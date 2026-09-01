@@ -109,18 +109,12 @@ export default async function HomePage() {
               </p>
             </div>
             <Carousel items={pairingItems} />
-            <p className="section__lead measure hub-note">
-              <Link href="/use/">See every pairing on one page</Link>.
-            </p>
           </section>
         ) : null}
 
         <section className="section" aria-labelledby="browse">
           <div className="section__head measure">
             <h2 id="browse">Browse</h2>
-            <p className="section__lead">
-              Pick an area, or <Link href="/browse/">see every decision on one page</Link>.
-            </p>
           </div>
           <ul className="hub-grid">
             {domains.map((domain) => (
