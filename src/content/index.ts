@@ -1,6 +1,7 @@
 import type { ProblemSeed } from './types';
 import { acLeakingWaterInside } from './problems/ac-leaking-water-inside';
 import { bedBugsInHotelRoom } from './problems/bed-bugs-in-hotel-room';
+import { blueScreenHappenedOnce } from './problems/blue-screen-happened-once';
 import { boardingPassWontLoad } from './problems/boarding-pass-wont-load';
 import { breakerKeepsTripping } from './problems/breaker-keeps-tripping';
 import { brownWaterFromFaucet } from './problems/brown-water-from-faucet';
@@ -10,6 +11,7 @@ import { catSleepingAllDay } from './problems/cat-sleeping-all-day';
 import { catSneezing } from './problems/cat-sneezing';
 import { catStrainingToPee } from './problems/cat-straining-to-pee';
 import { catThrowingUp } from './problems/cat-throwing-up';
+import { clickingHardDrive } from './problems/clicking-hard-drive';
 import { crackInFoundation } from './problems/crack-in-foundation';
 import { crackedEgg } from './problems/cracked-egg';
 import { damagedPassport } from './problems/damaged-passport';
@@ -26,7 +28,10 @@ import { eggsPastSellByDate } from './problems/eggs-past-sell-by-date';
 import { fridgeNotColdEnough } from './problems/fridge-not-cold-enough';
 import { garbageDisposalHumming } from './problems/garbage-disposal-humming';
 import { gasSmellNearTheStove } from './problems/gas-smell-near-the-stove';
+import { hotPhoneWhileCharging } from './problems/hot-phone-while-charging';
 import { hotelRoomSmellsLikeMold } from './problems/hotel-room-smells-like-mold';
+import { laptopFanRunsConstantly } from './problems/laptop-fan-runs-constantly';
+import { liquidDetectedWarning } from './problems/liquid-detected-warning';
 import { lowWaterPressure } from './problems/low-water-pressure';
 import { meatThawedInFridge } from './problems/meat-thawed-in-fridge';
 import { meatTurnedBrownInFridge } from './problems/meat-turned-brown-in-fridge';
@@ -40,6 +45,7 @@ import { newbornSleepingThroughFeedings } from './problems/newborn-sleeping-thro
 import { newbornSneezing } from './problems/newborn-sneezing';
 import { newbornSpittingUp } from './problems/newborn-spitting-up';
 import { passportExpiringSoon } from './problems/passport-expiring-soon';
+import { phoneBatteryDrainingFast } from './problems/phone-battery-draining-fast';
 import { plannedAirConditioningProblems } from './problems/planned-air-conditioning-problems';
 import { plannedBreakersProblems } from './problems/planned-breakers-problems';
 import { plannedCeilingsProblems } from './problems/planned-ceilings-problems';
@@ -129,10 +135,12 @@ import { shortLayover } from './problems/short-layover';
 import { smallLeakUnderSink } from './problems/small-leak-under-sink';
 import { smallWindshieldChip } from './problems/small-windshield-chip';
 import { slowDrain } from './problems/slow-drain';
+import { softwareUpdate } from './problems/software-update';
 import { sparkingMicrowave } from './problems/sparking-microwave';
 import { sproutsOnAPotato } from './problems/sprouts-on-a-potato';
 import { squeakyBrakes } from './problems/squeaky-brakes';
 import { standingWaterInDishwasher } from './problems/standing-water-in-dishwasher';
+import { storageAlmostFullWarning } from './problems/storage-almost-full-warning';
 import { swollenLaptopBattery } from './problems/swollen-laptop-battery';
 import { toiletKeepsRunning } from './problems/toilet-keeps-running';
 import { tpmsWarningLight } from './problems/tpms-warning-light';
@@ -144,8 +152,10 @@ import { waterHeaterLeaking } from './problems/water-heater-leaking';
 import { waterStainOnCeiling } from './problems/water-stain-on-ceiling';
 import { wheelVibration } from './problems/wheel-vibration';
 import { whiteSmokeFromExhaust } from './problems/white-smoke-from-exhaust';
+import { wifiKeepsDisconnecting } from './problems/wifi-keeps-disconnecting';
 import { wrongBaggageTag } from './problems/wrong-baggage-tag';
 import { yellowFlameOnGasStove } from './problems/yellow-flame-on-gas-stove';
+import { yourConnectionIsNotPrivateWarning } from './problems/your-connection-is-not-private-warning';
 
 export { domains, objectCategories, systems } from './taxonomy';
 
@@ -247,6 +257,16 @@ export const problems: ProblemSeed[] = [
   crackedEgg,
   meatThawedInFridge,
   sproutsOnAPotato,
+  hotPhoneWhileCharging,
+  liquidDetectedWarning,
+  phoneBatteryDrainingFast,
+  blueScreenHappenedOnce,
+  laptopFanRunsConstantly,
+  clickingHardDrive,
+  storageAlmostFullWarning,
+  wifiKeepsDisconnecting,
+  softwareUpdate,
+  yourConnectionIsNotPrivateWarning,
   ...plannedTireProblems,
   ...plannedExhaustProblems,
   ...plannedCoolingProblems,

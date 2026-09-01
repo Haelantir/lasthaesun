@@ -1,17 +1,29 @@
-Can I Ignore Mold on Bread?
-  아주 흔한 상황이다. "곰팡이 부분만 떼고 먹어도 되나?"가 핵심 질문. 빵처럼 다공성 식품은 표면 아래까지 오염될 수 있다는 게 USDA 안내다.
+Can I Ignore a Phone That Gets Hot?
+  충전·게임·영상 촬영 중 정상적인 발열과 비정상 과열을 가르는 게 핵심이다. 특정 작업 중 발열은 정상일 수 있지만 온도 경고가 뜨는 수준은 별도로 취급된다.
 
-Can I Ignore Eggs Past the Sell-By Date?
-  날짜가 지났다고 바로 위험한 게 아니라는 의외성이 핵심이다. 냉장 보관된 달걀은 Sell-By 날짜가 지나도 사용할 수 있다는 게 USDA 설명이다.
+Can I Ignore a Liquid Detected Warning on My Phone?
+  젖은 포트로 충전하면 부식과 연결 손상이 생길 수 있다는 게 핵심이다.
 
-Can I Ignore Meat That Turned Brown in the Fridge?
-  색이 변했다고 바로 상한 고기는 아니다. 색 변화만으로는 부패를 판단할 수 없고, 냄새·끈적임·점액질 등이 같이 중요하다.
+Can I Ignore My Phone Battery Draining Fast?
+  업데이트 직후나 고사용량 때문에 일시적으로 빨리 닳는 경우와, 배터리 노후화나 비정상 앱 때문인 경우를 나눌 것.
 
-Can I Ignore a Cracked Egg?
-  상황별 판정이 핵심이다. 살 때부터 깨진 경우, 집에서 깨진 경우, 삶다가 깨진 경우에 따라 답이 달라진다.
+Can I Ignore a Blue Screen That Happened Once?
+  한 번의 예상치 못한 재시작과, 같은 오류가 반복되는 경우를 구분하는 게 핵심이다.
 
-Can I Ignore Meat That Has Thawed in the Fridge?
-  원래 주제는 "재냉동해도 되나"이지만 사이트 H1 포맷에 맞춰 이렇게 다듬었다. 냉장 해동이면 재냉동 가능하지만 찬물이나 전자레인지로 해동했으면 조건이 달라진다. "한 번 녹은 고기는 다시 얼리면 안 된다"는 흔한 오해를 다룰 것.
+Can I Ignore a Laptop Fan That Runs Constantly?
+  게임이나 영상 작업 때문인 정상적인 경우와, 먼지·통풍·프로세스 이상 때문인 경우를 나눌 것.
 
-Can I Ignore Sprouts on a Potato?
-  단순 품질 문제가 아니라 자연독소 문제다. 싹이 나거나 초록색으로 변한 감자는 glycoalkaloid가 증가할 수 있다.
+Can I Ignore a Clicking Hard Drive?
+  소음 자체보다 계속 쓰다가 데이터를 잃을 수 있는지가 핵심이다.
+
+Can I Ignore a "Storage Almost Full" Warning?
+  당장 기기가 멈추는 문제는 아니지만 업데이트, 사진 촬영, 앱 동작에 문제가 생길 수 있다.
+
+Can I Ignore Wi-Fi That Keeps Disconnecting?
+  한 기기만 끊기는지, 모든 기기가 끊기는지, 공유기가 재부팅되는지, 인터넷 회선 자체가 끊기는지로 상황이 갈린다. 안전 문제는 거의 없다.
+
+Can I Ignore a Software Update?
+  기능 업데이트는 미룰 수 있어도 보안 업데이트는 계속 방치하기 곤란하다는 게 핵심이다.
+
+Can I Ignore a "Your Connection Is Not Private" Warning?
+  날짜 오류 같은 사소한 원인도 있지만, 로그인이나 결제처럼 개인정보를 입력하는 상황이면 위험도가 달라진다.
