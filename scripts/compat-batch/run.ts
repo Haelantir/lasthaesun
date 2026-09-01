@@ -193,6 +193,11 @@ async function checkUrls(pairing: Pairing): Promise<string[]> {
       const retry = await probe(source.url);
       if (retry === null) return;
 
+      // Two rapid requests are enough to trip a rate limiter, and the third
+      // then confirms a "dead" link that is merely annoyed. Pause before the
+      // deciding attempt; this has rescued two correctly sourced pages so far.
+      await new Promise((resolve) => setTimeout(resolve, 2_000));
+
       const viaCurl = curlStatus(source.url);
       if (viaCurl !== null && viaCurl >= 200 && viaCurl < 400) return;
 

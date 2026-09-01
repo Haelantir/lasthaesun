@@ -52,6 +52,18 @@ import { milkInFreezer } from './pairings/milk--freezer';
 import { cheeseInFreezer } from './pairings/cheese--freezer';
 import { lettuceInFreezer } from './pairings/lettuce--freezer';
 import { eggsInTheShellInFreezer } from './pairings/eggs-in-the-shell--freezer';
+import { shoesInWashingMachine } from './pairings/shoes--washing-machine';
+import { backpackInWashingMachine } from './pairings/backpack--washing-machine';
+import { pillowsInWashingMachine } from './pairings/pillows--washing-machine';
+import { stuffedAnimalsInWashingMachine } from './pairings/stuffed-animals--washing-machine';
+import { weightedBlanketInWashingMachine } from './pairings/weighted-blanket--washing-machine';
+import { memoryFoamPillowInWashingMachine } from './pairings/memory-foam-pillow--washing-machine';
+import { desktopComputerPluggedIntoPowerStrip } from './pairings/desktop-computer--power-strip';
+import { gamingConsolePluggedIntoPowerStrip } from './pairings/gaming-console--power-strip';
+import { wiFiRouterPluggedIntoPowerStrip } from './pairings/wi-fi-router--power-strip';
+import { laserPrinterPluggedIntoPowerStrip } from './pairings/laser-printer--power-strip';
+import { coffeeMakerPluggedIntoPowerStrip } from './pairings/coffee-maker--power-strip';
+import { electricKettlePluggedIntoPowerStrip } from './pairings/electric-kettle--power-strip';
 
 export const PAIRINGS: Pairing[] = [
   aluminumFoilInAirFryer,
@@ -98,6 +110,18 @@ export const PAIRINGS: Pairing[] = [
   cheeseInFreezer,
   lettuceInFreezer,
   eggsInTheShellInFreezer,
+  shoesInWashingMachine,
+  backpackInWashingMachine,
+  pillowsInWashingMachine,
+  stuffedAnimalsInWashingMachine,
+  weightedBlanketInWashingMachine,
+  memoryFoamPillowInWashingMachine,
+  desktopComputerPluggedIntoPowerStrip,
+  gamingConsolePluggedIntoPowerStrip,
+  wiFiRouterPluggedIntoPowerStrip,
+  laserPrinterPluggedIntoPowerStrip,
+  coffeeMakerPluggedIntoPowerStrip,
+  electricKettlePluggedIntoPowerStrip,
 ];
 
 export type { Pairing, CompatSource, CompatMechanism } from './types';

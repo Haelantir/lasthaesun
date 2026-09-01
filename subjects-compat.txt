@@ -8,10 +8,10 @@
 #
 # If a batch fails on a source URL, name the dead domain in that pairing's notes
 # before re-running. The writer reaches for the same host otherwise.
-# Retail product pages are a repeat offender: brand shops sit behind WAFs that
-# refuse everything, so steer to manuals, standards and institutions instead.
+# Retail product pages and brand blogs are the repeat offender: they sit behind
+# WAFs that refuse everything. Steer to manuals, standards and institutions.
 #
-# Written so far — 44 pairings, 7 targets:
+# Written so far — 56 pairings, 9 targets:
 #   × air fryer       — aluminum foil · parchment paper · wax paper · paper plate
 #                       glass bowl · pyrex · cooking spray · silicone liner
 #   × oven            — aluminum foil · parchment paper · wax paper · pyrex
@@ -20,11 +20,15 @@
 #                       plastic container · styrofoam
 #   × dishwasher      — cast iron pan · wooden cutting board · nonstick pan
 #                       stainless steel · silicone utensils · plastic container
+#   × washing machine — shoes · backpack · pillows · stuffed animals
+#                       weighted blanket · memory foam pillow
 #   × clothes dryer   — towels · jeans · down comforter · wool sweater · bra
 #                       rubber-backed bath mat
 #   × freezer         — bread · cooked rice · milk · cheese · lettuce
 #                       eggs in the shell
 #   × extension cord  — space heater · air conditioner · refrigerator
 #                       microwave · tv · laptop charger
+#   × power strip     — desktop computer · gaming console · wi-fi router
+#                       laser printer · coffee maker · electric kettle
 #
 # Clear the lines below before the next run, or they are rewritten in place.
