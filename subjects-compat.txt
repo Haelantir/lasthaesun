@@ -7,30 +7,11 @@
 # steer the ANGLE — never a verdict.
 #
 # Written so far:
-#   × air fryer — aluminum foil · parchment paper · wax paper · paper plate
-#                 glass bowl · pyrex · cooking spray · silicone liner
-#   × oven      — aluminum foil · parchment paper · wax paper · pyrex
-#                 silicone bakeware · plastic container
+#   × air fryer       — aluminum foil · parchment paper · wax paper · paper plate
+#                       glass bowl · pyrex · cooking spray · silicone liner
+#   × oven            — aluminum foil · parchment paper · wax paper · pyrex
+#                       silicone bakeware · plastic container
+#   × extension cord  — space heater · air conditioner · refrigerator
+#                       microwave · tv · laptop charger
 #
 # Clear the lines below before the next run, or they are rewritten in place.
-
-Aluminum Foil in an Oven
-  랙에 까는 것, 바닥에 까는 것, 음식을 싸는 것을 구분할 것.
-
-Parchment Paper in an Oven
-  종이의 내열 등급과 브로일러 사용 여부가 갈리는 지점이다.
-
-Wax Paper in an Oven
-  유산지(parchment)와 혼동하는 사람이 많다. 그 구분을 CALLOUT에서 다룰 것.
-
-Pyrex in an Oven
-  Pyrex는 상표다. 제조사 공식 use-and-care 지침을 우선한다.
-  예열 여부와 급격한 온도 변화가 조건을 가르는 지점이다.
-
-Silicone Bakeware in an Oven
-  몰드, 베이킹 매트, 머핀 컵을 염두에 둔 질문이다. 내열 등급 확인이 조건.
-  oxo.com 은 두 번 시도 모두 403이라 SOURCES에 쓸 수 없다. 그 도메인은 피하고,
-  실제로 열리는 다른 제조사나 기관 문서를 쓸 것.
-
-Plastic Container in an Oven
-  전자레인지용 용기를 오븐에도 쓸 수 있다고 생각하는 데서 출발하는 질문이다.

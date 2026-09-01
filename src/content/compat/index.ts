@@ -22,6 +22,12 @@ import { waxPaperInOven } from './pairings/wax-paper--oven';
 import { pyrexInOven } from './pairings/pyrex--oven';
 import { siliconeBakewareInOven } from './pairings/silicone-bakeware--oven';
 import { plasticContainerInOven } from './pairings/plastic-container--oven';
+import { spaceHeaterPluggedIntoExtensionCord } from './pairings/space-heater--extension-cord';
+import { airConditionerPluggedIntoExtensionCord } from './pairings/air-conditioner--extension-cord';
+import { refrigeratorPluggedIntoExtensionCord } from './pairings/refrigerator--extension-cord';
+import { microwavePluggedIntoExtensionCord } from './pairings/microwave--extension-cord';
+import { tvPluggedIntoExtensionCord } from './pairings/tv--extension-cord';
+import { laptopChargerPluggedIntoExtensionCord } from './pairings/laptop-charger--extension-cord';
 
 export const PAIRINGS: Pairing[] = [
   aluminumFoilInAirFryer,
@@ -38,6 +44,12 @@ export const PAIRINGS: Pairing[] = [
   pyrexInOven,
   siliconeBakewareInOven,
   plasticContainerInOven,
+  spaceHeaterPluggedIntoExtensionCord,
+  airConditionerPluggedIntoExtensionCord,
+  refrigeratorPluggedIntoExtensionCord,
+  microwavePluggedIntoExtensionCord,
+  tvPluggedIntoExtensionCord,
+  laptopChargerPluggedIntoExtensionCord,
 ];
 
 export type { Pairing, CompatSource, CompatMechanism } from './types';

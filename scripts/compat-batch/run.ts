@@ -21,7 +21,7 @@
  * Generation is resumable: a pairing whose draft already exists is skipped, so
  * a run interrupted at item seven costs six minutes on the retry, not thirty.
  */
-import { execSync } from 'node:child_process';
+import { execFileSync, execSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -66,12 +66,29 @@ interface Job extends CompatSubject {
   pairing?: Pairing;
 }
 
+const article = (word: string) => (/^[aeiou]/i.test(word) ? 'an' : 'a');
+
+/**
+ * The reader's question, in the words they would actually type.
+ *
+ * `plugged into` needs its own sentence: "can I use a space heater plugged into
+ * an extension cord" is not English anybody searches, and handing the writer an
+ * awkward question is handing it an awkward H1.
+ */
+function readerQuestion(job: CompatSubject): string {
+  const subject = job.subject.toLowerCase();
+  const target = job.target.toLowerCase();
+
+  if (job.relation === 'plugged-into') {
+    return `Can I plug ${article(subject)} ${subject} into ${article(target)} ${target}?`;
+  }
+  return `Can I use ${subject} ${job.relation.replace('-', ' ')} ${article(target)} ${target}?`;
+}
+
 /** The prompt block for one pairing, in the shape the authoring doc expects. */
 export function promptFor(basePrompt: string, job: CompatSubject): string {
   const relationWord = job.relation.replace('-', ' ');
-  const question = `Can I use ${job.subject.toLowerCase()} ${relationWord} ${
-    /^[aeiou]/i.test(job.target) ? 'an' : 'a'
-  } ${job.target.toLowerCase()}?`;
+  const question = readerQuestion(job);
 
   const block = [
     `  SUBJECT  = ${job.subject}`,
@@ -105,7 +122,7 @@ export function promptFor(basePrompt: string, job: CompatSubject): string {
  * reporting live pages as dead — usda.gov answers 200 to a browser and fails
  * outright to `caniignoreit link check`. One retry covers the transient half.
  *
- * A 403 that survives the retry is still a failure. It may well be a WAF
+ * A refusal that survives the retry AND curl is a failure. It may well be a WAF
  * guarding a real page, but "probably fine" is not the standard this site cites
  * sources by, and the writer can be asked for a source that can be opened.
  *
@@ -121,6 +138,31 @@ const BROWSER_HEADERS = {
   accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
   'accept-language': 'en-US,en;q=0.9',
 };
+
+/**
+ * Last resort: ask curl.
+ *
+ * Some WAFs fingerprint the TLS handshake rather than the headers, and undici's
+ * fingerprint is not a browser's — honeywellpluggedin.com serves a manual that
+ * curl and Chrome both open and that Node refuses with 403 no matter what
+ * headers it sends. The question this check actually asks is "can a reader open
+ * this?", and curl answers it more faithfully than fetch does. Absent curl, the
+ * fetch result stands.
+ */
+function curlStatus(url: string): number | null {
+  try {
+    const out = execFileSync(
+      'curl',
+      ['-s', '-o', process.platform === 'win32' ? 'NUL' : '/dev/null',
+       '-w', '%{http_code}', '-L', '--max-time', '30', '-A', BROWSER_HEADERS['user-agent'], url],
+      { encoding: 'utf8', timeout: 40_000 },
+    );
+    const code = Number(out.trim());
+    return Number.isFinite(code) && code > 0 ? code : null;
+  } catch {
+    return null;
+  }
+}
 
 async function checkUrls(pairing: Pairing): Promise<string[]> {
   const failures: string[] = [];
@@ -140,10 +182,14 @@ async function checkUrls(pairing: Pairing): Promise<string[]> {
 
   await Promise.all(
     pairing.sources.map(async (source) => {
-      const first = await probe(source.url);
-      if (first === null) return;
-      const second = await probe(source.url);
-      if (second !== null) failures.push(second);
+      if ((await probe(source.url)) === null) return;
+      const retry = await probe(source.url);
+      if (retry === null) return;
+
+      const viaCurl = curlStatus(source.url);
+      if (viaCurl !== null && viaCurl >= 200 && viaCurl < 400) return;
+
+      failures.push(retry);
     }),
   );
 
