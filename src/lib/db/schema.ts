@@ -251,6 +251,16 @@ export const problems = pgTable(
      *  inherit automotive legal wording. */
     disclaimer: text('disclaimer'),
 
+    /* SHA-256 of everything the seed writes for this problem, its detail rows
+     * included. The seed compares it and only touches `updatedAt` when it has
+     * actually changed.
+     *
+     * Without it every seed stamped every row with the current time, so the
+     * sitemap told Google that a hundred pages changed whenever one did. A
+     * `lastmod` that is always today is a `lastmod` a crawler learns to
+     * ignore. */
+    contentHash: varchar('content_hash', { length: 64 }),
+
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
   },
@@ -587,6 +597,9 @@ export const pairings = pgTable(
     indexable: boolean('indexable').notNull().default(false),
     lastReviewedAt: timestamp('last_reviewed_at', { withTimezone: true }),
     reviewScope: varchar('review_scope', { length: 300 }),
+
+    /** Same purpose as `problems.content_hash`: an honest `lastmod`. */
+    contentHash: varchar('content_hash', { length: 64 }),
 
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),

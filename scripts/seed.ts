@@ -7,6 +7,8 @@
  * editorial field aborts the seed with a readable error instead of quietly
  * shipping half a decision.
  */
+import { createHash } from 'node:crypto';
+
 import { and, eq, inArray } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
@@ -20,6 +22,24 @@ import { publishedProblemSchema } from '../src/lib/content/schema';
 import * as schema from '../src/lib/db/schema';
 
 type Db = ReturnType<typeof drizzle<typeof schema>>;
+
+/**
+ * A fingerprint of everything the seed is about to write for one record.
+ *
+ * Compared against the stored hash so `updatedAt` only moves when the content
+ * genuinely moved. Before this existed every seed stamped every row with the
+ * current time, which told the sitemap that a hundred pages had changed
+ * whenever one had — and a `lastmod` that is always today is one a crawler
+ * learns to ignore.
+ *
+ * The whole seed record goes in, detail rows included, because scenarios and
+ * sources are rewritten wholesale and a change there is a change to the page.
+ */
+function contentHash(record: unknown): string {
+  return createHash('sha256')
+    .update(JSON.stringify(record, (_key, value) => (value instanceof Date ? value.toISOString() : value)))
+    .digest('hex');
+}
 
 function validate(seed: ProblemSeed): void {
   if (seed.status !== 'published') return;
@@ -153,6 +173,14 @@ async function seedTaxonomy(db: Db) {
 }
 
 async function seedProblemRow(db: Db, seed: ProblemSeed, systemId: number): Promise<number> {
+  const hash = contentHash(seed);
+  const [existing] = await db
+    .select({ id: schema.problems.id, contentHash: schema.problems.contentHash })
+    .from(schema.problems)
+    .where(and(eq(schema.problems.systemId, systemId), eq(schema.problems.slug, seed.slug)))
+    .limit(1);
+  const changed = !existing || existing.contentHash !== hash;
+
   const values = {
     systemId,
     slug: seed.slug,
@@ -177,6 +205,7 @@ async function seedProblemRow(db: Db, seed: ProblemSeed, systemId: number): Prom
     lastReviewedAt: seed.lastReviewedAt ?? null,
     reviewScope: seed.reviewScope ?? null,
     disclaimer: seed.disclaimer ?? null,
+    contentHash: hash,
   };
 
   const [row] = await db
@@ -184,7 +213,8 @@ async function seedProblemRow(db: Db, seed: ProblemSeed, systemId: number): Prom
     .values(values)
     .onConflictDoUpdate({
       target: [schema.problems.systemId, schema.problems.slug],
-      set: { ...values, updatedAt: new Date() },
+      // `updatedAt` is the sitemap's lastmod. It moves only when the content did.
+      set: changed ? { ...values, updatedAt: new Date() } : values,
     })
     .returning({ id: schema.problems.id });
 
@@ -389,6 +419,19 @@ async function seedPairings(db: Db) {
   );
 
   for (const pairing of PAIRINGS) {
+    const hash = contentHash(pairing);
+    const [existing] = await db
+      .select({ contentHash: schema.pairings.contentHash })
+      .from(schema.pairings)
+      .where(
+        and(
+          eq(schema.pairings.subjectSlug, pairing.subjectSlug),
+          eq(schema.pairings.targetSlug, pairing.targetSlug),
+        ),
+      )
+      .limit(1);
+    const changed = !existing || existing.contentHash !== hash;
+
     const placement = placementFor(pairing.targetSlug);
     if (!placement) {
       throw new Error(
@@ -434,7 +477,7 @@ async function seedPairings(db: Db) {
         indexable: true,
         lastReviewedAt: pairing.reviewedAt,
         reviewScope: pairing.reviewScope,
-        updatedAt: new Date(),
+        contentHash: hash,
       })
       .onConflictDoUpdate({
         target: [schema.pairings.subjectSlug, schema.pairings.targetSlug],
@@ -464,7 +507,9 @@ async function seedPairings(db: Db) {
           indexable: true,
           lastReviewedAt: pairing.reviewedAt,
           reviewScope: pairing.reviewScope,
-          updatedAt: new Date(),
+          contentHash: hash,
+          // Same rule as the problems: lastmod moves only when the content did.
+          ...(changed ? { updatedAt: new Date() } : {}),
         },
       })
       .returning({ id: schema.pairings.id });

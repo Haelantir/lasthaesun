@@ -11,7 +11,8 @@ import {
 } from '@/lib/repository/problems';
 import { getPairingsByDomain, getPairingsByObject } from '@/lib/repository/compat';
 import { resolveRoute } from '@/lib/repository/routes';
-import { getDomainHub, getObjectHub, getSystemHub } from '@/lib/repository/taxonomy';
+import { getDomainHub, getHubAnswerCounts, getObjectHub, getSystemHub } from '@/lib/repository/taxonomy';
+import { hubIsIndexable } from '@/lib/seo/hub-index';
 import { normalizePath } from '@/lib/site';
 
 /**
@@ -75,7 +76,7 @@ export async function generateMetadata({ params }: RouteProps): Promise<Metadata
         seoTitle: hub.domain.seoTitle ?? fallback.seoTitle,
         metaDescription: hub.domain.metaDescription ?? fallback.metaDescription,
         canonicalPath: hub.domain.canonicalPath,
-        indexable: hub.domain.indexable,
+        indexable: hubIsIndexable((await getHubAnswerCounts()).byDomain.get(hub.domain.id) ?? 0),
       });
     }
     case 'objectCategory': {
@@ -86,7 +87,9 @@ export async function generateMetadata({ params }: RouteProps): Promise<Metadata
         seoTitle: hub.objectCategory.seoTitle ?? fallback.seoTitle,
         metaDescription: hub.objectCategory.metaDescription ?? fallback.metaDescription,
         canonicalPath: hub.objectCategory.canonicalPath,
-        indexable: hub.objectCategory.indexable,
+        indexable: hubIsIndexable(
+          (await getHubAnswerCounts()).byObject.get(hub.objectCategory.id) ?? 0,
+        ),
       });
     }
     case 'system': {
@@ -97,7 +100,7 @@ export async function generateMetadata({ params }: RouteProps): Promise<Metadata
         seoTitle: hub.system.seoTitle ?? fallback.seoTitle,
         metaDescription: hub.system.metaDescription ?? fallback.metaDescription,
         canonicalPath: hub.system.canonicalPath,
-        indexable: hub.system.indexable,
+        indexable: hubIsIndexable((await getHubAnswerCounts()).bySystem.get(hub.system.id) ?? 0),
       });
     }
     default:

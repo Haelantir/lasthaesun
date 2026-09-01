@@ -38,6 +38,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     { url: absoluteUrl('/'), changeFrequency: 'weekly' as const, priority: 1 },
+    // Indexable, entirely internal links, and omitted from here until now purely
+    // because this file was built before it existed.
+    { url: absoluteUrl('/browse/'), changeFrequency: 'weekly' as const, priority: 0.7 },
     ...urls.domains.map((row) => ({
       url: absoluteUrl(row.path),
       lastModified: row.updatedAt,

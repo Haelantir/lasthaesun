@@ -4,7 +4,8 @@ import { cache } from 'react';
 import { and, asc, count, eq } from 'drizzle-orm';
 
 import { getDb } from '@/lib/db/client';
-import { domains, objectCategories, problems, systems } from '@/lib/db/schema';
+import { domains, objectCategories, pairings, problems, systems } from '@/lib/db/schema';
+import { hubIsIndexable } from '@/lib/seo/hub-index';
 
 /** Hub data for the three taxonomy levels above a problem. */
 
@@ -189,32 +190,113 @@ export const getPublishedDomains = cache(async () => {
     .orderBy(asc(domains.sortOrder), asc(domains.name));
 });
 
-/** Everything that belongs in the sitemap: published AND indexable only. */
+/**
+ * How many answers each hub holds — published problems below it, plus any
+ * compatibility pairings filed against it.
+ *
+ * This is what decides whether a hub is indexable (see
+ * `src/lib/seo/hub-index.ts`). Counted rather than stored, because a flag would
+ * have to be remembered every time content lands and would be wrong the moment
+ * somebody forgot.
+ */
+export const getHubAnswerCounts = cache(async () => {
+  const db = getDb();
+  const publishedProblem = eq(problems.status, 'published');
+  const publishedPairing = eq(pairings.status, 'published');
+
+  const [systemRows, objectProblems, objectPairings, domainProblems, domainPairings] =
+    await Promise.all([
+      db
+        .select({ id: systems.id, total: count(problems.id) })
+        .from(systems)
+        .leftJoin(problems, and(eq(problems.systemId, systems.id), publishedProblem))
+        .groupBy(systems.id),
+      db
+        .select({ id: objectCategories.id, total: count(problems.id) })
+        .from(objectCategories)
+        .leftJoin(systems, eq(systems.objectCategoryId, objectCategories.id))
+        .leftJoin(problems, and(eq(problems.systemId, systems.id), publishedProblem))
+        .groupBy(objectCategories.id),
+      db
+        .select({ id: pairings.objectCategoryId, total: count(pairings.id) })
+        .from(pairings)
+        .where(publishedPairing)
+        .groupBy(pairings.objectCategoryId),
+      db
+        .select({ id: domains.id, total: count(problems.id) })
+        .from(domains)
+        .leftJoin(objectCategories, eq(objectCategories.domainId, domains.id))
+        .leftJoin(systems, eq(systems.objectCategoryId, objectCategories.id))
+        .leftJoin(problems, and(eq(problems.systemId, systems.id), publishedProblem))
+        .groupBy(domains.id),
+      db
+        .select({ id: pairings.domainId, total: count(pairings.id) })
+        .from(pairings)
+        .where(publishedPairing)
+        .groupBy(pairings.domainId),
+    ]);
+
+  const add = (map: Map<number, number>, id: number | null, n: number) => {
+    if (id === null) return;
+    map.set(id, (map.get(id) ?? 0) + n);
+  };
+
+  const bySystem = new Map<number, number>();
+  for (const r of systemRows) add(bySystem, r.id, Number(r.total));
+
+  const byObject = new Map<number, number>();
+  for (const r of objectProblems) add(byObject, r.id, Number(r.total));
+  for (const r of objectPairings) add(byObject, r.id, Number(r.total));
+
+  const byDomain = new Map<number, number>();
+  for (const r of domainProblems) add(byDomain, r.id, Number(r.total));
+  for (const r of domainPairings) add(byDomain, r.id, Number(r.total));
+
+  return { bySystem, byObject, byDomain };
+});
+
+/**
+ * Everything that belongs in the sitemap.
+ *
+ * Problems obey their stored `indexable` flag, which is an authored decision.
+ * Hubs obey the answer-count threshold instead: for them the count IS the
+ * decision, and a hub that has grown past it should not have to wait for
+ * somebody to remember to flip a column.
+ */
 export const getIndexableUrls = cache(async () => {
   const db = getDb();
+  const counts = await getHubAnswerCounts();
+
   const [domainRows, objectRows, systemRows, problemRows] = await Promise.all([
     db
-      .select({ path: domains.canonicalPath, updatedAt: domains.updatedAt })
+      .select({ id: domains.id, path: domains.canonicalPath, updatedAt: domains.updatedAt })
       .from(domains)
-      .where(and(eq(domains.status, 'published'), eq(domains.indexable, true))),
+      .where(eq(domains.status, 'published')),
     db
-      .select({ path: objectCategories.canonicalPath, updatedAt: objectCategories.updatedAt })
+      .select({
+        id: objectCategories.id,
+        path: objectCategories.canonicalPath,
+        updatedAt: objectCategories.updatedAt,
+      })
       .from(objectCategories)
-      .where(and(eq(objectCategories.status, 'published'), eq(objectCategories.indexable, true))),
+      .where(eq(objectCategories.status, 'published')),
     db
-      .select({ path: systems.canonicalPath, updatedAt: systems.updatedAt })
+      .select({ id: systems.id, path: systems.canonicalPath, updatedAt: systems.updatedAt })
       .from(systems)
-      .where(and(eq(systems.status, 'published'), eq(systems.indexable, true))),
+      .where(eq(systems.status, 'published')),
     db
       .select({ path: problems.canonicalPath, updatedAt: problems.updatedAt })
       .from(problems)
       .where(and(eq(problems.status, 'published'), eq(problems.indexable, true))),
   ]);
 
+  const keep = <T extends { id: number }>(rows: T[], counts: Map<number, number>) =>
+    rows.filter((row) => hubIsIndexable(counts.get(row.id) ?? 0)).map(({ id: _id, ...rest }) => rest);
+
   return {
-    domains: domainRows,
-    objectCategories: objectRows,
-    systems: systemRows,
+    domains: keep(domainRows, counts.byDomain),
+    objectCategories: keep(objectRows, counts.byObject),
+    systems: keep(systemRows, counts.bySystem),
     problems: problemRows,
   };
 });
