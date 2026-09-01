@@ -6,6 +6,7 @@ import { and, asc, eq, sql } from 'drizzle-orm';
 import { getDb } from '@/lib/db/client';
 import * as schema from '@/lib/db/schema';
 import type { CompatVerdict, PairingRelation } from '@/lib/compat';
+import { hubIsIndexable } from '@/lib/seo/hub-index';
 
 /**
  * Reads for "Can I Use It With…".
@@ -27,6 +28,9 @@ export interface PairingSummary {
    *  for "Can I Ignore" on the decision side. */
   h1: string;
   path: string;
+  /** How the two are combined. Carried here so an entity index can ask its
+   *  question in the right words ("plug into", not "put in"). */
+  relation: PairingRelation;
   verdict: CompatVerdict;
   shortAnswer: string;
 }
@@ -73,6 +77,7 @@ function summarize(row: typeof schema.pairings.$inferSelect): PairingSummary {
     targetName: row.targetName,
     h1: row.h1,
     path: row.canonicalPath,
+    relation: row.relation as PairingRelation,
     verdict: row.verdict as CompatVerdict,
     shortAnswer: row.shortAnswer ?? '',
   };
@@ -231,6 +236,7 @@ async function getEntity(slug: string): Promise<{
   return { slug, name: row.name, kind: row.kind, note: row.note, asSubject, asTarget };
 }
 
+
 /**
  * Everything filed under one taxonomy node.
  *
@@ -267,6 +273,48 @@ async function listWithDomain(): Promise<(PairingSummary & { domainId: number | 
   return rows.map((row) => ({ ...summarize(row), domainId: row.domainId }));
 }
 
+/**
+ * Entity index pages that have earned a place in the sitemap.
+ *
+ * `/use/<entity>/` is a hub like any other, so it obeys the same threshold
+ * (`hubIsIndexable`) the taxonomy hubs do, counted over published pairings on
+ * either side. It was previously judged only at render time, which meant the
+ * page said `index, follow` while the sitemap never mentioned it — the sort of
+ * split that happens whenever two places decide the same thing separately.
+ *
+ * `updatedAt` is the newest pairing listed, for the same reason the taxonomy
+ * hubs use their newest child: that is when the page actually changed.
+ */
+async function listIndexableEntities(): Promise<{ path: string; updatedAt: Date }[]> {
+  const rows = await getDb()
+    .select({
+      subjectSlug: schema.pairings.subjectSlug,
+      targetSlug: schema.pairings.targetSlug,
+      updatedAt: schema.pairings.updatedAt,
+    })
+    .from(schema.pairings)
+    .where(published);
+
+  const seen = new Map<string, { total: number; updatedAt: Date }>();
+  const note = (slug: string, updatedAt: Date) => {
+    const current = seen.get(slug);
+    if (!current) seen.set(slug, { total: 1, updatedAt });
+    else {
+      current.total += 1;
+      if (updatedAt > current.updatedAt) current.updatedAt = updatedAt;
+    }
+  };
+
+  for (const row of rows) {
+    note(row.subjectSlug, row.updatedAt);
+    note(row.targetSlug, row.updatedAt);
+  }
+
+  return [...seen.entries()]
+    .filter(([, entity]) => hubIsIndexable(entity.total))
+    .map(([slug, entity]) => ({ path: `/use/${slug}/`, updatedAt: entity.updatedAt }));
+}
+
 /** Published and indexable pairings, for the sitemap. */
 async function listIndexable(): Promise<{ path: string; updatedAt: Date }[]> {
   const rows = await getDb()
@@ -286,3 +334,4 @@ export const getFeaturedPairings = cache(listFeatured);
 export const getPairingPage = cache(getPage);
 export const getPairingEntity = cache(getEntity);
 export const getIndexablePairings = cache(listIndexable);
+export const getIndexableEntities = cache(listIndexableEntities);

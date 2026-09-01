@@ -3,9 +3,12 @@ import { SITE_DESCRIPTION, SITE_NAME, absoluteUrl, siteOrigin } from '@/lib/site
 /**
  * Structured data, used sparingly.
  *
- * Included: WebSite (with the search action, which is genuinely true of this
- * site), Organization, and BreadcrumbList — all describing things that actually
- * exist on the page.
+ * Included: WebSite, Organization, and BreadcrumbList — all describing things
+ * that actually exist on the page.
+ *
+ * The WebSite node used to carry a SearchAction for the sitelinks search box.
+ * Google retired that feature in 2024, so the markup bought nothing, and it
+ * pointed at `/search`, a page this site deliberately keeps out of the index.
  *
  * Deliberately excluded: FAQPage. Google restricted FAQ rich results to
  * government and health sites, so adding it here would be markup aimed at a
@@ -23,14 +26,6 @@ export function websiteJsonLd() {
     description: SITE_DESCRIPTION,
     url: `${siteOrigin()}/`,
     publisher: { '@id': `${siteOrigin()}/#organization` },
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: `${siteOrigin()}/search/?q={search_term_string}`,
-      },
-      'query-input': 'required name=search_term_string',
-    },
   };
 }
 

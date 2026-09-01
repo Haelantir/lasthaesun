@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-import { getIndexablePairings } from '@/lib/repository/compat';
+import { getIndexableEntities, getIndexablePairings } from '@/lib/repository/compat';
 import { getIndexableUrls } from '@/lib/repository/taxonomy';
 import { absoluteUrl } from '@/lib/site';
 
@@ -21,16 +21,43 @@ import { absoluteUrl } from '@/lib/site';
  * At tens of thousands of URLs this should be split into a sitemap index
  * (Google's limit is 50,000 URLs / 50MB per file); `getIndexableUrls` is already
  * the single place the database half would need to paginate.
+ *
+ * `lastModified` is omitted wherever there is no honest date to give. It is an
+ * optional field, and a `lastmod` that says "today" every time the site is
+ * rebuilt is worse than none: Google only keeps using the signal while it keeps
+ * matching reality, and stops trusting the whole file once it does not.
  */
 export const revalidate = 3600;
 
+/**
+ * The hand-written pages.
+ *
+ * They set `indexable: true` in their own metadata and were missing here purely
+ * because this file only ever asked the database. Nothing carries a date: they
+ * change when somebody edits the JSX, which no runtime value knows about.
+ */
+const STATIC_PAGES = [
+  { path: '/browse/', priority: 0.7 },
+  // `/use/` itself is deliberately `noindex` — it reprints every pairing's
+  // short answer and would compete with the pages it lists — so it stays out.
+  { path: '/about/', priority: 0.5 },
+  { path: '/methodology/', priority: 0.5 },
+  { path: '/sources/', priority: 0.5 },
+  { path: '/contact/', priority: 0.3 },
+  { path: '/privacy/', priority: 0.3 },
+] as const;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let urls: Awaited<ReturnType<typeof getIndexableUrls>>;
   let pairings: Awaited<ReturnType<typeof getIndexablePairings>> = [];
+  let entities: Awaited<ReturnType<typeof getIndexableEntities>> = [];
 
   try {
-    [urls, pairings] = await Promise.all([getIndexableUrls(), getIndexablePairings()]);
+    [urls, pairings, entities] = await Promise.all([
+      getIndexableUrls(),
+      getIndexablePairings(),
+      getIndexableEntities(),
+    ]);
   } catch {
     // A sitemap listing only the home page beats a 500 during a database blip.
     return [{ url: absoluteUrl('/'), changeFrequency: 'weekly', priority: 1 }];
@@ -38,9 +65,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     { url: absoluteUrl('/'), changeFrequency: 'weekly' as const, priority: 1 },
-    // Indexable, entirely internal links, and omitted from here until now purely
-    // because this file was built before it existed.
-    { url: absoluteUrl('/browse/'), changeFrequency: 'weekly' as const, priority: 0.7 },
+    ...STATIC_PAGES.map((page) => ({
+      url: absoluteUrl(page.path),
+      changeFrequency: 'monthly' as const,
+      priority: page.priority,
+    })),
     ...urls.domains.map((row) => ({
       url: absoluteUrl(row.path),
       lastModified: row.updatedAt,
@@ -70,6 +99,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: row.updatedAt,
       changeFrequency: 'monthly' as const,
       priority: 0.9,
+    })),
+    // `/use/<entity>/`, on the same threshold the taxonomy hubs use.
+    ...entities.map((row) => ({
+      url: absoluteUrl(row.path),
+      lastModified: row.updatedAt,
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
     })),
   ];
 }

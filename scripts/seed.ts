@@ -53,6 +53,14 @@ function validate(seed: ProblemSeed): void {
   }
 }
 
+/**
+ * Hub rows carry no `updatedAt` here on purpose.
+ *
+ * A hub's sitemap `lastmod` is the newest thing it lists, computed at read time
+ * in `getHubAnswerCounts` — because that is when the page changed for a reader.
+ * Stamping the row on every seed made every hub claim it changed whenever any
+ * page anywhere did, which is how a `lastmod` stops being believed.
+ */
 async function seedTaxonomy(db: Db) {
   const domainIds = new Map<string, number>();
   for (const d of domains) {
@@ -82,7 +90,6 @@ async function seedTaxonomy(db: Db) {
           sortOrder: d.sortOrder,
           status: d.status,
           indexable: d.indexable,
-          updatedAt: new Date(),
         },
       })
       .returning({ id: schema.domains.id });
@@ -122,7 +129,6 @@ async function seedTaxonomy(db: Db) {
           sortOrder: o.sortOrder,
           status: o.status,
           indexable: o.indexable,
-          updatedAt: new Date(),
         },
       })
       .returning({ id: schema.objectCategories.id });
@@ -162,7 +168,6 @@ async function seedTaxonomy(db: Db) {
           sortOrder: s.sortOrder,
           status: s.status,
           indexable: s.indexable,
-          updatedAt: new Date(),
         },
       })
       .returning({ id: schema.systems.id });

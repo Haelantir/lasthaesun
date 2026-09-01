@@ -70,12 +70,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {process.env.NODE_ENV === 'production' ? <GoogleAnalytics gaId="G-WDL6BXBKC1" /> : null}
         {/* AdSense.
          *
-         * `beforeInteractive` rather than the default, because this tag is what
-         * Google reads to confirm the site is ours: the strategy puts it in the
-         * server-rendered <head>, where a verifier finds it without having to
-         * execute the page first. It is also NOT gated on NODE_ENV — the whole
-         * job of this script is to be present, and an environment check is one
-         * more way for it to be missing on the day it is looked for. */}
+         * `beforeInteractive` while the AdSense site review is in flight; it
+         * should move to `afterInteractive` once approval lands, so the loader
+         * stops competing with hydration on a site that has no ad units placed
+         * yet.
+         *
+         * Worth knowing before that switch is made, because it is not what the
+         * strategy names suggest: in the App Router NEITHER strategy emits a
+         * plain <script src> into the server-rendered HTML. Both leave a
+         * `<link rel="preload" as="script">` in the <head>; `beforeInteractive`
+         * then hands the URL to Next's own early loader (`self.__next_s`) in the
+         * body, and `afterInteractive` injects it after hydration. The snippet
+         * URL appears in the raw markup either way, and as a real <script> tag
+         * neither way.
+         *
+         * So ownership was never resting on this tag. AdSense accepts the code
+         * snippet, ads.txt OR the `google-adsense-account` meta tag above — and
+         * that meta tag is the only one of the three sitting in static <head>
+         * markup on every route.
+         *
+         * NOT gated on NODE_ENV either: the job of this script is to be present,
+         * and an environment check is one more way for it to be missing on the
+         * day it is looked for. */}
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6323439373011689"

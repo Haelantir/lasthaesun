@@ -82,3 +82,79 @@ const RELATION_PHRASE: Record<PairingRelation, string> = {
 export function relationPhrase(relation: PairingRelation): string {
   return RELATION_PHRASE[relation];
 }
+
+/**
+ * The question an entity's index page answers, phrased the way it is searched.
+ *
+ * The generated version of this used to be "Where Can You Use Air Fryer?" for
+ * every entity — ungrammatical for a thing you put something INTO, and unlike
+ * any query a person types. Which question is right depends on which side of a
+ * pairing the entity keeps appearing on, and on the relation word, which is
+ * exactly why the relation is stored rather than derived.
+ *
+ * An entity that only ever appears as a subject (foil, parchment) is asked
+ * about the other way round: not what goes in it, but where it may go.
+ */
+const TARGET_QUESTION: Record<PairingRelation, (thing: string) => string> = {
+  in: (thing) => `What Can You Put in ${thing}?`,
+  on: (thing) => `What Can You Use on ${thing}?`,
+  with: (thing) => `What Can You Use with ${thing}?`,
+  'plugged-into': (thing) => `What Can You Plug Into ${thing}?`,
+  'washed-in': (thing) => `What Can Go in ${thing}?`,
+  'dried-in': (thing) => `What Can Go in ${thing}?`,
+  'stored-in': (thing) => `What Can You Store in ${thing}?`,
+};
+
+const TARGET_VERB: Record<PairingRelation, string> = {
+  in: 'put in',
+  on: 'use on',
+  with: 'use with',
+  'plugged-into': 'plug into',
+  'washed-in': 'wash in',
+  'dried-in': 'dry in',
+  'stored-in': 'store in',
+};
+
+/** "air fryer" -> "an air fryer". Plurals take no article: "towels" stays. */
+export function withArticle(name: string): string {
+  if (/s$/i.test(name) && !/(ss|us|is)$/i.test(name)) return name;
+  return `${/^[aeiou]/i.test(name) ? 'an' : 'a'} ${name}`;
+}
+
+/** The relation the entity is most often on the receiving end of, if any. */
+function dominantRelation(relations: PairingRelation[]): PairingRelation | null {
+  let best: PairingRelation | null = null;
+  let bestCount = 0;
+  const tally = new Map<PairingRelation, number>();
+  for (const relation of relations) {
+    const n = (tally.get(relation) ?? 0) + 1;
+    tally.set(relation, n);
+    if (n > bestCount) {
+      best = relation;
+      bestCount = n;
+    }
+  }
+  return best;
+}
+
+/** H1 and <title> for `/use/<entity>/`. `relations` are the ones where the
+ *  entity is the target — the thing being put into, plugged into or washed in. */
+export function entityQuestion(name: string, relations: PairingRelation[]): string {
+  const relation = dominantRelation(relations);
+  if (!relation) return `Where Can You Use ${name}?`;
+  return TARGET_QUESTION[relation](withArticle(name));
+}
+
+/** Meta description for the same page. Says what the reader gets, and stays
+ *  unique per entity without repeating the H1 back at them.
+ *
+ *  The name leads the sentence so it can keep its own capitalisation: entity
+ *  names are stored title-cased and some of them are brands ("Pyrex"), which
+ *  lower-casing into the middle of a sentence would quietly get wrong. */
+export function entityDescription(name: string, relations: PairingRelation[]): string {
+  const relation = dominantRelation(relations);
+  if (!relation) {
+    return `${name}: where it is safe to use and where it is not, one appliance at a time, each answer with the guidance behind it.`;
+  }
+  return `${name}: what you can ${TARGET_VERB[relation]} it and what you cannot, each answer with a verdict and the guidance behind it.`;
+}

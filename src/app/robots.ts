@@ -6,10 +6,16 @@ import { absoluteUrl } from '@/lib/site';
  * Content is fully crawlable. Nothing blocks CSS or JS — blocking them stops
  * Google rendering the page and is a classic self-inflicted SEO wound.
  *
- * Only `/search` is disallowed: it is a results page, not content, and letting
- * a crawler wander through query strings creates infinite near-duplicate URLs.
- * Individual thin pages are kept out of the index with per-page `noindex`
- * instead, which still lets the crawler follow their links.
+ * Nothing is disallowed either. `/search` used to be, which was the classic
+ * self-cancelling pair: the page also sends `noindex`, and a crawler blocked by
+ * robots.txt never fetches the page, never sees the `noindex`, and can still
+ * index the URL from a link elsewhere. Pick one. `noindex, follow` is the one
+ * that actually keeps a page out of the index, so the block goes and the header
+ * stays. Query-string sprawl is not a real risk here: the only links to
+ * `/search` are bare, and the results page is rendered from a form.
+ *
+ * Thin hubs are kept out of the index the same way — per-page `noindex`, which
+ * still lets the crawler follow their links onward.
  */
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -17,7 +23,6 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/search'],
       },
     ],
     sitemap: absoluteUrl('/sitemap.xml'),

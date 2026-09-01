@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { cache } from 'react';
-import { and, asc, count, eq } from 'drizzle-orm';
+import { and, asc, count, eq, max } from 'drizzle-orm';
 
 import { getDb } from '@/lib/db/client';
 import { domains, objectCategories, pairings, problems, systems } from '@/lib/db/schema';
@@ -192,12 +192,19 @@ export const getPublishedDomains = cache(async () => {
 
 /**
  * How many answers each hub holds — published problems below it, plus any
- * compatibility pairings filed against it.
+ * compatibility pairings filed against it — and when the newest of them last
+ * changed.
  *
- * This is what decides whether a hub is indexable (see
+ * The count is what decides whether a hub is indexable (see
  * `src/lib/seo/hub-index.ts`). Counted rather than stored, because a flag would
  * have to be remembered every time content lands and would be wrong the moment
  * somebody forgot.
+ *
+ * The timestamp is the hub's `lastmod`. A hub row's own `updatedAt` moves when
+ * its heading is re-seeded, which is not what changed for a reader: a listing
+ * page changes when the things it lists change. So the sitemap reports the
+ * newest child, and a hub nobody has added to keeps a stable date — which is
+ * the only kind of `lastmod` Google keeps trusting.
  */
 export const getHubAnswerCounts = cache(async () => {
   const db = getDb();
@@ -207,30 +214,42 @@ export const getHubAnswerCounts = cache(async () => {
   const [systemRows, objectProblems, objectPairings, domainProblems, domainPairings] =
     await Promise.all([
       db
-        .select({ id: systems.id, total: count(problems.id) })
+        .select({ id: systems.id, total: count(problems.id), latest: max(problems.updatedAt) })
         .from(systems)
         .leftJoin(problems, and(eq(problems.systemId, systems.id), publishedProblem))
         .groupBy(systems.id),
       db
-        .select({ id: objectCategories.id, total: count(problems.id) })
+        .select({
+          id: objectCategories.id,
+          total: count(problems.id),
+          latest: max(problems.updatedAt),
+        })
         .from(objectCategories)
         .leftJoin(systems, eq(systems.objectCategoryId, objectCategories.id))
         .leftJoin(problems, and(eq(problems.systemId, systems.id), publishedProblem))
         .groupBy(objectCategories.id),
       db
-        .select({ id: pairings.objectCategoryId, total: count(pairings.id) })
+        .select({
+          id: pairings.objectCategoryId,
+          total: count(pairings.id),
+          latest: max(pairings.updatedAt),
+        })
         .from(pairings)
         .where(publishedPairing)
         .groupBy(pairings.objectCategoryId),
       db
-        .select({ id: domains.id, total: count(problems.id) })
+        .select({ id: domains.id, total: count(problems.id), latest: max(problems.updatedAt) })
         .from(domains)
         .leftJoin(objectCategories, eq(objectCategories.domainId, domains.id))
         .leftJoin(systems, eq(systems.objectCategoryId, objectCategories.id))
         .leftJoin(problems, and(eq(problems.systemId, systems.id), publishedProblem))
         .groupBy(domains.id),
       db
-        .select({ id: pairings.domainId, total: count(pairings.id) })
+        .select({
+          id: pairings.domainId,
+          total: count(pairings.id),
+          latest: max(pairings.updatedAt),
+        })
         .from(pairings)
         .where(publishedPairing)
         .groupBy(pairings.domainId),
@@ -241,18 +260,45 @@ export const getHubAnswerCounts = cache(async () => {
     map.set(id, (map.get(id) ?? 0) + n);
   };
 
+  /** Keeps the newest of the two dates. `max()` over an empty group is null. */
+  const keepLatest = (map: Map<number, Date>, id: number | null, at: unknown) => {
+    if (id === null || at === null || at === undefined) return;
+    const date = at instanceof Date ? at : new Date(String(at));
+    if (Number.isNaN(date.getTime())) return;
+    const current = map.get(id);
+    if (!current || date > current) map.set(id, date);
+  };
+
   const bySystem = new Map<number, number>();
-  for (const r of systemRows) add(bySystem, r.id, Number(r.total));
+  const latestBySystem = new Map<number, Date>();
+  for (const r of systemRows) {
+    add(bySystem, r.id, Number(r.total));
+    keepLatest(latestBySystem, r.id, r.latest);
+  }
 
   const byObject = new Map<number, number>();
-  for (const r of objectProblems) add(byObject, r.id, Number(r.total));
-  for (const r of objectPairings) add(byObject, r.id, Number(r.total));
+  const latestByObject = new Map<number, Date>();
+  for (const r of objectProblems) {
+    add(byObject, r.id, Number(r.total));
+    keepLatest(latestByObject, r.id, r.latest);
+  }
+  for (const r of objectPairings) {
+    add(byObject, r.id, Number(r.total));
+    keepLatest(latestByObject, r.id, r.latest);
+  }
 
   const byDomain = new Map<number, number>();
-  for (const r of domainProblems) add(byDomain, r.id, Number(r.total));
-  for (const r of domainPairings) add(byDomain, r.id, Number(r.total));
+  const latestByDomain = new Map<number, Date>();
+  for (const r of domainProblems) {
+    add(byDomain, r.id, Number(r.total));
+    keepLatest(latestByDomain, r.id, r.latest);
+  }
+  for (const r of domainPairings) {
+    add(byDomain, r.id, Number(r.total));
+    keepLatest(latestByDomain, r.id, r.latest);
+  }
 
-  return { bySystem, byObject, byDomain };
+  return { bySystem, byObject, byDomain, latestBySystem, latestByObject, latestByDomain };
 });
 
 /**
@@ -262,6 +308,11 @@ export const getHubAnswerCounts = cache(async () => {
  * Hubs obey the answer-count threshold instead: for them the count IS the
  * decision, and a hub that has grown past it should not have to wait for
  * somebody to remember to flip a column.
+ *
+ * `lastModified` is the newest thing the hub lists, not the hub row's own
+ * `updatedAt` — see `getHubAnswerCounts`. A hub with nothing beneath it yet has
+ * no honest date, so it carries none; `lastmod` is optional per URL, and
+ * omitting it costs nothing next to publishing one that is wrong.
  */
 export const getIndexableUrls = cache(async () => {
   const db = getDb();
@@ -269,19 +320,15 @@ export const getIndexableUrls = cache(async () => {
 
   const [domainRows, objectRows, systemRows, problemRows] = await Promise.all([
     db
-      .select({ id: domains.id, path: domains.canonicalPath, updatedAt: domains.updatedAt })
+      .select({ id: domains.id, path: domains.canonicalPath })
       .from(domains)
       .where(eq(domains.status, 'published')),
     db
-      .select({
-        id: objectCategories.id,
-        path: objectCategories.canonicalPath,
-        updatedAt: objectCategories.updatedAt,
-      })
+      .select({ id: objectCategories.id, path: objectCategories.canonicalPath })
       .from(objectCategories)
       .where(eq(objectCategories.status, 'published')),
     db
-      .select({ id: systems.id, path: systems.canonicalPath, updatedAt: systems.updatedAt })
+      .select({ id: systems.id, path: systems.canonicalPath })
       .from(systems)
       .where(eq(systems.status, 'published')),
     db
@@ -290,13 +337,19 @@ export const getIndexableUrls = cache(async () => {
       .where(and(eq(problems.status, 'published'), eq(problems.indexable, true))),
   ]);
 
-  const keep = <T extends { id: number }>(rows: T[], counts: Map<number, number>) =>
-    rows.filter((row) => hubIsIndexable(counts.get(row.id) ?? 0)).map(({ id: _id, ...rest }) => rest);
+  const keep = (
+    rows: { id: number; path: string }[],
+    counts: Map<number, number>,
+    latest: Map<number, Date>,
+  ) =>
+    rows
+      .filter((row) => hubIsIndexable(counts.get(row.id) ?? 0))
+      .map((row) => ({ path: row.path, updatedAt: latest.get(row.id) }));
 
   return {
-    domains: keep(domainRows, counts.byDomain),
-    objectCategories: keep(objectRows, counts.byObject),
-    systems: keep(systemRows, counts.bySystem),
+    domains: keep(domainRows, counts.byDomain, counts.latestByDomain),
+    objectCategories: keep(objectRows, counts.byObject, counts.latestByObject),
+    systems: keep(systemRows, counts.bySystem, counts.latestBySystem),
     problems: problemRows,
   };
 });

@@ -4,7 +4,9 @@ import type { Metadata } from 'next';
 
 import { Breadcrumbs, type Crumb } from '@/components/Breadcrumbs';
 import { CompatChip } from '@/components/compat/CompatChip';
+import { entityDescription, entityQuestion } from '@/lib/compat';
 import { buildPageMetadata } from '@/lib/seo/metadata';
+import { hubIsIndexable } from '@/lib/seo/hub-index';
 import { getPairingEntity } from '@/lib/repository/compat';
 import type { PairingSummary } from '@/lib/repository/compat';
 
@@ -22,11 +24,9 @@ import type { PairingSummary } from '@/lib/repository/compat';
  * unsourced claims unless eight pairings have been written.
  *
  * `indexable: false` until an entity holds enough to be worth ranking, matching
- * the hub rule the decision side already follows.
+ * the hub rule the decision side already follows — the same `hubIsIndexable`,
+ * so this page and the sitemap can never disagree about it.
  */
-
-/** An entity page earns a place in the index once it answers this many. */
-const INDEXABLE_FROM = 3;
 
 export const revalidate = 3600;
 export const dynamicParams = true;
@@ -43,12 +43,13 @@ export async function generateMetadata({ params }: RouteProps): Promise<Metadata
   if (!entity) return {};
 
   const total = entity.asSubject.length + entity.asTarget.length;
+  const relations = entity.asTarget.map((row) => row.relation);
 
   return buildPageMetadata({
-    seoTitle: `Where Can You Use ${entity.name}? | Can I Use It With`,
-    metaDescription: `Every compatibility answer written for ${entity.name.toLowerCase()}, with the verdict for each.`,
+    seoTitle: `${entityQuestion(entity.name, relations)} | Can I Use It With`,
+    metaDescription: entityDescription(entity.name, relations),
     canonicalPath: `/use/${subject}/`,
-    indexable: total >= INDEXABLE_FROM,
+    indexable: hubIsIndexable(total),
   });
 }
 
@@ -70,7 +71,14 @@ export default async function EntityPage({ params }: RouteProps) {
       <main id="main" className="problem">
         <div className="measure">
           <p className="problem__eyebrow">{entity.kind}</p>
-          <h1 className="problem__h1">{entity.name}</h1>
+          {/* The question, not the noun. A bare "Air Fryer" as the H1 told a
+              reader (and a crawler) nothing about what the page answers. */}
+          <h1 className="problem__h1">
+            {entityQuestion(
+              entity.name,
+              entity.asTarget.map((row) => row.relation),
+            )}
+          </h1>
         </div>
 
         <div className="pairing">
