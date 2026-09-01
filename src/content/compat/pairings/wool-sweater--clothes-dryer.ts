@@ -14,7 +14,7 @@ export const woolSweaterInClothesDryer: Pairing = {
   subjectKind: 'Garment',
   subjectNote: 'Knitted garment containing wool',
 
-  relation: 'in',
+  relation: 'dried-in',
 
   targetSlug: 'clothes-dryer',
   targetName: 'Clothes Dryer',

@@ -14,7 +14,7 @@ export const plasticContainerInDishwasher: Pairing = {
   subjectKind: 'Container',
   subjectNote: 'Plastic vessel for storing food',
 
-  relation: 'in',
+  relation: 'washed-in',
 
   targetSlug: 'dishwasher',
   targetName: 'Dishwasher',

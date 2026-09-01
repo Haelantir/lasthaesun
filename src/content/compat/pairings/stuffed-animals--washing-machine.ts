@@ -14,7 +14,7 @@ export const stuffedAnimalsInWashingMachine: Pairing = {
   subjectKind: 'Toy',
   subjectNote: 'Soft fabric toys filled with stuffing',
 
-  relation: 'in',
+  relation: 'washed-in',
 
   targetSlug: 'washing-machine',
   targetName: 'Washing Machine',

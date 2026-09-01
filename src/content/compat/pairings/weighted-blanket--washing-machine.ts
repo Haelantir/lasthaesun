@@ -14,7 +14,7 @@ export const weightedBlanketInWashingMachine: Pairing = {
   subjectKind: 'Bedding',
   subjectNote: 'Heavy blanket with weighted fill',
 
-  relation: 'in',
+  relation: 'washed-in',
 
   targetSlug: 'washing-machine',
   targetName: 'Washing Machine',

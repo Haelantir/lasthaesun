@@ -14,7 +14,7 @@ export const lettuceInFreezer: Pairing = {
   subjectKind: 'Food',
   subjectNote: 'Tender leafy vegetable eaten raw',
 
-  relation: 'in',
+  relation: 'stored-in',
 
   targetSlug: 'freezer',
   targetName: 'Freezer',

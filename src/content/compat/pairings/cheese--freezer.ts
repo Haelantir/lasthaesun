@@ -14,7 +14,7 @@ export const cheeseInFreezer: Pairing = {
   subjectKind: 'Food',
   subjectNote: 'Dairy food in many textures',
 
-  relation: 'in',
+  relation: 'stored-in',
 
   targetSlug: 'freezer',
   targetName: 'Freezer',

@@ -14,7 +14,7 @@ export const nonstickPanInDishwasher: Pairing = {
   subjectKind: 'Cookware',
   subjectNote: 'Coated pan for low-stick cooking',
 
-  relation: 'in',
+  relation: 'washed-in',
 
   targetSlug: 'dishwasher',
   targetName: 'Dishwasher',

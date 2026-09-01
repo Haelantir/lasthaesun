@@ -14,7 +14,7 @@ export const cookedRiceInFreezer: Pairing = {
   subjectKind: 'Food',
   subjectNote: 'Cooked grains ready for storage',
 
-  relation: 'in',
+  relation: 'stored-in',
 
   targetSlug: 'freezer',
   targetName: 'Freezer',

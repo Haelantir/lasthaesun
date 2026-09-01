@@ -14,7 +14,7 @@ export const downComforterInClothesDryer: Pairing = {
   subjectKind: 'Bedding',
   subjectNote: 'Down-filled bed covering',
 
-  relation: 'in',
+  relation: 'dried-in',
 
   targetSlug: 'clothes-dryer',
   targetName: 'Clothes Dryer',

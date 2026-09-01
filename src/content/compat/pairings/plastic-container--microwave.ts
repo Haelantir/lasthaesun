@@ -23,54 +23,65 @@ export const plasticContainerInMicrowave: Pairing = {
 
   eyebrow: 'Kitchen · Containers & Cookware',
   h1: 'Can I Use a Plastic Container in a Microwave?',
-  seoTitle: 'Plastic Containers in Microwaves: When They Are Safe | Can I Use It With',
+  seoTitle: 'Using Plastic Containers in a Microwave Safely | Can I Use It With',
   metaDescription:
-    'Yes, with limits: use plastic labeled microwave-safe, follow its directions, vent the lid, and transfer food out of unlabeled takeout tubs.',
+    'Yes, with limits: use plastic labeled for microwave use or packaging with heating directions. Transfer food from unlabeled takeout and cold-storage tubs.',
 
   verdict: 'yes_with_limits',
   shortAnswer:
-    'Yes, but only when the container is clearly labeled microwave-safe and you follow its directions. Transfer food out of an unlabeled delivery or takeout tub, a cold-storage food tub, or foam packaging before heating. Vent the lid as directed, and stop if the container warps or melts. ([fsis.usda.gov](https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/cooking-microwave-ovens?utm_source=openai))',
+    'Yes, but only when the specific container is labeled microwave-safe or comes with microwave heating directions. Move food out of unlabeled takeout or delivery tubs and cold-storage containers before heating. Follow the container and microwave instructions, including any lid or vent directions.',
 
   mainRisk: 'Melting and migration',
   damages: 'Container and food',
   alternative: 'Microwave-safe glass container',
 
   conditionsOk: [
-    'Use a container marked for microwave use and follow all limits printed on the container or packaging. ([fsis.usda.gov](https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/cooking-microwave-ovens?utm_source=openai))',
-    'Microwave takeout food in its original container only when the package provides specific microwave directions. ([fsis.usda.gov](https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/meat-and-poultry-packaging?utm_source=openai))',
-    'Loosen the lid or open its vent as the manufacturer instructs so steam can escape. ([whirlpool.com](https://www.whirlpool.com/content/dam/global/documents/202411/owners-manual-w11752381-reva.pdf?utm_source=openai))',
-    'Check the microwave owner’s manual for any model-specific cookware restrictions. ([fda.gov](https://www.fda.gov/radiation-emitting-products/resources-you-radiation-emitting-products/microwave-ovens))',
+    'Use a container clearly labeled microwave-safe and follow all limits printed on the container, lid, or packaging.',
+    'Use takeout or delivery packaging only when it gives specific microwave directions, and use it only once.',
+    'Loosen the lid or open its vent when the container directions call for steam release.',
+    'Follow the cookware restrictions in your microwave’s owner’s manual.',
   ],
   conditionsNever: [
-    'Never microwave an unlabeled delivery or takeout tub based on its appearance alone. ([whirlpool.com](https://www.whirlpool.com/blog/kitchen/what-you-can-cant-microwave.html))',
-    'Never heat food in margarine tubs, yogurt cups, cottage-cheese cartons, or similar cold-storage packaging. ([fsis.usda.gov](https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/cooking-microwave-ovens?utm_source=openai))',
-    'Never use supermarket foam trays or ordinary foam takeout containers. ([fsis.usda.gov](https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/cooking-microwave-ovens?utm_source=openai))',
-    'Never keep using plastic that is cracked, discolored, warped, or melted. ([fsis.usda.gov](https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/cooking-microwave-ovens?utm_source=openai))',
-    'Never seal the lid tightly unless the container’s instructions specifically allow it. ([products.geappliances.com](https://products.geappliances.com/appliance/gea-support-search-content?contentId=23527&utm_source=openai))',
+    'Never microwave an unlabeled takeout or delivery tub based on its appearance.',
+    'Never use margarine tubs, yogurt cups, cottage-cheese cartons, whipped-topping bowls, or similar cold-storage packaging.',
+    'Never microwave food in its supermarket tray or original plastic wrap unless the package specifically directs it.',
+    'Never continue heating in a container that warps or melts.',
   ],
 
   mechanisms: [
     {
-      title: 'Food Heats the Container',
-      body: 'Microwaves pass through many plastics and are absorbed by the food. Heat then moves from the food into the container, which may soften or melt if it was not made for microwave use. ([fda.gov](https://www.fda.gov/radiation-emitting-products/resources-you-radiation-emitting-products/microwave-ovens))',
+      title: 'Food Heats the Plastic',
+      body: 'Microwaves pass through many plastics and are absorbed by the food. Heat moves from the food into the container, which can warp or melt if it was not made for that use.',
     },
     {
-      title: 'Packaging Can Migrate',
-      body: 'Some cold-storage and single-use plastics are not heat-stable. Heating them outside their intended use can deform the plastic and allow substances to migrate into food. ([ask.fsis.usda.gov](https://ask.fsis.usda.gov/article/Can-chemicals-from-packaging-migrate-into-food?utm_source=openai))',
+      title: 'Intended Use Controls Migration',
+      body: 'Food-contact materials are evaluated for intended uses. Heating cold-storage or single-use packaging outside those uses can deform it and allow packaging substances to migrate into food.',
     },
     {
-      title: 'Steam Needs an Outlet',
-      body: 'Food releases steam as it heats. A tight lid blocks its escape, so use the container’s vent or leave the lid loose as directed. ([products.geappliances.com](https://products.geappliances.com/appliance/gea-support-search-content?contentId=23527&utm_source=openai))',
+      title: 'Steam Builds Pressure',
+      body: 'Food releases steam as it heats. A sealed lid or blocked vent traps that steam, raising pressure under the cover.',
     },
   ],
 
   calloutLabel: 'The Label Decides',
   calloutBody: [
-    'A microwave-safe mark applies to that specific container and the manufacturer’s stated use. Directions on lid position, reheating, and other limits still apply. ([whirlpool.com](https://www.whirlpool.com/content/dam/global/documents/202411/owners-manual-w11752381-reva.pdf?utm_source=openai))',
-    'Delivery tubs can look like reusable microwave cookware, but an unlabeled to-go container has no confirmed microwave use. The number inside the recycling triangle identifies the plastic resin and gives no microwave directions. Transfer the food when the package is silent. ([whirlpool.com](https://www.whirlpool.com/blog/kitchen/what-you-can-cant-microwave.html))',
+    'Microwave-safe applies to a specific container under the maker’s directions. It does not promise that every lid position, food, or reuse is acceptable. Some packaging is intended for one microwave heating only.',
+    'Delivery tubs can look like reusable microwave cookware. If the container or package gives no microwave directions, appearance is not enough; transfer the food to microwave-safe glass or ceramic.',
   ],
 
   sources: [
+    {
+      publisher: 'U.S. Department of Agriculture Food Safety and Inspection Service',
+      title: 'Cooking with Microwave Ovens',
+      url: 'https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/cooking-microwave-ovens',
+      kind: 'government',
+    },
+    {
+      publisher: 'U.S. Department of Agriculture Food Safety and Inspection Service',
+      title: 'Meat and Poultry Packaging Materials',
+      url: 'https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/meat-and-poultry-packaging',
+      kind: 'government',
+    },
     {
       publisher: 'U.S. Food and Drug Administration',
       title: 'Microwave Ovens',
@@ -78,26 +89,14 @@ export const plasticContainerInMicrowave: Pairing = {
       kind: 'government',
     },
     {
-      publisher: 'USDA Food Safety and Inspection Service',
-      title: 'Cooking with Microwave Ovens',
-      url: 'https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/cooking-microwave-ovens',
-      kind: 'government',
-    },
-    {
       publisher: 'Whirlpool',
-      title: 'What You Can and Can’t Put in a Microwave',
-      url: 'https://www.whirlpool.com/blog/kitchen/what-you-can-cant-microwave.html',
+      title: 'Microwave Oven Use & Care Guide',
+      url: 'https://www.whirlpool.com/content/dam/global/documents/202411/owners-manual-w11752381-reva.pdf',
       kind: 'manufacturer',
-    },
-    {
-      publisher: 'U.S. Environmental Protection Agency',
-      title: 'How Do I Recycle Common Recyclables',
-      url: 'https://www.epa.gov/recycle/how-do-i-recycle-common-recyclables',
-      kind: 'government',
     },
   ],
 
   reviewedAt: new Date('2026-09-01T00:00:00.000Z'),
   reviewScope:
-    'Reviewed label meaning, takeout-container limits, heat transfer, migration, venting, and resin codes against FDA, USDA, EPA, and manufacturer guidance.',
+    'Reviewed label guidance, delivery and cold-storage packaging, heat transfer, migration, and venting against USDA, FDA, and Whirlpool guidance.',
 };

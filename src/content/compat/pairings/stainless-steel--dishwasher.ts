@@ -14,7 +14,7 @@ export const stainlessSteelInDishwasher: Pairing = {
   subjectKind: 'Material',
   subjectNote: 'Corrosion-resistant steel alloy',
 
-  relation: 'in',
+  relation: 'washed-in',
 
   targetSlug: 'dishwasher',
   targetName: 'Dishwasher',

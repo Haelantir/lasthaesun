@@ -14,7 +14,7 @@ export const memoryFoamPillowInWashingMachine: Pairing = {
   subjectKind: 'Bedding',
   subjectNote: 'Viscoelastic foam sleep pillow',
 
-  relation: 'in',
+  relation: 'washed-in',
 
   targetSlug: 'washing-machine',
   targetName: 'Washing Machine',

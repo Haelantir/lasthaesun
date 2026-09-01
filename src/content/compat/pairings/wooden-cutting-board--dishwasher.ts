@@ -14,7 +14,7 @@ export const woodenCuttingBoardInDishwasher: Pairing = {
   subjectKind: 'Kitchenware',
   subjectNote: 'Wood food-preparation surface',
 
-  relation: 'in',
+  relation: 'washed-in',
 
   targetSlug: 'dishwasher',
   targetName: 'Dishwasher',

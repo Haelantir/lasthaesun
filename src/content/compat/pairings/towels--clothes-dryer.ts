@@ -14,7 +14,7 @@ export const towelsInClothesDryer: Pairing = {
   subjectKind: 'Textile',
   subjectNote: 'Absorbent woven or knit cloths',
 
-  relation: 'in',
+  relation: 'dried-in',
 
   targetSlug: 'clothes-dryer',
   targetName: 'Clothes Dryer',

@@ -14,7 +14,7 @@ export const pillowsInWashingMachine: Pairing = {
   subjectKind: 'Bedding',
   subjectNote: 'Soft filled cushions for sleeping',
 
-  relation: 'in',
+  relation: 'washed-in',
 
   targetSlug: 'washing-machine',
   targetName: 'Washing Machine',

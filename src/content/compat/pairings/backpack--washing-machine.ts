@@ -14,7 +14,7 @@ export const backpackInWashingMachine: Pairing = {
   subjectKind: 'Bag',
   subjectNote: 'Wearable bag with straps and compartments',
 
-  relation: 'in',
+  relation: 'washed-in',
 
   targetSlug: 'washing-machine',
   targetName: 'Washing Machine',

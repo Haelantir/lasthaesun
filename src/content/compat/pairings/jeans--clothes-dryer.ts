@@ -14,7 +14,7 @@ export const jeansInClothesDryer: Pairing = {
   subjectKind: 'Garment',
   subjectNote: 'Denim pants, usually cotton or cotton-blend',
 
-  relation: 'in',
+  relation: 'dried-in',
 
   targetSlug: 'clothes-dryer',
   targetName: 'Clothes Dryer',

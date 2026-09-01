@@ -111,7 +111,8 @@ SUBJECT_NOTE:
 [6단어 이하. 물건이 무엇인지. 예: Thin rolled aluminium, kitchen wrap]
 
 RELATION:
-[in / on / with / plugged into 중 하나]
+[in / on / with / plugged into / washed in / dried in / stored in 중 하나.
+ 위 PAIRING의 RELATION 값을 그대로 옮겨 적는다.]
 
 TARGET_NAME:
 [예: Air Fryer]

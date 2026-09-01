@@ -14,7 +14,7 @@ export const castIronPanInDishwasher: Pairing = {
   subjectKind: 'Cookware',
   subjectNote: 'Heavy iron cooking pan',
 
-  relation: 'in',
+  relation: 'washed-in',
 
   targetSlug: 'dishwasher',
   targetName: 'Dishwasher',

@@ -14,7 +14,7 @@ export const shoesInWashingMachine: Pairing = {
   subjectKind: 'Footwear',
   subjectNote: 'Footwear made from mixed materials',
 
-  relation: 'in',
+  relation: 'washed-in',
 
   targetSlug: 'washing-machine',
   targetName: 'Washing Machine',

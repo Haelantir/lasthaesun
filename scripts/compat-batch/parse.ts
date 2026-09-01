@@ -183,6 +183,28 @@ export function parsePairing(text: string, reviewedAt: Date): ParseResult {
   const calloutBody = paragraphs(fields.get('CALLOUT_BODY') ?? '');
   if (calloutBody.length === 0) errors.push('CALLOUT_BODY is required and missing');
 
+  /* The prompt forbids markdown, and a writer that has just cited forty sources
+   * sometimes footnotes the prose anyway — "([fsis.usda.gov](https://…))" inside
+   * a sentence, tracking parameters and all. It renders as literal brackets on
+   * the page and it shipped once before this check existed. Citations belong in
+   * SOURCES; the prose carries none. */
+  for (const [name, value] of fields) {
+    if (name === 'SOURCES') continue;
+    if (/\]\(https?:/i.test(value)) {
+      errors.push(`${name} contains a markdown link — citations belong in SOURCES`);
+    }
+    if (/https?:\/\//i.test(value)) {
+      errors.push(`${name} contains a bare URL — citations belong in SOURCES`);
+    }
+    if (/\*\*|`/.test(value)) errors.push(`${name} contains markdown formatting`);
+  }
+  // A search-tool artefact, never something a source's own address contains.
+  for (const source of sources) {
+    if (/utm_source=/i.test(source.url)) {
+      errors.push(`source URL carries a tracking parameter: ${source.url}`);
+    }
+  }
+
   if (errors.length > 0) return { errors };
 
   return {

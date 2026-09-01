@@ -14,7 +14,7 @@ export const rubberBackedBathMatInClothesDryer: Pairing = {
   subjectKind: 'Textile',
   subjectNote: 'Absorbent floor mat with rubber backing',
 
-  relation: 'in',
+  relation: 'dried-in',
 
   targetSlug: 'clothes-dryer',
   targetName: 'Clothes Dryer',

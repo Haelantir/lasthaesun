@@ -14,7 +14,7 @@ export const braInClothesDryer: Pairing = {
   subjectKind: 'Garment',
   subjectNote: 'Supportive undergarment with elastic and cups',
 
-  relation: 'in',
+  relation: 'dried-in',
 
   targetSlug: 'clothes-dryer',
   targetName: 'Clothes Dryer',

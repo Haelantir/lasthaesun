@@ -14,7 +14,7 @@ export const milkInFreezer: Pairing = {
   subjectKind: 'Beverage',
   subjectNote: 'Pasteurized fluid dairy milk',
 
-  relation: 'in',
+  relation: 'stored-in',
 
   targetSlug: 'freezer',
   targetName: 'Freezer',

@@ -6,7 +6,39 @@ import { PairingSwitcher } from '@/components/compat/PairingSwitcher';
 import { ToneIcon } from '@/components/ui/ToneIcon';
 import { compatPresentation, relationPhrase } from '@/lib/compat';
 import { JsonLd, problemWebPageJsonLd } from '@/lib/seo/jsonld';
-import { PAIRINGS, pairingPath, pairingsForTarget, type Pairing } from '@/content/compat';
+import {
+  PAIRINGS,
+  pairingPath,
+  pairingsForSubject,
+  pairingsForTarget,
+  type Pairing,
+} from '@/content/compat';
+
+/**
+ * "What else can go in an oven?" / "…be plugged into a power strip?"
+ *
+ * The verb has to follow the relation, or a power strip ends up being something
+ * things "go in".
+ */
+function subjectSwapHint(pairing: Pairing): string {
+  const target = pairing.targetName.toLowerCase();
+  const a = /^[aeiou]/i.test(target) ? 'an' : 'a';
+
+  switch (pairing.relation) {
+    case 'plugged-into':
+      return `What else can be plugged into ${a} ${target}?`;
+    case 'on':
+      return `What else can be used on ${a} ${target}?`;
+    case 'with':
+      return `What else can be used with ${a} ${target}?`;
+    case 'washed-in':
+    case 'dried-in':
+    case 'stored-in':
+      return `What else can go in the ${target}?`;
+    default:
+      return `What else can go in ${a} ${target}?`;
+  }
+}
 
 /**
  * THE pairing page template. One file, every compatibility answer on the site.
@@ -37,7 +69,8 @@ export function CompatPage({ pairing }: { pairing: Pairing }) {
     } ${pairing.targetName}`, path },
   ];
 
-  const siblings = pairingsForTarget(pairing.targetSlug);
+  const sameTarget = pairingsForTarget(pairing.targetSlug);
+  const sameSubject = pairingsForSubject(pairing.subjectSlug);
 
   return (
     <>
@@ -75,13 +108,14 @@ export function CompatPage({ pairing }: { pairing: Pairing }) {
               <span className="pairing__note">{pairing.subjectNote}</span>
             </Link>
 
+            {/* Swap the subject; the target stays put. */}
             <div className="pairing__swap">
               <PairingSwitcher
-                targetName={pairing.targetName}
-                currentSubjectSlug={pairing.subjectSlug}
-                options={siblings.map((sibling) => ({
-                  subjectSlug: sibling.subjectSlug,
-                  subjectName: sibling.subjectName,
+                hint={subjectSwapHint(pairing)}
+                currentSlug={pairing.subjectSlug}
+                options={sameTarget.map((sibling) => ({
+                  slug: sibling.subjectSlug,
+                  name: sibling.subjectName,
                   href: pairingPath(sibling),
                   verdict: sibling.verdict,
                 }))}
@@ -90,11 +124,29 @@ export function CompatPage({ pairing }: { pairing: Pairing }) {
 
             <span className="pairing__relation">{relation}</span>
 
-            <span className="pairing__entity pairing__target">
+            <Link className="pairing__entity pairing__target" href={`/use/${pairing.targetSlug}/`}>
               <span className="pairing__kind">{pairing.targetKind}</span>
               <span className="pairing__name">{pairing.targetName}</span>
               <span className="pairing__note">{pairing.targetNote}</span>
-            </span>
+            </Link>
+
+            {/* Swap the target; the subject stays put. Between the two, a reader
+                walks the grid in both directions without returning to a hub. */}
+            <div className="pairing__swap pairing__swap--target">
+              <PairingSwitcher
+                // No "where else can a/an…": half these subjects are mass nouns
+                // ("aluminum foil", "milk") and half are countable ("a backpack",
+                // "a laser printer"), and no cheap rule tells them apart.
+                hint={`Other answers for ${pairing.subjectName}`}
+                currentSlug={pairing.targetSlug}
+                options={sameSubject.map((sibling) => ({
+                  slug: sibling.targetSlug,
+                  name: sibling.targetName,
+                  href: pairingPath(sibling),
+                  verdict: sibling.verdict,
+                }))}
+              />
+            </div>
           </div>
 
           {/* ---------------------------------------------------- BLOCK 2 */}

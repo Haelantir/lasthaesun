@@ -29,14 +29,21 @@
     grid-template-columns: 1fr auto 1fr;
     grid-template-areas:
       'subject relation target'
-      'swap    .        .';
+      'swap    .        swap2';
     column-gap: var(--space-4);
     row-gap: var(--space-2);
+    /* The two cards share the first row's height; each switcher hangs below its
+       own card and they open to different lengths, so the second row must not
+       stretch them. */
+    align-items: start;
   }
   .pairing__subject  { grid-area: subject; }
   .pairing__swap     { grid-area: swap; }
   .pairing__relation { grid-area: relation; align-self: center; }
   .pairing__target   { grid-area: target; }
+  .pairing__swap--target { grid-area: swap2; }
+  .pairing__subject,
+  .pairing__target { height: 100%; }
 }
 
 .pairing__entity {

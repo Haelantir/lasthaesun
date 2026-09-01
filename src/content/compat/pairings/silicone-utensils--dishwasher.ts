@@ -14,7 +14,7 @@ export const siliconeUtensilsInDishwasher: Pairing = {
   subjectKind: 'Utensil',
   subjectNote: 'Flexible silicone cooking and serving tools',
 
-  relation: 'in',
+  relation: 'washed-in',
 
   targetSlug: 'dishwasher',
   targetName: 'Dishwasher',

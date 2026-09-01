@@ -324,6 +324,13 @@ async function main(): Promise<number> {
       continue;
     }
 
+    // The relation is an editorial input, not something to read back out of the
+    // model. It came from subjects-compat.txt, it decided the question the
+    // writer was handed, and letting the echoed value win means "washed in a
+    // washing machine" silently becomes a plain "in" — which is what happened
+    // before this line existed.
+    parsed.pairing.relation = job.relation as Pairing['relation'];
+
     job.pairing = parsed.pairing;
     console.log(`  ok    ${job.slug.padEnd(34)} ${parsed.pairing.verdict} · ${parsed.pairing.sources.length} sources verified`);
   }

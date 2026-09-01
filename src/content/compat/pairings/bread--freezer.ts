@@ -14,7 +14,7 @@ export const breadInFreezer: Pairing = {
   subjectKind: 'Food',
   subjectNote: 'Baked loaf or sliced bread',
 
-  relation: 'in',
+  relation: 'stored-in',
 
   targetSlug: 'freezer',
   targetName: 'Freezer',

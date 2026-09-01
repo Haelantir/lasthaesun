@@ -14,7 +14,7 @@ export const eggsInTheShellInFreezer: Pairing = {
   subjectKind: 'Food',
   subjectNote: 'Raw eggs with intact shells',
 
-  relation: 'in',
+  relation: 'stored-in',
 
   targetSlug: 'freezer',
   targetName: 'Freezer',
