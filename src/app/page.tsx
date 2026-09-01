@@ -104,9 +104,7 @@ export default async function HomePage() {
           <section className="section" aria-labelledby="what-goes-with-what">
             <div className="section__head measure">
               <h2 id="what-goes-with-what">What goes with what</h2>
-              <p className="section__lead">
-                Foil in an air fryer. Pyrex in an oven. A space heater in a power strip.
-              </p>
+              <p className="section__lead">I&rsquo;ve done at least one of these.</p>
             </div>
             <Carousel items={pairingItems} />
           </section>
