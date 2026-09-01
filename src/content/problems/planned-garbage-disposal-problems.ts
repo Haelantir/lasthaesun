@@ -15,7 +15,6 @@ interface PlannedProblem {
 }
 
 const planned: PlannedProblem[] = [
-  { slug: 'garbage-disposal-humming', name: 'Garbage Disposal Humming', h1: 'Can I Ignore a Garbage Disposal That Hums but Will Not Spin?' },
   { slug: 'garbage-disposal-wont-turn-on', name: 'Garbage Disposal Will Not Turn On', h1: 'Can I Ignore a Garbage Disposal That Will Not Turn On?' },
   { slug: 'garbage-disposal-draining-slowly', name: 'Garbage Disposal Draining Slowly', h1: 'Can I Ignore a Garbage Disposal That Drains Slowly?' },
   { slug: 'something-metal-in-garbage-disposal', name: 'Something Metal in the Garbage Disposal', h1: 'Can I Ignore Something Metal That Fell Into the Garbage Disposal?' },

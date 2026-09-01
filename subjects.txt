@@ -1,12 +1,29 @@
-Can I Ignore My Newborn Spitting Up After Every Feeding?
-신생아에게 아주 흔한 현상인데 부모는 “매번 토하는데 괜찮나?”를 강하게 걱정하는 주제예요. 정상적인 게워냄과 병적인 구토를 나누기 좋아서 Can I Ignore It 형식에 잘 맞습니다.
-Can I Ignore Noisy Breathing in My Newborn?
-신생아는 원래 숨소리가 큰 경우가 많아서 검색 수요가 생기기 쉬워요. 정상적인 호흡음과 실제 호흡곤란 신호를 구분하는 판단형 콘텐츠로 만들기 좋습니다.
-Can I Ignore My Newborn Sleeping Through Feedings?
-“잘 자니까 좋은 거 아닌가?”와 “깨워서 먹여야 하나?”가 충돌하는 대표적인 초보 부모 고민이에요. 아기 나이와 체중 증가 상태에 따라 답이 달라져서 조건부 verdict를 만들기 좋습니다.
-Can I Ignore Frequent Sneezing in My Newborn?
-재채기를 자주 하면 감기나 알레르기를 먼저 떠올리지만 신생아에게는 정상 반사인 경우도 많아요. 걱정은 큰데 실제 위험도는 낮은 편인 주제라 스펙트럼을 다양하게 만들 수 있습니다.
-Can I Ignore My Newborn’s Hiccups?
-빈도는 높은데 대부분 큰 문제는 아니라는 점에서 좋은 “대체로 괜찮음” 주제예요. 사이트가 모든 글에서 겁만 주는 느낌이 안 나게 해주는 역할도 합니다.
-Can I Ignore My Newborn Not Pooping Today?
-배변 횟수는 부모가 매일 확인하는 정보라 하루만 달라져도 바로 검색하게 돼요. 수유 방식과 아기 나이에 따라 정상 범위가 넓어서 단순 YES/NO보다 상황별 판단을 보여주기 좋습니다.
+Can I Ignore a Refrigerator That Is Leaking Water?
+  원인이 defrost drain부터 water line까지 여러 갈래로 갈리는 증상이다. 원인별로 시나리오를 나눌 것.
+
+Can I Ignore a Washing Machine That Is Leaking Water?
+  몇 방울인지, 바닥에 고이는지, 호스 문제인지에 따라 판정이 달라진다.
+
+Can I Ignore a Refrigerator That Isn't Cooling?
+  freezer는 차갑고 fridge만 따뜻한 경우처럼 상황별로 나눌 수 있다.
+
+Can I Ignore a Dishwasher That Won't Drain?
+  필터 막힘부터 drain hose, pump까지 원인이 다양하다. standing water 관련 검색까지 포괄할 것.
+
+Can I Ignore a Dryer That Takes Too Long to Dry?
+  성능 저하로 방치하기 쉬운데 vent restriction이 원인일 수 있다.
+
+Can I Ignore a Washing Machine That Shakes Violently?
+  빨래 불균형처럼 별일 아닌 경우와 수평·서스펜션 문제처럼 계속 쓰면 안 좋은 경우를 나눌 것.
+
+Can I Ignore a Burning Smell From My Dryer?
+  lint, vent, motor, electrical 계열 원인을 구분할 것. 안전 관련 주제다.
+
+Can I Ignore a Refrigerator Making a Loud Noise?
+  정상적인 hum/rattle과 fan·compressor 계열 이상을 가르는 것이 핵심이다.
+
+Can I Ignore a Garbage Disposal That Hums but Won't Spin?
+  소리는 나는데 안 도는 전형적인 증상이다.
+
+Can I Ignore a Gas Smell From My Oven?
+  점화 시 잠깐 나는 냄새와 계속 나는 냄새의 위험도 차이가 크다. 안전 관련 주제다.

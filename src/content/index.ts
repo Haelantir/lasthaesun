@@ -4,6 +4,7 @@ import { bedBugsInHotelRoom } from './problems/bed-bugs-in-hotel-room';
 import { boardingPassWontLoad } from './problems/boarding-pass-wont-load';
 import { breakerKeepsTripping } from './problems/breaker-keeps-tripping';
 import { brownWaterFromFaucet } from './problems/brown-water-from-faucet';
+import { burningSmellFromDryer } from './problems/burning-smell-from-dryer';
 import { burningSmellFromFurnace } from './problems/burning-smell-from-furnace';
 import { catSleepingAllDay } from './problems/cat-sleeping-all-day';
 import { catSneezing } from './problems/cat-sneezing';
@@ -19,6 +20,10 @@ import { dogEatingGrass } from './problems/dog-eating-grass';
 import { dogNotEating } from './problems/dog-not-eating';
 import { dogReverseSneezing } from './problems/dog-reverse-sneezing';
 import { dogThrowingUp } from './problems/dog-throwing-up';
+import { dryerTakesTooLongToDry } from './problems/dryer-takes-too-long-to-dry';
+import { fridgeNotColdEnough } from './problems/fridge-not-cold-enough';
+import { garbageDisposalHumming } from './problems/garbage-disposal-humming';
+import { gasSmellNearTheStove } from './problems/gas-smell-near-the-stove';
 import { hotelRoomSmellsLikeMold } from './problems/hotel-room-smells-like-mold';
 import { lowWaterPressure } from './problems/low-water-pressure';
 import { missingRoofShingle } from './problems/missing-roof-shingle';
@@ -111,6 +116,8 @@ import { plannedNewbornFeedingProblems } from './problems/planned-newborn-feedin
 import { plannedNewbornBreathingAndSoundsProblems } from './problems/planned-newborn-breathing-and-sounds-problems';
 import { plannedNewbornDiapersAndDigestionProblems } from './problems/planned-newborn-diapers-and-digestion-problems';
 import { refrigeratorDoorLeftOpenOvernight } from './problems/refrigerator-door-left-open-overnight';
+import { refrigeratorLeakingWater } from './problems/refrigerator-leaking-water';
+import { refrigeratorMakingLoudNoise } from './problems/refrigerator-making-loud-noise';
 import { scratchOnRentalCar } from './problems/scratch-on-rental-car';
 import { sewerGasSmell } from './problems/sewer-gas-smell';
 import { shortLayover } from './problems/short-layover';
@@ -119,10 +126,13 @@ import { smallWindshieldChip } from './problems/small-windshield-chip';
 import { slowDrain } from './problems/slow-drain';
 import { sparkingMicrowave } from './problems/sparking-microwave';
 import { squeakyBrakes } from './problems/squeaky-brakes';
+import { standingWaterInDishwasher } from './problems/standing-water-in-dishwasher';
 import { swollenLaptopBattery } from './problems/swollen-laptop-battery';
 import { toiletKeepsRunning } from './problems/toilet-keeps-running';
 import { tpmsWarningLight } from './problems/tpms-warning-light';
 import { warmElectricalOutlet } from './problems/warm-electrical-outlet';
+import { washingMachineLeakingWater } from './problems/washing-machine-leaking-water';
+import { washingMachineShakesViolently } from './problems/washing-machine-shakes-violently';
 import { waterDrippingFromExhaust } from './problems/water-dripping-from-exhaust';
 import { waterHeaterLeaking } from './problems/water-heater-leaking';
 import { waterStainOnCeiling } from './problems/water-stain-on-ceiling';
@@ -215,6 +225,16 @@ export const problems: ProblemSeed[] = [
   newbornSneezing,
   newbornHiccups,
   newbornNotPooping,
+  refrigeratorLeakingWater,
+  washingMachineLeakingWater,
+  fridgeNotColdEnough,
+  standingWaterInDishwasher,
+  dryerTakesTooLongToDry,
+  washingMachineShakesViolently,
+  burningSmellFromDryer,
+  refrigeratorMakingLoudNoise,
+  garbageDisposalHumming,
+  gasSmellNearTheStove,
   ...plannedTireProblems,
   ...plannedExhaustProblems,
   ...plannedCoolingProblems,

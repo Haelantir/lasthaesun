@@ -17,7 +17,6 @@ interface PlannedProblem {
 const planned: PlannedProblem[] = [
   { slug: 'gas-burner-wont-light', name: 'Gas Burner Will Not Light', h1: 'Can I Ignore a Gas Burner That Will Not Light?' },
   { slug: 'gas-stove-keeps-clicking', name: 'Gas Stove Keeps Clicking', h1: 'Can I Ignore a Gas Stove That Keeps Clicking?' },
-  { slug: 'gas-smell-near-the-stove', name: 'Gas Smell Near the Stove', h1: 'Can I Ignore a Faint Gas Smell Near the Stove?' },
 ];
 
 export const plannedGasBurnersProblems: ProblemSeed[] = planned.map(({ slug, name, h1 }) => ({

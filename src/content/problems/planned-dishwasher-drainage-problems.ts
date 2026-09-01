@@ -15,7 +15,6 @@ interface PlannedProblem {
 }
 
 const planned: PlannedProblem[] = [
-  { slug: 'standing-water-in-dishwasher', name: 'Standing Water in Dishwasher', h1: 'Can I Ignore a Dishwasher That Leaves Water in the Bottom?' },
   { slug: 'dishwasher-backing-up-into-sink', name: 'Dishwasher Backing Up Into the Sink', h1: 'Can I Ignore a Dishwasher That Backs Up Into the Sink?' },
   { slug: 'smelly-dishwasher', name: 'Smelly Dishwasher', h1: 'Can I Ignore a Dishwasher That Smells?' },
   { slug: 'dishwasher-drain-hose-clogged', name: 'Clogged Dishwasher Drain Hose', h1: 'Can I Ignore a Clogged Dishwasher Drain Hose?' },
