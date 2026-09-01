@@ -19,6 +19,9 @@ export function Header() {
           {SITE_NAME}
         </Link>
         <nav className="site-header__nav" aria-label="Main">
+          <Link className="site-header__link" href="/use/">
+            Can I Use It With…
+          </Link>
           <Link className="site-header__link" href="/browse/">
             Browse
           </Link>
