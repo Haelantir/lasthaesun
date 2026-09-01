@@ -16,6 +16,12 @@ import { glassBowlInAirFryer } from './pairings/glass-bowl--air-fryer';
 import { pyrexInAirFryer } from './pairings/pyrex--air-fryer';
 import { cookingSprayInAirFryer } from './pairings/cooking-spray--air-fryer';
 import { siliconeLinerInAirFryer } from './pairings/silicone-liner--air-fryer';
+import { aluminumFoilInOven } from './pairings/aluminum-foil--oven';
+import { parchmentPaperInOven } from './pairings/parchment-paper--oven';
+import { waxPaperInOven } from './pairings/wax-paper--oven';
+import { pyrexInOven } from './pairings/pyrex--oven';
+import { siliconeBakewareInOven } from './pairings/silicone-bakeware--oven';
+import { plasticContainerInOven } from './pairings/plastic-container--oven';
 
 export const PAIRINGS: Pairing[] = [
   aluminumFoilInAirFryer,
@@ -26,6 +32,12 @@ export const PAIRINGS: Pairing[] = [
   pyrexInAirFryer,
   cookingSprayInAirFryer,
   siliconeLinerInAirFryer,
+  aluminumFoilInOven,
+  parchmentPaperInOven,
+  waxPaperInOven,
+  pyrexInOven,
+  siliconeBakewareInOven,
+  plasticContainerInOven,
 ];
 
 export type { Pairing, CompatSource, CompatMechanism } from './types';

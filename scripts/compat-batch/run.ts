@@ -96,22 +96,54 @@ export function promptFor(basePrompt: string, job: CompatSubject): string {
   return basePrompt.replace(PAIRING_PLACEHOLDER, block.join('\n'));
 }
 
-/** Every cited URL, requested once. A dead citation fails the pairing. */
+/**
+ * Every cited URL, requested. A citation that cannot be confirmed fails the
+ * pairing, because a link nobody followed is the same as a link that is wrong.
+ *
+ * Sends an ordinary browser's headers. An honest crawler UA gets refused or
+ * dropped by enough government and manufacturer sites that the check was
+ * reporting live pages as dead — usda.gov answers 200 to a browser and fails
+ * outright to `caniignoreit link check`. One retry covers the transient half.
+ *
+ * A 403 that survives the retry is still a failure. It may well be a WAF
+ * guarding a real page, but "probably fine" is not the standard this site cites
+ * sources by, and the writer can be asked for a source that can be opened.
+ *
+ * The npm script runs node with `--use-system-ca` for the same reason. Node's
+ * bundled CA list cannot verify some government hosts that a browser opens
+ * without complaint — usda.gov among them — and a TLS failure here reads as a
+ * dead link, which is the worst possible way to be wrong: it throws away a
+ * correctly sourced page.
+ */
+const BROWSER_HEADERS = {
+  'user-agent':
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+  accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language': 'en-US,en;q=0.9',
+};
+
 async function checkUrls(pairing: Pairing): Promise<string[]> {
   const failures: string[] = [];
 
+  const probe = async (url: string): Promise<string | null> => {
+    try {
+      const response = await fetch(url, {
+        redirect: 'follow',
+        headers: BROWSER_HEADERS,
+        signal: AbortSignal.timeout(30_000),
+      });
+      return response.ok ? null : `${response.status} ${url}`;
+    } catch (error) {
+      return `unreachable ${url} (${(error as Error).message})`;
+    }
+  };
+
   await Promise.all(
     pairing.sources.map(async (source) => {
-      try {
-        const response = await fetch(source.url, {
-          redirect: 'follow',
-          headers: { 'user-agent': 'Mozilla/5.0 (compatible; caniignoreit link check)' },
-          signal: AbortSignal.timeout(30_000),
-        });
-        if (!response.ok) failures.push(`${response.status} ${source.url}`);
-      } catch (error) {
-        failures.push(`unreachable ${source.url} (${(error as Error).message})`);
-      }
+      const first = await probe(source.url);
+      if (first === null) return;
+      const second = await probe(source.url);
+      if (second !== null) failures.push(second);
     }),
   );
 
