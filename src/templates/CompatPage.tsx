@@ -6,7 +6,7 @@ import { PairingSwitcher } from '@/components/compat/PairingSwitcher';
 import { ToneIcon } from '@/components/ui/ToneIcon';
 import { compatPresentation, relationPhrase } from '@/lib/compat';
 import { JsonLd, problemWebPageJsonLd } from '@/lib/seo/jsonld';
-import { PAIRINGS, pairingPath, pairingsForTarget, type Pairing } from '@/content/compat/pairings';
+import { PAIRINGS, pairingPath, pairingsForTarget, type Pairing } from '@/content/compat';
 
 /**
  * THE pairing page template. One file, every compatibility answer on the site.
@@ -21,7 +21,7 @@ import { PAIRINGS, pairingPath, pairingsForTarget, type Pairing } from '@/conten
  *   3  the conditions                6  sources + related
  *
  * Nothing here is specific to foil or to air fryers. Every string comes from
- * src/content/compat/pairings.ts.
+ * src/content/compat/.
  */
 export function CompatPage({ pairing }: { pairing: Pairing }) {
   const v = compatPresentation(pairing.verdict);

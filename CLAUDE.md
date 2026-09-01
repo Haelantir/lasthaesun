@@ -23,6 +23,52 @@ prompt tells it to refuse rather than force-fit, and the topic needs a taxonomy
 node that does not exist yet. Decide whether it deserves one (see **Taxonomy**)
 instead of bending it into a neighbouring system.
 
+# The compatibility section ("Can I Use It With…")
+
+A second engine at `/use/`, answering a different question: not "may I leave
+this alone?" but "do these two things go together?". It shares the design
+system and the honesty rules and shares no content with the decision pages.
+
+```
+npm run content:compat                  subjects-compat.txt -> write -> verify
+npm run content:compat -- --generate    stop after writing incoming-compat/
+npm run content:compat -- --import      skip generation, use the drafts there
+```
+
+Write pairings into `subjects-compat.txt` however they come out — one per line,
+the connective word (`in` / `on` / `with` / `plugged into` / `washed in` /
+`stored in`) is what makes it parse. Indented lines beneath are angle hints, not
+findings. `Can I Use X in a Y?` and `X in a Y` are read identically.
+
+`scripts/compat-batch/run.ts` then calls the same pinned writer the decision
+pages use (`CONTENT_WRITER_MODEL`, `scripts/content-batch/writer.ts`) against
+`docs/compat-authoring-prompt.txt`, which carries the anti-AI-voice rules from
+the authoring prompt's §2-2 plus the tics specific to this format. **Do not
+write this prose yourself and do not edit what comes back** — the same rule as
+imported content mode.
+
+Differences from `content:batch`, all deliberate:
+
+- **Every cited URL is requested before anything is written.** A compatibility
+  answer rests on manufacturer guidance, and a model that skipped searching
+  produces plausible URLs that 404. A dead citation fails the pairing.
+- **The publish gate is different.** There is usually no government or
+  regulation source for "foil in an air fryer", so the decision pages' gate does
+  not apply here. Manufacturer and standards-body sources are primary instead.
+  Everything else holds: no invented numbers, no guessed URLs, no fabricated
+  reviewer.
+- **No database.** Records are `src/content/compat/pairings/<subject>--<target>.ts`
+  registered in `src/content/compat/index.ts`, rendered by
+  `src/templates/CompatPage.tsx`. Nothing is seeded.
+
+Like the other pipeline it stops at a verified working tree: no commit, no push,
+no deploy.
+
+The page unit is the ENTITY, not the pair. `/use/<entity>/` is an index of what
+has been written; a pair earns `/use/<subject>/<target>/` because its answer
+branches. Never build a broad compatibility table out of rows nobody sourced —
+that is the failure in `docs/content-architecture.md` §4 wearing a new hat.
+
 # Imported content mode
 
 When you are handed completed content, you:

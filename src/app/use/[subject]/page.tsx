@@ -5,7 +5,7 @@ import type { Metadata } from 'next';
 import { Breadcrumbs, type Crumb } from '@/components/Breadcrumbs';
 import { compatPresentation } from '@/lib/compat';
 import { buildPageMetadata } from '@/lib/seo/metadata';
-import { PAIRINGS, pairingPath, type Pairing } from '@/content/compat/pairings';
+import { PAIRINGS, pairingPath, type Pairing } from '@/content/compat';
 
 /**
  * The entity dossier: everything written about one subject, in one place.

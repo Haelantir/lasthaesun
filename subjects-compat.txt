@@ -1,0 +1,38 @@
+# Can I Use It With… — pairings to write.
+#
+#   npm run content:compat
+#
+# One pairing per line. The connective word is what makes it a pairing:
+#
+#     in · on · with · plugged into · washed in · stored in
+#
+# Write it however it comes out of your head. All four of these are read the
+# same way:
+#
+#     Cooking Spray in an Air Fryer
+#     cooking spray in an air fryer
+#     Can I Use Cooking Spray in an Air Fryer?
+#     Can I Put Cooking Spray in an Air Fryer?
+#
+# Indent a line underneath to steer the ANGLE — what to separate, what people
+# get wrong. Notes are hints, never findings, and never a verdict: the writer is
+# told in the prompt to ignore any conclusion suggested here and go by what it
+# can source.
+#
+# Lines with no connective word are dropped and reported, not guessed at.
+# Blank lines and # comments are ignored. A pairing that already exists is
+# rewritten in place, so clear this file after a run.
+#
+# Written so far — all × air fryer:
+#   aluminum foil · parchment paper · wax paper · paper plate · glass bowl
+#   pyrex · cooking spray · silicone liner
+#
+# Next up, if you want them:
+#   Metal Skewer in an Air Fryer
+#   Frozen Food in an Air Fryer
+#   Toothpick in an Air Fryer
+#   Ceramic Ramekin in an Air Fryer
+#   Space Heater plugged into a Power Strip
+#   Refrigerator plugged into an Extension Cord
+#   Vinegar on Granite
+#   Cast Iron in the Dishwasher

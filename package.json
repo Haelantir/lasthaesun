@@ -24,7 +24,8 @@
     "content:import": "tsx scripts/content-import/cli.ts",
     "content:import:check": "tsx scripts/content-import/cli.ts --dry-run",
     "content:prompt": "tsx scripts/content-import/write-prompt.ts",
-    "content:batch": "tsx --env-file-if-exists=.env.local --env-file-if-exists=.env scripts/content-batch/run.ts"
+    "content:batch": "tsx --env-file-if-exists=.env.local --env-file-if-exists=.env scripts/content-batch/run.ts",
+    "content:compat": "tsx --env-file-if-exists=.env.local --env-file-if-exists=.env scripts/compat-batch/run.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.122.0",

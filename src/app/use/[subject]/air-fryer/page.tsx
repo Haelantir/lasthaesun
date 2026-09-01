@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 
 import { CompatPage } from '@/templates/CompatPage';
 import { buildPageMetadata } from '@/lib/seo/metadata';
-import { findPairing, pairingPath, pairingsForTarget } from '@/content/compat/pairings';
+import { findPairing, pairingPath, pairingsForTarget } from '@/content/compat';
 
 /**
  * Every "<something> in an air fryer" pairing, from one template.

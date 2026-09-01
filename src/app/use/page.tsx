@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import { Breadcrumbs, type Crumb } from '@/components/Breadcrumbs';
 import { compatPresentation } from '@/lib/compat';
 import { buildPageMetadata } from '@/lib/seo/metadata';
-import { PAIRINGS, pairingPath } from '@/content/compat/pairings';
+import { PAIRINGS, pairingPath } from '@/content/compat';
 
 /**
  * SAMPLE — section hub for "Can I Use It With…".
