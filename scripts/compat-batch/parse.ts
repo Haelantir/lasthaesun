@@ -10,7 +10,7 @@
 import type { Pairing } from '../../src/content/compat/types';
 
 const VERDICTS = ['yes', 'yes_with_limits', 'risky', 'no'] as const;
-const RELATIONS = ['in', 'on', 'with', 'plugged-into', 'washed-in', 'stored-in'] as const;
+const RELATIONS = ['in', 'on', 'with', 'plugged-into', 'washed-in', 'dried-in', 'stored-in'] as const;
 const SOURCE_KINDS = [
   'government',
   'regulation',
@@ -244,6 +244,7 @@ const CONNECTIVES: { pattern: RegExp; relation: string }[] = [
   { pattern: /\s+in\s+the\s+dishwasher\b/i, relation: 'washed-in' },
   { pattern: /\s+stored\s+in\s+/i, relation: 'stored-in' },
   { pattern: /\s+washed\s+in\s+/i, relation: 'washed-in' },
+  { pattern: /\s+dried\s+in\s+/i, relation: 'dried-in' },
   { pattern: /\s+in\s+/i, relation: 'in' },
   { pattern: /\s+on\s+/i, relation: 'on' },
   { pattern: /\s+with\s+/i, relation: 'with' },

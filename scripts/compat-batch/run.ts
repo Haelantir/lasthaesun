@@ -83,8 +83,10 @@ function readerQuestion(job: CompatSubject): string {
   if (job.relation === 'plugged-into') {
     return `Can I plug ${article(subject)} ${subject} into ${article(target)} ${target}?`;
   }
-  // "in THE dishwasher" — there is only ever one, and nobody says "a dishwasher".
-  if (job.relation === 'washed-in') {
+  // "in THE dishwasher / dryer / freezer" — a household has one of each, and
+  // nobody searches "a dishwasher". These three also share a verb: you PUT the
+  // thing in, you do not "use" it there.
+  if (job.relation === 'washed-in' || job.relation === 'dried-in' || job.relation === 'stored-in') {
     return `Can I put ${article(subject)} ${subject} in the ${target}?`;
   }
   return `Can I use ${subject} ${job.relation.replace('-', ' ')} ${article(target)} ${target}?`;

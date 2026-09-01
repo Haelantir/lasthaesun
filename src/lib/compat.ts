@@ -18,7 +18,14 @@ export type CompatVerdict = 'yes' | 'yes_with_limits' | 'risky' | 'no';
 /** How the two entities are being combined. Stored, not derived: "foil IN an
  *  air fryer" and "vinegar ON granite" are different relations, and the word is
  *  what makes the H1 and the <title> read like the search that found them. */
-export type PairingRelation = 'in' | 'on' | 'with' | 'plugged-into' | 'washed-in' | 'stored-in';
+export type PairingRelation =
+  | 'in'
+  | 'on'
+  | 'with'
+  | 'plugged-into'
+  | 'washed-in'
+  | 'dried-in'
+  | 'stored-in';
 
 export interface CompatPresentation {
   label: string;
@@ -64,7 +71,11 @@ const RELATION_PHRASE: Record<PairingRelation, string> = {
   on: 'on',
   with: 'with',
   'plugged-into': 'plugged into',
+  // These three read as "in" on the page. The distinction they carry is what the
+  // appliance DOES to the thing, which decides the question's wording and the
+  // mechanisms worth explaining, not the word shown in the pairing box.
   'washed-in': 'in',
+  'dried-in': 'in',
   'stored-in': 'in',
 };
 

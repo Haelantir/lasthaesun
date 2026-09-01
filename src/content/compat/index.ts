@@ -40,6 +40,18 @@ import { nonstickPanInDishwasher } from './pairings/nonstick-pan--dishwasher';
 import { stainlessSteelInDishwasher } from './pairings/stainless-steel--dishwasher';
 import { siliconeUtensilsInDishwasher } from './pairings/silicone-utensils--dishwasher';
 import { plasticContainerInDishwasher } from './pairings/plastic-container--dishwasher';
+import { towelsInClothesDryer } from './pairings/towels--clothes-dryer';
+import { jeansInClothesDryer } from './pairings/jeans--clothes-dryer';
+import { downComforterInClothesDryer } from './pairings/down-comforter--clothes-dryer';
+import { woolSweaterInClothesDryer } from './pairings/wool-sweater--clothes-dryer';
+import { braInClothesDryer } from './pairings/bra--clothes-dryer';
+import { rubberBackedBathMatInClothesDryer } from './pairings/rubber-backed-bath-mat--clothes-dryer';
+import { breadInFreezer } from './pairings/bread--freezer';
+import { cookedRiceInFreezer } from './pairings/cooked-rice--freezer';
+import { milkInFreezer } from './pairings/milk--freezer';
+import { cheeseInFreezer } from './pairings/cheese--freezer';
+import { lettuceInFreezer } from './pairings/lettuce--freezer';
+import { eggsInTheShellInFreezer } from './pairings/eggs-in-the-shell--freezer';
 
 export const PAIRINGS: Pairing[] = [
   aluminumFoilInAirFryer,
@@ -74,6 +86,18 @@ export const PAIRINGS: Pairing[] = [
   stainlessSteelInDishwasher,
   siliconeUtensilsInDishwasher,
   plasticContainerInDishwasher,
+  towelsInClothesDryer,
+  jeansInClothesDryer,
+  downComforterInClothesDryer,
+  woolSweaterInClothesDryer,
+  braInClothesDryer,
+  rubberBackedBathMatInClothesDryer,
+  breadInFreezer,
+  cookedRiceInFreezer,
+  milkInFreezer,
+  cheeseInFreezer,
+  lettuceInFreezer,
+  eggsInTheShellInFreezer,
 ];
 
 export type { Pairing, CompatSource, CompatMechanism } from './types';
