@@ -2,7 +2,9 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 import { Breadcrumbs, type Crumb } from '@/components/Breadcrumbs';
+import { compatPresentation } from '@/lib/compat';
 import { buildPageMetadata } from '@/lib/seo/metadata';
+import { PAIRINGS, pairingPath } from '@/content/compat/pairings';
 
 /**
  * SAMPLE — section hub for "Can I Use It With…".
@@ -26,7 +28,7 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 const CATEGORIES = [
-  { name: 'Kitchen & Cooking', note: 'Liners, wraps, cookware, containers', ready: 1 },
+  { name: 'Kitchen & Cooking', note: 'Liners, wraps, cookware, containers', ready: PAIRINGS.length },
   { name: 'Electrical & Power', note: 'Power strips, extension cords, chargers, adapters', ready: 0 },
   { name: 'Cleaning & Surfaces', note: 'Cleaners and methods against finishes', ready: 0 },
   { name: 'Laundry & Fabrics', note: 'Detergents, dryers, materials', ready: 0 },
@@ -53,15 +55,22 @@ export default function UseHubPage() {
         <section className="section" aria-labelledby="ready-heading">
           <div className="section__head measure">
             <h2 id="ready-heading">Written so far</h2>
-            <p className="section__lead">One pairing, as a shape to judge rather than a launch.</p>
+            <p className="section__lead">
+              Everything answered against one appliance, which is how a compatibility set becomes
+              useful rather than long.
+            </p>
           </div>
           <ul className="pair-list">
-            <li>
-              <Link className="pair-card" href="/use/aluminum-foil/air-fryer/">
-                <span className="pair-card__title">Can I use aluminum foil in an air fryer?</span>
-                <span className="pair-card__meta">Kitchen &amp; Cooking · Yes, with limits</span>
-              </Link>
-            </li>
+            {PAIRINGS.map((pairing) => (
+              <li key={pairingPath(pairing)}>
+                <Link className="pair-card" href={pairingPath(pairing)}>
+                  <span className="pair-card__title">{pairing.h1}</span>
+                  <span className="pair-card__meta">
+                    {pairing.eyebrow} · {compatPresentation(pairing.verdict).label}
+                  </span>
+                </Link>
+              </li>
+            ))}
           </ul>
         </section>
 

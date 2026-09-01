@@ -13,6 +13,10 @@
 
 /* --- The pairing box ------------------------------------------------------ */
 
+/* Source order is subject → switcher → relation → target, which is the reading
+   order when the box stacks on a phone. Above 34rem the named areas move the
+   switcher under the subject card and centre the relation token against the two
+   cards rather than against the whole column. */
 .pairing {
   display: grid;
   gap: var(--space-3);
@@ -23,9 +27,16 @@
 @media (min-width: 34rem) {
   .pairing {
     grid-template-columns: 1fr auto 1fr;
-    gap: var(--space-4);
-    align-items: center;
+    grid-template-areas:
+      'subject relation target'
+      'swap    .        .';
+    column-gap: var(--space-4);
+    row-gap: var(--space-2);
   }
+  .pairing__subject  { grid-area: subject; }
+  .pairing__swap     { grid-area: swap; }
+  .pairing__relation { grid-area: relation; align-self: center; }
+  .pairing__target   { grid-area: target; }
 }
 
 .pairing__entity {
@@ -88,6 +99,100 @@ a.pairing__entity:hover .pairing__name { text-decoration: underline; }
 
 @media (min-width: 34rem) {
   .pairing__relation { justify-self: center; }
+}
+
+/* --- The subject switcher -------------------------------------------------
+
+   A <details> disclosure, not a <select>: see the note in PairingSwitcher.tsx.
+   Styled as a control rather than as content — dashed border, muted text, no
+   surface fill — so it never competes with the two entity cards above it. The
+   panel opens in flow rather than overlaying, matching the existing `.how-long`
+   disclosure on every problem page.
+   -------------------------------------------------------------------------- */
+
+.swap { font-size: 0.88rem; }
+
+.swap__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  border: 1px dashed var(--border-strong);
+  color: var(--text-muted);
+  font-weight: var(--fw-semibold);
+  cursor: pointer;
+  list-style: none;
+}
+.swap__summary::-webkit-details-marker { display: none; }
+.swap__summary::marker { content: ''; }
+
+.swap__summary:hover { color: var(--text); background: var(--surface-sunken); }
+.swap__summary:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* A CSS triangle rather than a glyph, so it cannot pick up a font fallback. */
+.swap__chevron {
+  flex: none;
+  width: 0;
+  height: 0;
+  border-left: 0.3rem solid transparent;
+  border-right: 0.3rem solid transparent;
+  border-top: 0.34rem solid currentColor;
+  transition: transform 120ms ease;
+}
+.swap[open] .swap__chevron { transform: rotate(180deg); }
+
+@media (prefers-reduced-motion: reduce) {
+  .swap__chevron { transition: none; }
+}
+
+.swap__panel {
+  border: 1px dashed var(--border-strong);
+  border-top: none;
+  padding: var(--space-3) var(--space-4) var(--space-4);
+}
+
+.swap__hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-3);
+}
+
+.swap__list { list-style: none; padding: 0; display: grid; gap: 1px; }
+
+.swap__option {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: var(--fw-semibold-plus);
+}
+.swap__list li:last-child .swap__option { border-bottom: none; }
+
+a.swap__option:hover { color: var(--accent-hover); }
+a.swap__option:hover .swap__option-name { text-decoration: underline; }
+
+.swap__option--current { color: var(--text-muted); font-weight: var(--fw-regular); }
+
+/* The verdict rides along so the list answers six questions at a glance rather
+   than only offering six destinations. Text, never colour alone. */
+.swap__option-verdict {
+  flex: none;
+  font-size: 0.7rem;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.06em;
+  color: var(--tone-fg);
+  background: var(--tone-bg);
+  border: 1px solid var(--tone-border);
+  padding: 0.1rem 0.4rem;
+  white-space: nowrap;
 }
 
 /* --- Conditions: the two-column "only if / never" panel ------------------- */
@@ -221,3 +326,7 @@ a.pairing__entity:hover .pairing__name { text-decoration: underline; }
 .pair-card__title { font-weight: var(--fw-bold); color: var(--accent); }
 .pair-card:hover .pair-card__title { text-decoration: underline; }
 .pair-card__meta { display: block; margin-top: var(--space-2); font-size: 0.85rem; color: var(--text-muted); }
+
+/* Two inline styles that were in the sample page; they belong here. */
+.source-list { padding-left: 1.1rem; }
+.search-tail { margin-top: var(--space-6); }
