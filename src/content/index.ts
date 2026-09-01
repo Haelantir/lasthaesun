@@ -11,6 +11,7 @@ import { catSneezing } from './problems/cat-sneezing';
 import { catStrainingToPee } from './problems/cat-straining-to-pee';
 import { catThrowingUp } from './problems/cat-throwing-up';
 import { crackInFoundation } from './problems/crack-in-foundation';
+import { crackedEgg } from './problems/cracked-egg';
 import { damagedPassport } from './problems/damaged-passport';
 import { damagedSuitcase } from './problems/damaged-suitcase';
 import { dogAteChocolate } from './problems/dog-ate-chocolate';
@@ -21,12 +22,16 @@ import { dogNotEating } from './problems/dog-not-eating';
 import { dogReverseSneezing } from './problems/dog-reverse-sneezing';
 import { dogThrowingUp } from './problems/dog-throwing-up';
 import { dryerTakesTooLongToDry } from './problems/dryer-takes-too-long-to-dry';
+import { eggsPastSellByDate } from './problems/eggs-past-sell-by-date';
 import { fridgeNotColdEnough } from './problems/fridge-not-cold-enough';
 import { garbageDisposalHumming } from './problems/garbage-disposal-humming';
 import { gasSmellNearTheStove } from './problems/gas-smell-near-the-stove';
 import { hotelRoomSmellsLikeMold } from './problems/hotel-room-smells-like-mold';
 import { lowWaterPressure } from './problems/low-water-pressure';
+import { meatThawedInFridge } from './problems/meat-thawed-in-fridge';
+import { meatTurnedBrownInFridge } from './problems/meat-turned-brown-in-fridge';
 import { missingRoofShingle } from './problems/missing-roof-shingle';
+import { moldOnBread } from './problems/mold-on-bread';
 import { nameTypoOnPlaneTicket } from './problems/name-typo-on-plane-ticket';
 import { newbornHiccups } from './problems/newborn-hiccups';
 import { newbornNoisyBreathing } from './problems/newborn-noisy-breathing';
@@ -125,6 +130,7 @@ import { smallLeakUnderSink } from './problems/small-leak-under-sink';
 import { smallWindshieldChip } from './problems/small-windshield-chip';
 import { slowDrain } from './problems/slow-drain';
 import { sparkingMicrowave } from './problems/sparking-microwave';
+import { sproutsOnAPotato } from './problems/sprouts-on-a-potato';
 import { squeakyBrakes } from './problems/squeaky-brakes';
 import { standingWaterInDishwasher } from './problems/standing-water-in-dishwasher';
 import { swollenLaptopBattery } from './problems/swollen-laptop-battery';
@@ -235,6 +241,12 @@ export const problems: ProblemSeed[] = [
   refrigeratorMakingLoudNoise,
   garbageDisposalHumming,
   gasSmellNearTheStove,
+  moldOnBread,
+  eggsPastSellByDate,
+  meatTurnedBrownInFridge,
+  crackedEgg,
+  meatThawedInFridge,
+  sproutsOnAPotato,
   ...plannedTireProblems,
   ...plannedExhaustProblems,
   ...plannedCoolingProblems,

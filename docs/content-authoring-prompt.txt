@@ -1,5 +1,5 @@
 CAN I IGNORE IT — 콘텐츠 작성 지시서
-generated 2026-09-01 · systems 60 · published 85 · reserved 115
+generated 2026-09-01 · systems 60 · published 91 · reserved 115
 (콘텐츠가 늘면 `npm run content:prompt`로 다시 뽑을 것. 목록이 낡으면 import가 실패한다.)
 
 ════════════════════════════════════════════════════════════════════════
@@ -115,23 +115,25 @@ TOPIC:
   cat-straining-to-pee                   cat-throwing-up                        check-engine-light
   chirping-smoke-alarm                   clicking-noise-when-turning            clunking-noise-over-bumps
   coolant-leak                           crack-in-foundation                    cracked-bike-helmet
-  cracked-phone-screen                   damaged-passport                       damaged-suitcase
-  dented-can                             dog-ate-chocolate                      dog-diarrhea
-  dog-drinking-lots-of-water             dog-eating-grass                       dog-not-eating
-  dog-reverse-sneezing                   dog-throwing-up                        dryer-takes-too-long-to-dry
-  flickering-light                       frayed-charging-cable                  freezer-burn
-  fridge-not-cold-enough                 frost-buildup-in-freezer               garbage-disposal-humming
-  gas-smell-near-the-stove               gfci-keeps-tripping                    high-rpm-after-cold-start
-  hot-laptop-charger                     hotel-room-smells-like-mold            leaking-faucet
-  leftovers-left-out                     low-tire-pressure                      low-water-pressure
-  missing-roof-shingle                   mold-around-window                     nail-in-tire
-  name-typo-on-plane-ticket              newborn-hiccups                        newborn-noisy-breathing
-  newborn-not-pooping                    newborn-sleeping-through-feedings      newborn-sneezing
-  newborn-spitting-up                    oil-leak                               passport-expiring-soon
-  refrigerator-door-left-open-overnight  refrigerator-leaking-water             refrigerator-making-loud-noise
-  scratch-on-rental-car                  sewer-gas-smell                        short-layover
-  slow-drain                             small-leak-under-sink                  small-windshield-chip
-  sparking-microwave                     squeaky-brakes                         standing-water-in-dishwasher
+  cracked-egg                            cracked-phone-screen                   damaged-passport
+  damaged-suitcase                       dented-can                             dog-ate-chocolate
+  dog-diarrhea                           dog-drinking-lots-of-water             dog-eating-grass
+  dog-not-eating                         dog-reverse-sneezing                   dog-throwing-up
+  dryer-takes-too-long-to-dry            eggs-past-sell-by-date                 flickering-light
+  frayed-charging-cable                  freezer-burn                           fridge-not-cold-enough
+  frost-buildup-in-freezer               garbage-disposal-humming               gas-smell-near-the-stove
+  gfci-keeps-tripping                    high-rpm-after-cold-start              hot-laptop-charger
+  hotel-room-smells-like-mold            leaking-faucet                         leftovers-left-out
+  low-tire-pressure                      low-water-pressure                     meat-thawed-in-fridge
+  meat-turned-brown-in-fridge            missing-roof-shingle                   mold-around-window
+  mold-on-bread                          nail-in-tire                           name-typo-on-plane-ticket
+  newborn-hiccups                        newborn-noisy-breathing                newborn-not-pooping
+  newborn-sleeping-through-feedings      newborn-sneezing                       newborn-spitting-up
+  oil-leak                               passport-expiring-soon                 refrigerator-door-left-open-overnight
+  refrigerator-leaking-water             refrigerator-making-loud-noise         scratch-on-rental-car
+  sewer-gas-smell                        short-layover                          slow-drain
+  small-leak-under-sink                  small-windshield-chip                  sparking-microwave
+  sprouts-on-a-potato                    squeaky-brakes                         standing-water-in-dishwasher
   swollen-laptop-battery                 toilet-keeps-running                   tpms-warning-light
   warm-electrical-outlet                 washing-machine-leaking-water          washing-machine-shakes-violently
   water-dripping-from-exhaust            water-heater-leaking                   water-stain-on-ceiling

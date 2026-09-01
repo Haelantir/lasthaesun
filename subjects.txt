@@ -1,29 +1,17 @@
-Can I Ignore a Refrigerator That Is Leaking Water?
-  원인이 defrost drain부터 water line까지 여러 갈래로 갈리는 증상이다. 원인별로 시나리오를 나눌 것.
+Can I Ignore Mold on Bread?
+  아주 흔한 상황이다. "곰팡이 부분만 떼고 먹어도 되나?"가 핵심 질문. 빵처럼 다공성 식품은 표면 아래까지 오염될 수 있다는 게 USDA 안내다.
 
-Can I Ignore a Washing Machine That Is Leaking Water?
-  몇 방울인지, 바닥에 고이는지, 호스 문제인지에 따라 판정이 달라진다.
+Can I Ignore Eggs Past the Sell-By Date?
+  날짜가 지났다고 바로 위험한 게 아니라는 의외성이 핵심이다. 냉장 보관된 달걀은 Sell-By 날짜가 지나도 사용할 수 있다는 게 USDA 설명이다.
 
-Can I Ignore a Refrigerator That Isn't Cooling?
-  freezer는 차갑고 fridge만 따뜻한 경우처럼 상황별로 나눌 수 있다.
+Can I Ignore Meat That Turned Brown in the Fridge?
+  색이 변했다고 바로 상한 고기는 아니다. 색 변화만으로는 부패를 판단할 수 없고, 냄새·끈적임·점액질 등이 같이 중요하다.
 
-Can I Ignore a Dishwasher That Won't Drain?
-  필터 막힘부터 drain hose, pump까지 원인이 다양하다. standing water 관련 검색까지 포괄할 것.
+Can I Ignore a Cracked Egg?
+  상황별 판정이 핵심이다. 살 때부터 깨진 경우, 집에서 깨진 경우, 삶다가 깨진 경우에 따라 답이 달라진다.
 
-Can I Ignore a Dryer That Takes Too Long to Dry?
-  성능 저하로 방치하기 쉬운데 vent restriction이 원인일 수 있다.
+Can I Ignore Meat That Has Thawed in the Fridge?
+  원래 주제는 "재냉동해도 되나"이지만 사이트 H1 포맷에 맞춰 이렇게 다듬었다. 냉장 해동이면 재냉동 가능하지만 찬물이나 전자레인지로 해동했으면 조건이 달라진다. "한 번 녹은 고기는 다시 얼리면 안 된다"는 흔한 오해를 다룰 것.
 
-Can I Ignore a Washing Machine That Shakes Violently?
-  빨래 불균형처럼 별일 아닌 경우와 수평·서스펜션 문제처럼 계속 쓰면 안 좋은 경우를 나눌 것.
-
-Can I Ignore a Burning Smell From My Dryer?
-  lint, vent, motor, electrical 계열 원인을 구분할 것. 안전 관련 주제다.
-
-Can I Ignore a Refrigerator Making a Loud Noise?
-  정상적인 hum/rattle과 fan·compressor 계열 이상을 가르는 것이 핵심이다.
-
-Can I Ignore a Garbage Disposal That Hums but Won't Spin?
-  소리는 나는데 안 도는 전형적인 증상이다.
-
-Can I Ignore a Gas Smell From My Oven?
-  점화 시 잠깐 나는 냄새와 계속 나는 냄새의 위험도 차이가 크다. 안전 관련 주제다.
+Can I Ignore Sprouts on a Potato?
+  단순 품질 문제가 아니라 자연독소 문제다. 싹이 나거나 초록색으로 변한 감자는 glycoalkaloid가 증가할 수 있다.
