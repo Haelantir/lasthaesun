@@ -71,9 +71,10 @@ const article = (word: string) => (/^[aeiou]/i.test(word) ? 'an' : 'a');
 /**
  * The reader's question, in the words they would actually type.
  *
- * `plugged into` needs its own sentence: "can I use a space heater plugged into
- * an extension cord" is not English anybody searches, and handing the writer an
- * awkward question is handing it an awkward H1.
+ * Two relations need their own sentence. "Can I use a space heater plugged into
+ * an extension cord" and "can I use cast iron in a dishwasher" are not English
+ * anybody searches, and handing the writer an awkward question hands it an
+ * awkward H1 — the H1 is supposed to be the search, verbatim.
  */
 function readerQuestion(job: CompatSubject): string {
   const subject = job.subject.toLowerCase();
@@ -81,6 +82,10 @@ function readerQuestion(job: CompatSubject): string {
 
   if (job.relation === 'plugged-into') {
     return `Can I plug ${article(subject)} ${subject} into ${article(target)} ${target}?`;
+  }
+  // "in THE dishwasher" — there is only ever one, and nobody says "a dishwasher".
+  if (job.relation === 'washed-in') {
+    return `Can I put ${article(subject)} ${subject} in the ${target}?`;
   }
   return `Can I use ${subject} ${job.relation.replace('-', ' ')} ${article(target)} ${target}?`;
 }

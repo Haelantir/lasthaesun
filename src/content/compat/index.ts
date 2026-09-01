@@ -28,6 +28,18 @@ import { refrigeratorPluggedIntoExtensionCord } from './pairings/refrigerator--e
 import { microwavePluggedIntoExtensionCord } from './pairings/microwave--extension-cord';
 import { tvPluggedIntoExtensionCord } from './pairings/tv--extension-cord';
 import { laptopChargerPluggedIntoExtensionCord } from './pairings/laptop-charger--extension-cord';
+import { aluminumFoilInMicrowave } from './pairings/aluminum-foil--microwave';
+import { paperPlateInMicrowave } from './pairings/paper-plate--microwave';
+import { plasticContainerInMicrowave } from './pairings/plastic-container--microwave';
+import { pyrexInMicrowave } from './pairings/pyrex--microwave';
+import { styrofoamInMicrowave } from './pairings/styrofoam--microwave';
+import { parchmentPaperInMicrowave } from './pairings/parchment-paper--microwave';
+import { castIronPanInDishwasher } from './pairings/cast-iron-pan--dishwasher';
+import { woodenCuttingBoardInDishwasher } from './pairings/wooden-cutting-board--dishwasher';
+import { nonstickPanInDishwasher } from './pairings/nonstick-pan--dishwasher';
+import { stainlessSteelInDishwasher } from './pairings/stainless-steel--dishwasher';
+import { siliconeUtensilsInDishwasher } from './pairings/silicone-utensils--dishwasher';
+import { plasticContainerInDishwasher } from './pairings/plastic-container--dishwasher';
 
 export const PAIRINGS: Pairing[] = [
   aluminumFoilInAirFryer,
@@ -50,6 +62,18 @@ export const PAIRINGS: Pairing[] = [
   microwavePluggedIntoExtensionCord,
   tvPluggedIntoExtensionCord,
   laptopChargerPluggedIntoExtensionCord,
+  aluminumFoilInMicrowave,
+  paperPlateInMicrowave,
+  plasticContainerInMicrowave,
+  pyrexInMicrowave,
+  styrofoamInMicrowave,
+  parchmentPaperInMicrowave,
+  castIronPanInDishwasher,
+  woodenCuttingBoardInDishwasher,
+  nonstickPanInDishwasher,
+  stainlessSteelInDishwasher,
+  siliconeUtensilsInDishwasher,
+  plasticContainerInDishwasher,
 ];
 
 export type { Pairing, CompatSource, CompatMechanism } from './types';

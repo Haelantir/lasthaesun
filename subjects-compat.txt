@@ -6,11 +6,15 @@
 # washed in / stored in) is what makes it parse. Indent a line underneath to
 # steer the ANGLE — never a verdict.
 #
-# Written so far:
+# Written so far — 32 pairings, 5 targets:
 #   × air fryer       — aluminum foil · parchment paper · wax paper · paper plate
 #                       glass bowl · pyrex · cooking spray · silicone liner
 #   × oven            — aluminum foil · parchment paper · wax paper · pyrex
 #                       silicone bakeware · plastic container
+#   × microwave       — aluminum foil · parchment paper · paper plate · pyrex
+#                       plastic container · styrofoam
+#   × dishwasher      — cast iron pan · wooden cutting board · nonstick pan
+#                       stainless steel · silicone utensils · plastic container
 #   × extension cord  — space heater · air conditioner · refrigerator
 #                       microwave · tv · laptop charger
 #
