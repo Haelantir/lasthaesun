@@ -74,6 +74,16 @@ import { essentialOilsInHumidifier } from './pairings/essential-oils--humidifier
 import { bottledWaterInHumidifier } from './pairings/bottled-water--humidifier';
 import { vinegarInHumidifier } from './pairings/vinegar--humidifier';
 import { humidifierWithAirPurifier } from './pairings/humidifier--air-purifier';
+import { windexOnTvScreen } from './pairings/windex--tv-screen';
+import { paperTowelInMicrowave } from './pairings/paper-towel--microwave';
+import { bakingSodaInWashingMachine } from './pairings/baking-soda--washing-machine';
+import { airFryerBasketWashedInDishwasher } from './pairings/air-fryer-basket--dishwasher';
+import { vinegarOnMarbleCountertop } from './pairings/vinegar--marble-countertop';
+import { steamMopOnLaminateFlooring } from './pairings/steam-mop--laminate-flooring';
+import { bleachOnGrout } from './pairings/bleach--grout';
+import { rubbingAlcoholOnPhoneScreen } from './pairings/rubbing-alcohol--phone-screen';
+import { magicEraserOnGlassTopStove } from './pairings/magic-eraser--glass-top-stove';
+import { bleachOnStainlessSteel } from './pairings/bleach--stainless-steel';
 
 export const PAIRINGS: Pairing[] = [
   aluminumFoilInAirFryer,
@@ -142,6 +152,16 @@ export const PAIRINGS: Pairing[] = [
   bottledWaterInHumidifier,
   vinegarInHumidifier,
   humidifierWithAirPurifier,
+  windexOnTvScreen,
+  paperTowelInMicrowave,
+  bakingSodaInWashingMachine,
+  airFryerBasketWashedInDishwasher,
+  vinegarOnMarbleCountertop,
+  steamMopOnLaminateFlooring,
+  bleachOnGrout,
+  rubbingAlcoholOnPhoneScreen,
+  magicEraserOnGlassTopStove,
+  bleachOnStainlessSteel,
 ];
 
 export type { Pairing, CompatSource, CompatMechanism } from './types';

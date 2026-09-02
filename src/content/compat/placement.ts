@@ -53,9 +53,23 @@ export const PAIRING_PLACEMENT: Record<string, Placement> = {
   humidifier: { domain: 'appliances' },
   'air-purifier': { domain: 'appliances' },
 
-  // The question is about the stone, not about a kitchen appliance, so it sits
-  // with the house rather than under Food & Kitchen.
+  // The question is about the surface, not about a kitchen appliance, so these
+  // sit with the house rather than under Food & Kitchen. None has an object
+  // node: there is no countertops or flooring category, and a cleaning agent
+  // is not reason enough to mint one.
   'granite-countertop': { domain: 'home' },
+  'marble-countertop': { domain: 'home' },
+  'laminate-flooring': { domain: 'home' },
+  grout: { domain: 'home' },
+
+  // Stainless steel arrives as a target here, having only been a subject
+  // before: the fridge door and the sink are what people are cleaning.
+  'stainless-steel': { domain: 'appliances' },
+
+  // Screens. The phone has an object node; televisions do not, and one
+  // pairing is not the moment to give them one.
+  'phone-screen': { domain: 'tech', object: 'phones' },
+  'tv-screen': { domain: 'tech' },
 
   'extension-cord': { domain: 'home', object: 'electrical' },
   'power-strip': { domain: 'home', object: 'electrical' },

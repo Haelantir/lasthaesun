@@ -6,12 +6,17 @@
 # washed in / dried in / stored in) is what makes it parse. Indent a line
 # underneath to steer the ANGLE — never a verdict.
 #
+# Write "washed in a Dishwasher", not "in the Dishwasher". The parser has a
+# specific `in the dishwasher` connective that swallows the target and leaves
+# nothing after it, so that line is dropped and no page is written.
+#
 # If a batch fails on a source URL, name the dead domain in that pairing's notes
 # before re-running. The writer reaches for the same host otherwise.
 # Retail product pages and brand blogs are the repeat offender: they sit behind
 # WAFs that refuse everything. Steer to manuals, standards and institutions.
+# Confirmed blockers so far: cleaninginstitute.org, cdn.homedics.com.
 #
-# Written so far — 56 pairings, 9 targets:
+# Written so far — 66 pairings, 15 targets:
 #   × air fryer       — aluminum foil · parchment paper · wax paper · paper plate
 #                       glass bowl · pyrex · cooking spray · silicone liner
 #   × oven            — aluminum foil · parchment paper · wax paper · pyrex
@@ -20,8 +25,10 @@
 #                       plastic container · styrofoam
 #   × dishwasher      — cast iron pan · wooden cutting board · nonstick pan
 #                       stainless steel · silicone utensils · plastic container
+#                       dish soap
 #   × washing machine — shoes · backpack · pillows · stuffed animals
 #                       weighted blanket · memory foam pillow
+#   × HE washing machine — regular detergent
 #   × clothes dryer   — towels · jeans · down comforter · wool sweater · bra
 #                       rubber-backed bath mat
 #   × freezer         — bread · cooked rice · milk · cheese · lettuce
@@ -30,48 +37,79 @@
 #                       microwave · tv · laptop charger
 #   × power strip     — desktop computer · gaming console · wi-fi router
 #                       laser printer · coffee maker · electric kettle
+#   × humidifier      — tap water · bottled water · essential oils · vinegar
+#   × air purifier    — humidifier
+#   × glass-top stove — cast iron pan
+#   × induction cooktop — cast iron pan
+#   × granite countertop — vinegar
 #
 # Clear the lines below before the next run, or they are rewritten in place.
 
-Dish Soap in a Dishwasher
-  기계용 세제와 손설거지용 세제가 무엇이 다른지, 거품이 어디까지 문제가 되는지가 축이다.
-  이미 넣어버린 사람이 무엇을 해야 하는지도 독자가 찾는 정보다.
+Windex on a TV Screen
+  화면 표면 코팅이 유리창과 무엇이 다른지가 축이다.
+  암모니아·알코올 성분 세정제가 코팅에 무엇을 하는지, 제조사가 안내하는 방법,
+  그리고 이미 한 번 닦아버린 경우에 무엇을 확인해야 하는지를 나눌 것.
+  windex.com은 429로 막혀 검증에 실패했다. 다른 출처를 쓸 것.
+  브랜드 제품 페이지와 업계협회 사이트는 대부분 차단되니 피할 것. 정부기관, 표준기관,
+  대학 extension, 그리고 직접 열리는 제조사 매뉴얼을 우선한다.
+
+Paper Towel in the Microwave
+  이미 /use/microwave/ 아래 종이접시와 유산지가 있으니 겹치지 않게 쓸 것.
+  무늬·염색·재생지가 들어간 것과 무표백 흰 것, 덮개로 쓰는 것과 장시간 가열하는 것,
+  기름기가 밴 상태로 다시 쓰는 것을 나눌 것.
+  files.sharpusa.com PDF는 연결이 타임아웃됐다. 다른 출처를 쓸 것.
+  브랜드 제품 페이지와 업계협회 사이트는 대부분 차단되니 피할 것. 정부기관, 표준기관,
+  대학 extension, 그리고 직접 열리는 제조사 매뉴얼을 우선한다.
+
+Baking Soda in a Washing Machine
+  세탁물이 아니라 세탁 첨가제를 다루는 첫 페어링이다.
+  세제와 함께 넣는 경우와 통세척 용도로 쓰는 경우, 넣는 위치가 갈림길이다.
+  드럼과 고무 개스킷·배수 계통에 남는 것이 문제가 되는지도 확인할 것.
+
+Air Fryer Basket washed in a Dishwasher
+  코팅과 표시가 핵심이다. dishwasher-safe 표기가 있는 모델과 없는 모델,
+  바스켓과 안쪽 크리스퍼 트레이가 서로 다를 수 있다는 점을 나눌 것.
+  손세척이 권장되는 이유가 무엇인지도 다룬다.
+
+Vinegar on a Marble Countertop
+  이미 /use/vinegar/granite-countertop/이 있으니 같은 축에서 답이 갈리는 지점을 분명히 할 것.
+  석재 자체가 산에 어떻게 반응하는지, 실링이 그것을 막아주는지,
+  한 번 흘린 경우와 상시 세정제로 쓰는 경우를 나눈다.
+  usenaturalstone.org는 403으로 막혀 검증에 실패했다. 다른 출처를 쓸 것.
+  브랜드 제품 페이지와 업계협회 사이트는 대부분 차단되니 피할 것. 정부기관, 표준기관,
+  대학 extension, 그리고 직접 열리는 제조사 매뉴얼을 우선한다.
+
+Steam Mop on Laminate Flooring
+  열과 수분이 이음새로 들어갔을 때 무엇이 일어나는지가 축이다.
+  제조사 보증 조항이 스팀을 어떻게 다루는지, 방수 표기가 있는 제품은 다른지,
+  이미 몇 번 썼는데 멀쩡해 보이는 경우를 나눌 것.
+  support.bissell.com은 401로 막혀 검증에 실패했다. 다른 출처를 쓸 것.
+  nalfa.com PDF도 404였다. 이 두 곳 말고 다른 출처를 쓸 것.
+  브랜드 제품 페이지와 업계협회 사이트는 대부분 차단되니 피할 것. 정부기관, 표준기관,
+  대학 extension, 그리고 직접 열리는 제조사 매뉴얼을 우선한다.
+
+Bleach on Grout
+  실링된 줄눈과 실링이 없거나 손상된 줄눈에서 답이 갈린다.
+  희석과 환기, 다른 세정제와 절대 섞지 말아야 하는 것, 색이 있는 줄눈에서
+  탈색이 문제가 되는 경우를 나눌 것.
+
+Rubbing Alcohol on a Phone Screen
+  "알코올은 무조건 안 된다"가 맞는지부터 확인할 것.
+  농도, 화면에 직접 뿌리는 것과 천에 묻혀 닦는 것, 포트와 스피커 구멍,
+  그리고 발수 코팅이 닳는 문제를 나눈다.
+
+Magic Eraser on a Glass-Top Stove
+  멜라민 스펀지가 화학 세정이 아니라 미세 연마로 작동한다는 점이 핵심이다.
+  마감 종류에 따라 광택이 어떻게 되는지, 눌어붙은 자국에 쓰는 경우와
+  일상 청소로 쓰는 경우를 나눌 것.
   cleaninginstitute.org는 403으로 막혀 검증에 실패했다. 다른 출처를 쓸 것.
+  브랜드 제품 페이지와 업계협회 사이트는 대부분 차단되니 피할 것. 정부기관, 표준기관,
+  대학 extension, 그리고 직접 열리는 제조사 매뉴얼을 우선한다.
 
-Regular Detergent in an HE Washing Machine
-  HE 표기의 의미와 저수위 세탁에서 거품이 어떻게 작용하는지를 볼 것.
-  한 번 잘못 넣은 경우와 계속 그렇게 써온 경우는 상황이 다르다.
-  cleaninginstitute.org는 403으로 막혀 검증에 실패했다. 다른 출처를 쓸 것.
-
-Cast Iron Pan on a Glass-Top Stove
-  이미 /use/cast-iron-pan/ 항목이 있으니 같은 엔티티로 묶인다.
-  무게, 바닥 평탄도, 끌지 말고 들어서 옮기는 문제, 표면 긁힘과 유리 파손을 나눌 것.
-
-Cast Iron Pan on an Induction Cooktop
-  유도 가열이 되는 재질인지와, 되더라도 표면·팬 양쪽에 무엇을 주의해야 하는지는 다른 질문이다.
-  위의 글라스탑 건과 답이 갈리는 지점이 이 페이지의 존재 이유다.
-
-Vinegar on a Granite Countertop
-  실링재와 석재 자체에 각각 무엇이 일어나는지 나눌 것.
-  한 번 흘린 경우와 상시 세정제로 쓰는 경우를 구분한다.
-
-Tap Water in a Humidifier
-  수돗물 경도와 미네랄이 기기와 실내 공기에 각각 어떻게 작용하는지가 축이다.
-  기기 종류에 따라 답이 갈리는지도 확인할 것.
-
-Essential Oils in a Humidifier
-  물탱크에 직접 넣는 것과 별도의 디퓨저·향 트레이를 쓰는 것을 반드시 구분할 것.
-  플라스틱 부품과 보증 조항이 갈림길이 될 수 있다.
-
-Bottled Water in a Humidifier
-  증류수를 못 구했을 때 생수가 대체재가 되는지를 묻는 사람이 독자다.
-  생수와 증류수가 미네랄 함량에서 어떻게 다른지가 핵심이고, 위의 수돗물 건과 겹치지 않게 쓴다.
-  cdn.homedics.com PDF는 연결 자체가 실패했다. 다른 제조사 매뉴얼을 쓸 것.
-
-Vinegar in a Humidifier
-  작동 중 물탱크에 넣는 용도와, 전원을 끄고 세척할 때 쓰는 용도는 완전히 다른 질문이다.
-  제조사 세척 안내가 식초를 어떻게 다루는지 확인할 것.
-
-Humidifier With an Air Purifier
-  두 기기를 같은 방에서 함께 쓸 때 서로에게 무엇을 하는지가 축이다.
-  거리와 배치, 필터 종류, 습도가 필터에 미치는 영향을 나눌 것.
+Bleach on Stainless Steel
+  스테인리스의 내식성이 어디서 오는지와 염소가 거기에 무엇을 하는지가 축이다.
+  즉시 헹군 경우와 방치한 경우, 싱크·냉장고 문·조리기구처럼 대상이 다른 경우를 나눌 것.
+  nickelinstitute.org는 403으로 막혀 검증에 실패했다. 다른 출처를 쓸 것.
+  본문 필드에 ([도메인](주소)) 형태의 인용을 붙이지 말 것. 링크와 URL은 SOURCES에만 넣는다.
+  브랜드 제품 페이지와 업계협회 사이트는 대부분 차단되니 피할 것. 정부기관, 표준기관,
+  대학 extension, 그리고 직접 열리는 제조사 매뉴얼을 우선한다.
