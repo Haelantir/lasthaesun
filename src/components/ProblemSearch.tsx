@@ -9,7 +9,9 @@
 export function ProblemSearch({
   defaultValue = '',
   label = 'Search problems',
-  placeholder = 'What are you thinking of ignoring?',
+  // Short on purpose: the long form was truncated inside the field on a
+  // phone, which is where the hero search is most used.
+  placeholder = 'Ignoring what?',
   large = false,
   autoFocus = false,
   id = 'site-search',
