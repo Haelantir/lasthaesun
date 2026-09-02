@@ -64,6 +64,16 @@ import { wiFiRouterPluggedIntoPowerStrip } from './pairings/wi-fi-router--power-
 import { laserPrinterPluggedIntoPowerStrip } from './pairings/laser-printer--power-strip';
 import { coffeeMakerPluggedIntoPowerStrip } from './pairings/coffee-maker--power-strip';
 import { electricKettlePluggedIntoPowerStrip } from './pairings/electric-kettle--power-strip';
+import { dishSoapInDishwasher } from './pairings/dish-soap--dishwasher';
+import { regularDetergentInHeWashingMachine } from './pairings/regular-detergent--he-washing-machine';
+import { castIronPanOnGlassTopStove } from './pairings/cast-iron-pan--glass-top-stove';
+import { castIronPanOnInductionCooktop } from './pairings/cast-iron-pan--induction-cooktop';
+import { vinegarOnGraniteCountertop } from './pairings/vinegar--granite-countertop';
+import { tapWaterInHumidifier } from './pairings/tap-water--humidifier';
+import { essentialOilsInHumidifier } from './pairings/essential-oils--humidifier';
+import { bottledWaterInHumidifier } from './pairings/bottled-water--humidifier';
+import { vinegarInHumidifier } from './pairings/vinegar--humidifier';
+import { humidifierWithAirPurifier } from './pairings/humidifier--air-purifier';
 
 export const PAIRINGS: Pairing[] = [
   aluminumFoilInAirFryer,
@@ -122,6 +132,16 @@ export const PAIRINGS: Pairing[] = [
   laserPrinterPluggedIntoPowerStrip,
   coffeeMakerPluggedIntoPowerStrip,
   electricKettlePluggedIntoPowerStrip,
+  dishSoapInDishwasher,
+  regularDetergentInHeWashingMachine,
+  castIronPanOnGlassTopStove,
+  castIronPanOnInductionCooktop,
+  vinegarOnGraniteCountertop,
+  tapWaterInHumidifier,
+  essentialOilsInHumidifier,
+  bottledWaterInHumidifier,
+  vinegarInHumidifier,
+  humidifierWithAirPurifier,
 ];
 
 export type { Pairing, CompatSource, CompatMechanism } from './types';

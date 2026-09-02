@@ -40,6 +40,23 @@ export const PAIRING_PLACEMENT: Record<string, Placement> = {
   // happens to bread, milk and eggs, not about the machine.
   freezer: { domain: 'food-kitchen', object: 'food-storage' },
 
+  // A cooktop surface is the stove it sits in. 'he-washing-machine' is its own
+  // key rather than an alias of 'washing-machine': the HE part is the whole
+  // question, and a reader who lands on it has a different machine in mind.
+  'glass-top-stove': { domain: 'appliances', object: 'stoves-and-ovens' },
+  'induction-cooktop': { domain: 'appliances', object: 'stoves-and-ovens' },
+  'he-washing-machine': { domain: 'appliances', object: 'washing-machines' },
+
+  // Domain-only, like the air fryer: there is no humidifier or air purifier
+  // object node, and minting one to hold five pairings is the inflation the
+  // note at the top of this file warns about.
+  humidifier: { domain: 'appliances' },
+  'air-purifier': { domain: 'appliances' },
+
+  // The question is about the stone, not about a kitchen appliance, so it sits
+  // with the house rather than under Food & Kitchen.
+  'granite-countertop': { domain: 'home' },
+
   'extension-cord': { domain: 'home', object: 'electrical' },
   'power-strip': { domain: 'home', object: 'electrical' },
 };

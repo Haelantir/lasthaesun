@@ -32,3 +32,46 @@
 #                       laser printer · coffee maker · electric kettle
 #
 # Clear the lines below before the next run, or they are rewritten in place.
+
+Dish Soap in a Dishwasher
+  기계용 세제와 손설거지용 세제가 무엇이 다른지, 거품이 어디까지 문제가 되는지가 축이다.
+  이미 넣어버린 사람이 무엇을 해야 하는지도 독자가 찾는 정보다.
+  cleaninginstitute.org는 403으로 막혀 검증에 실패했다. 다른 출처를 쓸 것.
+
+Regular Detergent in an HE Washing Machine
+  HE 표기의 의미와 저수위 세탁에서 거품이 어떻게 작용하는지를 볼 것.
+  한 번 잘못 넣은 경우와 계속 그렇게 써온 경우는 상황이 다르다.
+  cleaninginstitute.org는 403으로 막혀 검증에 실패했다. 다른 출처를 쓸 것.
+
+Cast Iron Pan on a Glass-Top Stove
+  이미 /use/cast-iron-pan/ 항목이 있으니 같은 엔티티로 묶인다.
+  무게, 바닥 평탄도, 끌지 말고 들어서 옮기는 문제, 표면 긁힘과 유리 파손을 나눌 것.
+
+Cast Iron Pan on an Induction Cooktop
+  유도 가열이 되는 재질인지와, 되더라도 표면·팬 양쪽에 무엇을 주의해야 하는지는 다른 질문이다.
+  위의 글라스탑 건과 답이 갈리는 지점이 이 페이지의 존재 이유다.
+
+Vinegar on a Granite Countertop
+  실링재와 석재 자체에 각각 무엇이 일어나는지 나눌 것.
+  한 번 흘린 경우와 상시 세정제로 쓰는 경우를 구분한다.
+
+Tap Water in a Humidifier
+  수돗물 경도와 미네랄이 기기와 실내 공기에 각각 어떻게 작용하는지가 축이다.
+  기기 종류에 따라 답이 갈리는지도 확인할 것.
+
+Essential Oils in a Humidifier
+  물탱크에 직접 넣는 것과 별도의 디퓨저·향 트레이를 쓰는 것을 반드시 구분할 것.
+  플라스틱 부품과 보증 조항이 갈림길이 될 수 있다.
+
+Bottled Water in a Humidifier
+  증류수를 못 구했을 때 생수가 대체재가 되는지를 묻는 사람이 독자다.
+  생수와 증류수가 미네랄 함량에서 어떻게 다른지가 핵심이고, 위의 수돗물 건과 겹치지 않게 쓴다.
+  cdn.homedics.com PDF는 연결 자체가 실패했다. 다른 제조사 매뉴얼을 쓸 것.
+
+Vinegar in a Humidifier
+  작동 중 물탱크에 넣는 용도와, 전원을 끄고 세척할 때 쓰는 용도는 완전히 다른 질문이다.
+  제조사 세척 안내가 식초를 어떻게 다루는지 확인할 것.
+
+Humidifier With an Air Purifier
+  두 기기를 같은 방에서 함께 쓸 때 서로에게 무엇을 하는지가 축이다.
+  거리와 배치, 필터 종류, 습도가 필터에 미치는 영향을 나눌 것.
