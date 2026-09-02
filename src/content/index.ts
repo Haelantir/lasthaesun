@@ -1,5 +1,7 @@
 import type { ProblemSeed } from './types';
+import { absWarningLight } from './problems/abs-warning-light';
 import { acLeakingWaterInside } from './problems/ac-leaking-water-inside';
+import { airlineScheduleChange } from './problems/airline-schedule-change';
 import { bedBugsInHotelRoom } from './problems/bed-bugs-in-hotel-room';
 import { blueScreenHappenedOnce } from './problems/blue-screen-happened-once';
 import { boardingPassWontLoad } from './problems/boarding-pass-wont-load';
@@ -7,6 +9,7 @@ import { breakerKeepsTripping } from './problems/breaker-keeps-tripping';
 import { brownWaterFromFaucet } from './problems/brown-water-from-faucet';
 import { burningSmellFromDryer } from './problems/burning-smell-from-dryer';
 import { burningSmellFromFurnace } from './problems/burning-smell-from-furnace';
+import { catNotEating } from './problems/cat-not-eating';
 import { catSleepingAllDay } from './problems/cat-sleeping-all-day';
 import { catSneezing } from './problems/cat-sneezing';
 import { catStrainingToPee } from './problems/cat-straining-to-pee';
@@ -16,18 +19,23 @@ import { crackInFoundation } from './problems/crack-in-foundation';
 import { crackedEgg } from './problems/cracked-egg';
 import { damagedPassport } from './problems/damaged-passport';
 import { damagedSuitcase } from './problems/damaged-suitcase';
+import { deadPixelOnMonitor } from './problems/dead-pixel-on-monitor';
 import { dogAteChocolate } from './problems/dog-ate-chocolate';
 import { dogDiarrhea } from './problems/dog-diarrhea';
 import { dogDrinkingLotsOfWater } from './problems/dog-drinking-lots-of-water';
 import { dogEatingGrass } from './problems/dog-eating-grass';
+import { dogLimping } from './problems/dog-limping';
 import { dogNotEating } from './problems/dog-not-eating';
 import { dogReverseSneezing } from './problems/dog-reverse-sneezing';
 import { dogThrowingUp } from './problems/dog-throwing-up';
 import { dryerTakesTooLongToDry } from './problems/dryer-takes-too-long-to-dry';
 import { eggsPastSellByDate } from './problems/eggs-past-sell-by-date';
+import { flatSpotOnBabysHead } from './problems/flat-spot-on-babys-head';
+import { foodPastBestByDate } from './problems/food-past-best-by-date';
 import { fridgeNotColdEnough } from './problems/fridge-not-cold-enough';
 import { garbageDisposalHumming } from './problems/garbage-disposal-humming';
 import { gasSmellNearTheStove } from './problems/gas-smell-near-the-stove';
+import { hairlineCrackInDrywall } from './problems/hairline-crack-in-drywall';
 import { hotPhoneWhileCharging } from './problems/hot-phone-while-charging';
 import { hotelRoomSmellsLikeMold } from './problems/hotel-room-smells-like-mold';
 import { laptopFanRunsConstantly } from './problems/laptop-fan-runs-constantly';
@@ -46,6 +54,7 @@ import { newbornSneezing } from './problems/newborn-sneezing';
 import { newbornSpittingUp } from './problems/newborn-spitting-up';
 import { passportExpiringSoon } from './problems/passport-expiring-soon';
 import { phoneBatteryDrainingFast } from './problems/phone-battery-draining-fast';
+import { pipesBangWhenWaterTurnsOff } from './problems/pipes-bang-when-water-turns-off';
 import { plannedAirConditioningProblems } from './problems/planned-air-conditioning-problems';
 import { plannedBreakersProblems } from './problems/planned-breakers-problems';
 import { plannedCeilingsProblems } from './problems/planned-ceilings-problems';
@@ -126,9 +135,16 @@ import { plannedRentalCarDamageProblems } from './problems/planned-rental-car-da
 import { plannedNewbornFeedingProblems } from './problems/planned-newborn-feeding-problems';
 import { plannedNewbornBreathingAndSoundsProblems } from './problems/planned-newborn-breathing-and-sounds-problems';
 import { plannedNewbornDiapersAndDigestionProblems } from './problems/planned-newborn-diapers-and-digestion-problems';
+import { plannedWallsProblems } from './problems/planned-walls-problems';
+import { plannedPipesProblems } from './problems/planned-pipes-problems';
+import { plannedDisplaysProblems } from './problems/planned-displays-problems';
+import { plannedNewbornHeadAndSkullProblems } from './problems/planned-newborn-head-and-skull-problems';
+import { plannedDogMobilityProblems } from './problems/planned-dog-mobility-problems';
+import { plannedCatEatingAndDrinkingProblems } from './problems/planned-cat-eating-and-drinking-problems';
 import { refrigeratorDoorLeftOpenOvernight } from './problems/refrigerator-door-left-open-overnight';
 import { refrigeratorLeakingWater } from './problems/refrigerator-leaking-water';
 import { refrigeratorMakingLoudNoise } from './problems/refrigerator-making-loud-noise';
+import { refrigeratorRunningConstantly } from './problems/refrigerator-running-constantly';
 import { scratchOnRentalCar } from './problems/scratch-on-rental-car';
 import { sewerGasSmell } from './problems/sewer-gas-smell';
 import { shortLayover } from './problems/short-layover';
@@ -267,6 +283,16 @@ export const problems: ProblemSeed[] = [
   wifiKeepsDisconnecting,
   softwareUpdate,
   yourConnectionIsNotPrivateWarning,
+  absWarningLight,
+  hairlineCrackInDrywall,
+  pipesBangWhenWaterTurnsOff,
+  refrigeratorRunningConstantly,
+  foodPastBestByDate,
+  deadPixelOnMonitor,
+  dogLimping,
+  catNotEating,
+  flatSpotOnBabysHead,
+  airlineScheduleChange,
   ...plannedTireProblems,
   ...plannedExhaustProblems,
   ...plannedCoolingProblems,
@@ -323,4 +349,10 @@ export const problems: ProblemSeed[] = [
   ...plannedNewbornFeedingProblems,
   ...plannedNewbornBreathingAndSoundsProblems,
   ...plannedNewbornDiapersAndDigestionProblems,
+  ...plannedWallsProblems,
+  ...plannedPipesProblems,
+  ...plannedDisplaysProblems,
+  ...plannedNewbornHeadAndSkullProblems,
+  ...plannedDogMobilityProblems,
+  ...plannedCatEatingAndDrinkingProblems,
 ];

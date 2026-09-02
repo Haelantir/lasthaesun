@@ -20,7 +20,6 @@ const planned: PlannedProblem[] = [
   { slug: 'buzzing-refrigerator', name: 'Buzzing Refrigerator', h1: 'Can I Ignore a Refrigerator That Makes a Loud Buzzing Noise?' },
   { slug: 'refrigerator-clicking-on-and-off', name: 'Refrigerator Clicking On and Off', h1: 'Can I Ignore a Refrigerator That Keeps Clicking On and Off?' },
   { slug: 'refrigerator-rattling', name: 'Rattling Refrigerator', h1: 'Can I Ignore a Refrigerator That Rattles?' },
-  { slug: 'refrigerator-running-constantly', name: 'Refrigerator Running Constantly', h1: 'Can I Ignore a Refrigerator That Never Stops Running?' },
 ];
 
 export const plannedRefrigeratorNoisesProblems: ProblemSeed[] = planned.map(({ slug, name, h1 }) => ({
