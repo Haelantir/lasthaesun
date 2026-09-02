@@ -259,14 +259,6 @@ ul, ol { padding-left: 1.35em; }
 }
 .wordmark--use .wordmark__mark { color: var(--accent); }
 
-@media (max-width: 32rem) {
-  /* Below this the divider sits under the first mark rather than beside it. */
-  .wordmark--use {
-    padding-left: 0;
-    border-left: none;
-  }
-}
-
 .wordmark {
   display: inline-flex;
   align-items: baseline;
@@ -304,6 +296,59 @@ ul, ol { padding-left: 1.35em; }
   text-decoration: none;
 }
 .site-header__link:hover { color: var(--text); background: var(--surface-sunken); }
+
+/* Phones. Side by side the two wordmarks ran the full width of the bar and
+   shoved Browse/Search onto a right-aligned second row, so the header read as
+   one crowded block rather than as two things. Below the site's mobile
+   breakpoint they stack and centre instead, a little larger, and the nav
+   becomes its own band underneath. Same elements, given a horizon. */
+@media (max-width: 40rem) {
+  /* Stacked, the bar is 120px — a seventh of a phone screen, held there for the
+     whole scroll. Browse and Search are not what someone reading a verdict
+     reaches for, so the header gives the viewport back and waits at the top. */
+  .site-header { position: static; }
+
+  .site-header__inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    min-height: 0;
+    padding-block: 0;
+  }
+
+  .site-header__marks {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
+    padding-block: var(--space-3);
+  }
+
+  /* Tighter than body leading: at 1.55 the two stacked marks drifted apart and
+     stopped reading as a pair, and the sticky bar grew for nothing. */
+  .site-header__marks .wordmark {
+    font-size: 1.2rem;
+    line-height: 1.2;
+  }
+
+  /* The hairline divided two marks sitting side by side; stacked, it would sit
+     under the first one, so it goes. */
+  .wordmark--use {
+    padding-left: 0;
+    border-left: none;
+  }
+
+  .site-header__nav {
+    margin-left: 0;
+    justify-content: center;
+    gap: var(--space-1);
+    border-top: 1px solid var(--border);
+    background: var(--surface-sunken);
+    /* Full-bleed past the gutter so the band reads as its own zone instead of a
+       boxed-in strip. */
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+  }
+}
 
 .site-footer {
   margin-top: var(--space-8);
