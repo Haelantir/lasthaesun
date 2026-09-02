@@ -15,6 +15,8 @@ import { catSneezing } from './problems/cat-sneezing';
 import { catStrainingToPee } from './problems/cat-straining-to-pee';
 import { catThrowingUp } from './problems/cat-throwing-up';
 import { clickingHardDrive } from './problems/clicking-hard-drive';
+import { cloudyPoolWater } from './problems/cloudy-pool-water';
+import { condensationBetweenWindowPanes } from './problems/condensation-between-window-panes';
 import { crackInFoundation } from './problems/crack-in-foundation';
 import { crackedEgg } from './problems/cracked-egg';
 import { damagedPassport } from './problems/damaged-passport';
@@ -27,6 +29,7 @@ import { dogEatingGrass } from './problems/dog-eating-grass';
 import { dogLimping } from './problems/dog-limping';
 import { dogNotEating } from './problems/dog-not-eating';
 import { dogReverseSneezing } from './problems/dog-reverse-sneezing';
+import { dogScooting } from './problems/dog-scooting';
 import { dogThrowingUp } from './problems/dog-throwing-up';
 import { dryerTakesTooLongToDry } from './problems/dryer-takes-too-long-to-dry';
 import { eggsPastSellByDate } from './problems/eggs-past-sell-by-date';
@@ -45,6 +48,8 @@ import { meatThawedInFridge } from './problems/meat-thawed-in-fridge';
 import { meatTurnedBrownInFridge } from './problems/meat-turned-brown-in-fridge';
 import { missingRoofShingle } from './problems/missing-roof-shingle';
 import { moldOnBread } from './problems/mold-on-bread';
+import { moldOnHardCheese } from './problems/mold-on-hard-cheese';
+import { mushroomsGrowingInLawn } from './problems/mushrooms-growing-in-lawn';
 import { nameTypoOnPlaneTicket } from './problems/name-typo-on-plane-ticket';
 import { newbornHiccups } from './problems/newborn-hiccups';
 import { newbornNoisyBreathing } from './problems/newborn-noisy-breathing';
@@ -52,6 +57,7 @@ import { newbornNotPooping } from './problems/newborn-not-pooping';
 import { newbornSleepingThroughFeedings } from './problems/newborn-sleeping-through-feedings';
 import { newbornSneezing } from './problems/newborn-sneezing';
 import { newbornSpittingUp } from './problems/newborn-spitting-up';
+import { oneCockroachInHouse } from './problems/one-cockroach-in-house';
 import { passportExpiringSoon } from './problems/passport-expiring-soon';
 import { phoneBatteryDrainingFast } from './problems/phone-battery-draining-fast';
 import { pipesBangWhenWaterTurnsOff } from './problems/pipes-bang-when-water-turns-off';
@@ -136,6 +142,11 @@ import { plannedNewbornFeedingProblems } from './problems/planned-newborn-feedin
 import { plannedNewbornBreathingAndSoundsProblems } from './problems/planned-newborn-breathing-and-sounds-problems';
 import { plannedNewbornDiapersAndDigestionProblems } from './problems/planned-newborn-diapers-and-digestion-problems';
 import { plannedWallsProblems } from './problems/planned-walls-problems';
+import { plannedCeilingFansProblems } from './problems/planned-ceiling-fans-problems';
+import { plannedCockroachesProblems } from './problems/planned-cockroaches-problems';
+import { plannedLawnFungusProblems } from './problems/planned-lawn-fungus-problems';
+import { plannedPoolWaterQualityProblems } from './problems/planned-pool-water-quality-problems';
+import { plannedDogBehaviorAndEnergyProblems } from './problems/planned-dog-behavior-and-energy-problems';
 import { plannedPipesProblems } from './problems/planned-pipes-problems';
 import { plannedDisplaysProblems } from './problems/planned-displays-problems';
 import { plannedNewbornHeadAndSkullProblems } from './problems/planned-newborn-head-and-skull-problems';
@@ -145,12 +156,14 @@ import { refrigeratorDoorLeftOpenOvernight } from './problems/refrigerator-door-
 import { refrigeratorLeakingWater } from './problems/refrigerator-leaking-water';
 import { refrigeratorMakingLoudNoise } from './problems/refrigerator-making-loud-noise';
 import { refrigeratorRunningConstantly } from './problems/refrigerator-running-constantly';
+import { rustOnBrakeRotors } from './problems/rust-on-brake-rotors';
 import { scratchOnRentalCar } from './problems/scratch-on-rental-car';
 import { sewerGasSmell } from './problems/sewer-gas-smell';
 import { shortLayover } from './problems/short-layover';
 import { smallLeakUnderSink } from './problems/small-leak-under-sink';
 import { smallWindshieldChip } from './problems/small-windshield-chip';
 import { slowDrain } from './problems/slow-drain';
+import { smartHardDriveWarning } from './problems/smart-hard-drive-warning';
 import { softwareUpdate } from './problems/software-update';
 import { sparkingMicrowave } from './problems/sparking-microwave';
 import { sproutsOnAPotato } from './problems/sprouts-on-a-potato';
@@ -168,7 +181,9 @@ import { waterHeaterLeaking } from './problems/water-heater-leaking';
 import { waterStainOnCeiling } from './problems/water-stain-on-ceiling';
 import { wheelVibration } from './problems/wheel-vibration';
 import { whiteSmokeFromExhaust } from './problems/white-smoke-from-exhaust';
+import { whiteSpotsOnChocolate } from './problems/white-spots-on-chocolate';
 import { wifiKeepsDisconnecting } from './problems/wifi-keeps-disconnecting';
+import { wobblingCeilingFan } from './problems/wobbling-ceiling-fan';
 import { wrongBaggageTag } from './problems/wrong-baggage-tag';
 import { yellowFlameOnGasStove } from './problems/yellow-flame-on-gas-stove';
 import { yourConnectionIsNotPrivateWarning } from './problems/your-connection-is-not-private-warning';
@@ -293,6 +308,16 @@ export const problems: ProblemSeed[] = [
   catNotEating,
   flatSpotOnBabysHead,
   airlineScheduleChange,
+  rustOnBrakeRotors,
+  condensationBetweenWindowPanes,
+  wobblingCeilingFan,
+  oneCockroachInHouse,
+  cloudyPoolWater,
+  mushroomsGrowingInLawn,
+  whiteSpotsOnChocolate,
+  moldOnHardCheese,
+  dogScooting,
+  smartHardDriveWarning,
   ...plannedTireProblems,
   ...plannedExhaustProblems,
   ...plannedCoolingProblems,
@@ -350,6 +375,11 @@ export const problems: ProblemSeed[] = [
   ...plannedNewbornBreathingAndSoundsProblems,
   ...plannedNewbornDiapersAndDigestionProblems,
   ...plannedWallsProblems,
+  ...plannedCeilingFansProblems,
+  ...plannedCockroachesProblems,
+  ...plannedLawnFungusProblems,
+  ...plannedPoolWaterQualityProblems,
+  ...plannedDogBehaviorAndEnergyProblems,
   ...plannedPipesProblems,
   ...plannedDisplaysProblems,
   ...plannedNewbornHeadAndSkullProblems,

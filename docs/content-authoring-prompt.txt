@@ -1,5 +1,5 @@
 CAN I IGNORE IT — 콘텐츠 작성 지시서
-generated 2026-09-02 · systems 73 · published 111 · reserved 134
+generated 2026-09-02 · systems 77 · published 121 · reserved 154
 (콘텐츠가 늘면 `npm run content:prompt`로 다시 뽑을 것. 목록이 낡으면 import가 실패한다.)
 
 ════════════════════════════════════════════════════════════════════════
@@ -61,11 +61,15 @@ TOPIC:
   frozen-food                     /food-kitchen/food-storage/frozen-food/              Food & Kitchen · Food Storage · Frozen Food
   pantry                          /food-kitchen/food-storage/pantry/                   Food & Kitchen · Food Storage · Pantry
   food-safety                     /food-kitchen/refrigeration/food-safety/             Food & Kitchen · Refrigeration · Food Safety
+  lawn-fungus                     /garden-and-outdoors/lawn/fungus-and-mushrooms/      Garden & Outdoors · Lawn · Fungus & Mushrooms
+  pool-water-quality              /garden-and-outdoors/pools/water-quality/            Garden & Outdoors · Pools & Spas · Water Quality
   breakers                        /home/electrical/breakers/                           Home · Electrical · Breakers
+  ceiling-fans                    /home/electrical/ceiling-fans/                       Home · Electrical · Ceiling Fans
   lighting                        /home/electrical/lighting/                           Home · Electrical · Lighting
   outlets                         /home/electrical/outlets/                            Home · Electrical · Outlets
   air-conditioning                /home/hvac/air-conditioning/                         Home · HVAC · Air Conditioning
   heating                         /home/hvac/heating/                                  Home · HVAC · Heating
+  cockroaches                     /home/pests/cockroaches/                             Home · Pests · Cockroaches
   drains                          /home/plumbing/drains/                               Home · Plumbing · Drains
   leaks                           /home/plumbing/leaks/                                Home · Plumbing · Leaks
   pipes                           /home/plumbing/pipes/                                Home · Plumbing · Pipes
@@ -128,12 +132,13 @@ TOPIC:
   car-pulls-to-one-side                   cat-not-eating                          cat-sleeping-all-day
   cat-sneezing                            cat-straining-to-pee                    cat-throwing-up
   check-engine-light                      chirping-smoke-alarm                    clicking-hard-drive
-  clicking-noise-when-turning             clunking-noise-over-bumps               coolant-leak
-  crack-in-foundation                     cracked-bike-helmet                     cracked-egg
-  cracked-phone-screen                    damaged-passport                        damaged-suitcase
-  dead-pixel-on-monitor                   dented-can                              dog-ate-chocolate
-  dog-diarrhea                            dog-drinking-lots-of-water              dog-eating-grass
-  dog-limping                             dog-not-eating                          dog-reverse-sneezing
+  clicking-noise-when-turning             cloudy-pool-water                       clunking-noise-over-bumps
+  condensation-between-window-panes       coolant-leak                            crack-in-foundation
+  cracked-bike-helmet                     cracked-egg                             cracked-phone-screen
+  damaged-passport                        damaged-suitcase                        dead-pixel-on-monitor
+  dented-can                              dog-ate-chocolate                       dog-diarrhea
+  dog-drinking-lots-of-water              dog-eating-grass                        dog-limping
+  dog-not-eating                          dog-reverse-sneezing                    dog-scooting
   dog-throwing-up                         dryer-takes-too-long-to-dry             eggs-past-sell-by-date
   flat-spot-on-babys-head                 flickering-light                        food-past-best-by-date
   frayed-charging-cable                   freezer-burn                            fridge-not-cold-enough
@@ -143,71 +148,81 @@ TOPIC:
   laptop-fan-runs-constantly              leaking-faucet                          leftovers-left-out
   liquid-detected-warning                 low-tire-pressure                       low-water-pressure
   meat-thawed-in-fridge                   meat-turned-brown-in-fridge             missing-roof-shingle
-  mold-around-window                      mold-on-bread                           nail-in-tire
-  name-typo-on-plane-ticket               newborn-hiccups                         newborn-noisy-breathing
-  newborn-not-pooping                     newborn-sleeping-through-feedings       newborn-sneezing
-  newborn-spitting-up                     oil-leak                                passport-expiring-soon
+  mold-around-window                      mold-on-bread                           mold-on-hard-cheese
+  mushrooms-growing-in-lawn               nail-in-tire                            name-typo-on-plane-ticket
+  newborn-hiccups                         newborn-noisy-breathing                 newborn-not-pooping
+  newborn-sleeping-through-feedings       newborn-sneezing                        newborn-spitting-up
+  oil-leak                                one-cockroach-in-house                  passport-expiring-soon
   phone-battery-draining-fast             pipes-bang-when-water-turns-off         refrigerator-door-left-open-overnight
   refrigerator-leaking-water              refrigerator-making-loud-noise          refrigerator-running-constantly
-  scratch-on-rental-car                   sewer-gas-smell                         short-layover
-  slow-drain                              small-leak-under-sink                   small-windshield-chip
-  software-update                         sparking-microwave                      sprouts-on-a-potato
-  squeaky-brakes                          standing-water-in-dishwasher            storage-almost-full-warning
-  swollen-laptop-battery                  toilet-keeps-running                    tpms-warning-light
-  warm-electrical-outlet                  washing-machine-leaking-water           washing-machine-shakes-violently
-  water-dripping-from-exhaust             water-heater-leaking                    water-stain-on-ceiling
-  wheel-vibration                         white-smoke-from-exhaust                wifi-keeps-disconnecting
-  wrong-baggage-tag                       yellow-flame-on-gas-stove               your-connection-is-not-private-warning
+  rust-on-brake-rotors                    scratch-on-rental-car                   sewer-gas-smell
+  short-layover                           slow-drain                              small-leak-under-sink
+  small-windshield-chip                   smart-hard-drive-warning                software-update
+  sparking-microwave                      sprouts-on-a-potato                     squeaky-brakes
+  standing-water-in-dishwasher            storage-almost-full-warning             swollen-laptop-battery
+  toilet-keeps-running                    tpms-warning-light                      warm-electrical-outlet
+  washing-machine-leaking-water           washing-machine-shakes-violently        water-dripping-from-exhaust
+  water-heater-leaking                    water-stain-on-ceiling                  wheel-vibration
+  white-smoke-from-exhaust                white-spots-on-chocolate                wifi-keeps-disconnecting
+  wobbling-ceiling-fan                    wrong-baggage-tag                       yellow-flame-on-gas-stove
+  your-connection-is-not-private-warning
 
 
 1-3. 아래 SLUG은 예약된 주제다(아직 글이 없음).
      토픽이 이 중 하나에 해당하면 그 slug을 그대로 사용한다.
 
   backlight-bleed-on-a-monitor         bad-smell-from-drain                 bag-not-checked-through
-  black-spot-on-phone-screen           bouncy-ride-after-bumps              bulging-can
-  bulging-drywall                      burning-smell-from-microwave         burning-smell-from-outlet
-  buzzing-electrical-outlet            buzzing-light-switch                 buzzing-refrigerator
-  can-that-hisses-when-opened          car-sitting-lower-on-one-corner      cat-always-hungry
-  cat-coughing                         cat-diarrhea                         cat-drinking-lots-of-water
-  cat-eating-houseplants               cat-hiding-suddenly                  cat-peeing-outside-litter-box
-  cheap-third-party-charger            chip-in-rental-car-windshield        chipped-paint-inside-microwave
-  clogged-toilet                       co-alarm-beeping                     cold-pipes-in-a-crawl-space
-  completely-clogged-drain             connection-on-separate-tickets       cracked-phone-back-glass
-  cracked-tire-sidewall                cracked-windshield                   crooked-steering-wheel
-  damaged-laptop-charger-cable         damaged-microwave-door-seal          delayed-gear-engagement
+  black-spot-on-phone-screen           bouncy-ride-after-bumps              brown-patch-in-lawn
+  bulging-can                          bulging-drywall                      burning-smell-from-microwave
+  burning-smell-from-outlet            buzzing-electrical-outlet            buzzing-light-switch
+  buzzing-refrigerator                 can-that-hisses-when-opened          car-sitting-lower-on-one-corner
+  cat-always-hungry                    cat-coughing                         cat-diarrhea
+  cat-drinking-lots-of-water           cat-eating-houseplants               cat-hiding-suddenly
+  cat-peeing-outside-litter-box        ceiling-fan-clicking                 ceiling-fan-humming
+  ceiling-fan-light-flickering         ceiling-fan-slowed-down              cheap-third-party-charger
+  chip-in-rental-car-windshield        chipped-paint-inside-microwave       clogged-toilet
+  co-alarm-beeping                     cockroach-droppings                  cockroach-in-daylight
+  cockroach-in-the-bathroom            cold-pipes-in-a-crawl-space          completely-clogged-drain
+  connection-on-separate-tickets       cracked-phone-back-glass             cracked-tire-sidewall
+  cracked-windshield                   crooked-steering-wheel               damaged-laptop-charger-cable
+  damaged-microwave-door-seal          dead-cockroaches-indoors             delayed-gear-engagement
   dimmer-switch-hot                    dishwasher-backing-up-into-sink      dishwasher-drain-hose-clogged
   dog-ate-grapes                       dog-constipation                     dog-coughing
-  dog-reluctant-to-jump                dog-shaking-a-paw                    dog-stiff-after-lying-down
-  dog-swallowed-a-sock                 drain-gurgling                       dripping-shutoff-valve
-  dropped-bike-helmet                  engine-overheating                   engine-rpm-surging
-  exhaust-leak                         expired-canned-food                  expired-smoke-alarm
-  flickering-monitor                   food-left-in-an-open-can             freezer-door-left-open
-  freezer-not-cold-enough              gap-between-wall-and-ceiling         garbage-disposal-draining-slowly
-  garbage-disposal-wont-turn-on        gas-burner-wont-light                gas-stove-keeps-clicking
-  grinding-when-shifting               helmet-too-big-for-a-child           ice-crystals-on-frozen-food
-  ice-maker-freezing-up                ice-on-freezer-back-wall             laptop-battery-draining-fast
-  laptop-case-bulging                  laptop-charger-sparking              laptop-not-charging
-  laptop-overheating                   laptop-trackpad-lifting              leaking-p-trap
-  leaking-shock-absorber               light-bulb-keeps-burning-out         line-across-a-laptop-screen
-  loose-charging-port                  loose-electrical-outlet              loose-helmet-straps
-  loose-steering-wheel                 low-engine-oil                       milk-left-out
-  mold-under-sink                      nail-pops-in-drywall                 newborn-cone-shaped-head
+  dog-licking-paws-constantly          dog-pacing-at-night                  dog-reluctant-to-jump
+  dog-shaking-a-paw                    dog-sleeping-more-than-usual         dog-stiff-after-lying-down
+  dog-swallowed-a-sock                 dog-trembling                        drain-gurgling
+  dripping-shutoff-valve               dropped-bike-helmet                  engine-overheating
+  engine-rpm-surging                   exhaust-leak                         expired-canned-food
+  expired-smoke-alarm                  fairy-ring-in-lawn                   flickering-monitor
+  food-left-in-an-open-can             freezer-door-left-open               freezer-not-cold-enough
+  gap-between-wall-and-ceiling         garbage-disposal-draining-slowly     garbage-disposal-wont-turn-on
+  gas-burner-wont-light                gas-stove-keeps-clicking             green-pool-water
+  grinding-when-shifting               helmet-too-big-for-a-child           high-ph-in-a-pool
+  ice-crystals-on-frozen-food          ice-maker-freezing-up                ice-on-freezer-back-wall
+  laptop-battery-draining-fast         laptop-case-bulging                  laptop-charger-sparking
+  laptop-not-charging                  laptop-overheating                   laptop-trackpad-lifting
+  leaking-p-trap                       leaking-shock-absorber               light-bulb-keeps-burning-out
+  line-across-a-laptop-screen          loose-charging-port                  loose-electrical-outlet
+  loose-helmet-straps                  loose-steering-wheel                 low-chlorine-in-a-pool
+  low-engine-oil                       milk-left-out                        mold-under-sink
+  moss-in-lawn                         nail-pops-in-drywall                 newborn-cone-shaped-head
   newborn-cradle-cap                   newborn-feeding-less-than-usual      newborn-green-poop
   newborn-head-lag                     newborn-soft-spot-pulsing            newborn-straining-to-poop
   newborn-stuffy-nose                  no-smoke-alarm-in-bedroom            oil-pressure-warning-light
   old-bike-helmet                      old-frozen-food                      partially-thawed-frozen-food
   passport-out-of-blank-pages          phone-charges-slowly                 phone-ghost-touch
-  phone-not-charging                   phone-screen-lifting                 rattling-pipes-in-the-wall
-  refrigerator-clicking-on-and-off     refrigerator-rattling                rough-idle
-  rusty-can                            secondhand-bike-helmet               sewage-backup
-  smelly-dishwasher                    smoke-alarm-goes-off-cooking         smoke-alarm-wont-stop-beeping
-  something-metal-in-garbage-disposal  stain-on-a-wall                      stain-on-hotel-bedding
-  suitcase-zip-not-closing             sweating-pipes                       swollen-phone-battery
-  tire-rotation                        toilet-gurgling                      toilet-water-rising
-  toilet-wont-flush                    transmission-fluid-leak              uneven-tire-wear
-  water-around-toilet-base             water-damaged-cabinet                water-pooling-under-crisper
-  whining-noise-when-turning           whistling-pipes                      windshield-camera-warning
-  windshield-wiper-streaks             wrong-date-on-flight-booking
+  phone-not-charging                   phone-screen-lifting                 pool-losing-water
+  rattling-pipes-in-the-wall           refrigerator-clicking-on-and-off     refrigerator-rattling
+  rough-idle                           rusty-can                            secondhand-bike-helmet
+  sewage-backup                        slime-mold-on-grass                  smelly-dishwasher
+  smoke-alarm-goes-off-cooking         smoke-alarm-wont-stop-beeping        something-metal-in-garbage-disposal
+  stain-on-a-wall                      stain-on-hotel-bedding               suitcase-zip-not-closing
+  sweating-pipes                       swollen-phone-battery                tire-rotation
+  toilet-gurgling                      toilet-water-rising                  toilet-wont-flush
+  transmission-fluid-leak              uneven-tire-wear                     water-around-toilet-base
+  water-damaged-cabinet                water-pooling-under-crisper          whining-noise-when-turning
+  whistling-pipes                      windshield-camera-warning            windshield-wiper-streaks
+  wrong-date-on-flight-booking
 
 
 1-4. RELATED의 slug과 ACTIONS의 destination_problem_slug는
