@@ -15,8 +15,6 @@ interface PlannedProblem {
 }
 
 const planned: PlannedProblem[] = [
-  { slug: 'loose-motorcycle-chain', name: 'Loose Motorcycle Chain', h1: 'Can I Ignore a Loose Motorcycle Chain?' },
-  { slug: 'slipping-motorcycle-clutch', name: 'Slipping Motorcycle Clutch', h1: 'Can I Ignore a Slipping Motorcycle Clutch?' },
   { slug: 'rusty-motorcycle-chain', name: 'Rusty Motorcycle Chain', h1: 'Can I Ignore a Rusty Motorcycle Chain?' },
   { slug: 'worn-motorcycle-sprocket', name: 'Worn Motorcycle Sprocket', h1: 'Can I Ignore a Worn Motorcycle Sprocket?' },
   { slug: 'motorcycle-clutch-lever-play', name: 'Clutch Lever Play', h1: 'Can I Ignore Play at the Clutch Lever?' },

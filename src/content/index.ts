@@ -2,8 +2,12 @@ import type { ProblemSeed } from './types';
 import { absWarningLight } from './problems/abs-warning-light';
 import { acLeakingWaterInside } from './problems/ac-leaking-water-inside';
 import { airlineScheduleChange } from './problems/airline-schedule-change';
+import { batteryWarningLight } from './problems/battery-warning-light';
 import { bedBugsInHotelRoom } from './problems/bed-bugs-in-hotel-room';
+import { bikeBrakesRubbing } from './problems/bike-brakes-rubbing';
+import { bikeChainSkipping } from './problems/bike-chain-skipping';
 import { blueScreenHappenedOnce } from './problems/blue-screen-happened-once';
+import { blueSmokeFromExhaust } from './problems/blue-smoke-from-exhaust';
 import { boardingPassWontLoad } from './problems/boarding-pass-wont-load';
 import { breakerKeepsTripping } from './problems/breaker-keeps-tripping';
 import { brownWaterFromFaucet } from './problems/brown-water-from-faucet';
@@ -15,10 +19,12 @@ import { catSneezing } from './problems/cat-sneezing';
 import { catStrainingToPee } from './problems/cat-straining-to-pee';
 import { catThrowingUp } from './problems/cat-throwing-up';
 import { clickingHardDrive } from './problems/clicking-hard-drive';
+import { clickingNoiseWhenPedaling } from './problems/clicking-noise-when-pedaling';
 import { cloudyPoolWater } from './problems/cloudy-pool-water';
 import { condensationBetweenWindowPanes } from './problems/condensation-between-window-panes';
 import { crackInFoundation } from './problems/crack-in-foundation';
 import { crackedEgg } from './problems/cracked-egg';
+import { cracksInABikeTire } from './problems/cracks-in-a-bike-tire';
 import { damagedPassport } from './problems/damaged-passport';
 import { damagedSuitcase } from './problems/damaged-suitcase';
 import { deadPixelOnMonitor } from './problems/dead-pixel-on-monitor';
@@ -32,6 +38,10 @@ import { dogReverseSneezing } from './problems/dog-reverse-sneezing';
 import { dogScooting } from './problems/dog-scooting';
 import { dogThrowingUp } from './problems/dog-throwing-up';
 import { dryerTakesTooLongToDry } from './problems/dryer-takes-too-long-to-dry';
+import { eBikeBatteryGotWet } from './problems/e-bike-battery-got-wet';
+import { eBikeBatteryHotWhileCharging } from './problems/e-bike-battery-hot-while-charging';
+import { eBikeBatteryRangeDrop } from './problems/e-bike-battery-range-drop';
+import { eBikeCutsOutWhileRiding } from './problems/e-bike-cuts-out-while-riding';
 import { eggsPastSellByDate } from './problems/eggs-past-sell-by-date';
 import { flatSpotOnBabysHead } from './problems/flat-spot-on-babys-head';
 import { foodPastBestByDate } from './problems/food-past-best-by-date';
@@ -43,12 +53,18 @@ import { hotPhoneWhileCharging } from './problems/hot-phone-while-charging';
 import { hotelRoomSmellsLikeMold } from './problems/hotel-room-smells-like-mold';
 import { laptopFanRunsConstantly } from './problems/laptop-fan-runs-constantly';
 import { liquidDetectedWarning } from './problems/liquid-detected-warning';
+import { looseElectricScooterStem } from './problems/loose-electric-scooter-stem';
+import { looseMotorcycleChain } from './problems/loose-motorcycle-chain';
 import { lowWaterPressure } from './problems/low-water-pressure';
 import { meatThawedInFridge } from './problems/meat-thawed-in-fridge';
 import { meatTurnedBrownInFridge } from './problems/meat-turned-brown-in-fridge';
 import { missingRoofShingle } from './problems/missing-roof-shingle';
 import { moldOnBread } from './problems/mold-on-bread';
 import { moldOnHardCheese } from './problems/mold-on-hard-cheese';
+import { motorcycleBatteryKeepsDying } from './problems/motorcycle-battery-keeps-dying';
+import { motorcycleOilLeak } from './problems/motorcycle-oil-leak';
+import { motorcyclePopsOnDeceleration } from './problems/motorcycle-pops-on-deceleration';
+import { motorcycleWobblesAtSpeed } from './problems/motorcycle-wobbles-at-speed';
 import { mushroomsGrowingInLawn } from './problems/mushrooms-growing-in-lawn';
 import { nameTypoOnPlaneTicket } from './problems/name-typo-on-plane-ticket';
 import { newbornHiccups } from './problems/newborn-hiccups';
@@ -171,9 +187,11 @@ import { refrigeratorLeakingWater } from './problems/refrigerator-leaking-water'
 import { refrigeratorMakingLoudNoise } from './problems/refrigerator-making-loud-noise';
 import { refrigeratorRunningConstantly } from './problems/refrigerator-running-constantly';
 import { rustOnBrakeRotors } from './problems/rust-on-brake-rotors';
+import { scooterTireLosingAir } from './problems/scooter-tire-losing-air';
 import { scratchOnRentalCar } from './problems/scratch-on-rental-car';
 import { sewerGasSmell } from './problems/sewer-gas-smell';
 import { shortLayover } from './problems/short-layover';
+import { slippingMotorcycleClutch } from './problems/slipping-motorcycle-clutch';
 import { smallLeakUnderSink } from './problems/small-leak-under-sink';
 import { smallWindshieldChip } from './problems/small-windshield-chip';
 import { slowDrain } from './problems/slow-drain';
@@ -193,11 +211,13 @@ import { washingMachineShakesViolently } from './problems/washing-machine-shakes
 import { waterDrippingFromExhaust } from './problems/water-dripping-from-exhaust';
 import { waterHeaterLeaking } from './problems/water-heater-leaking';
 import { waterStainOnCeiling } from './problems/water-stain-on-ceiling';
+import { weakElectricScooterBrakes } from './problems/weak-electric-scooter-brakes';
 import { wheelVibration } from './problems/wheel-vibration';
 import { whiteSmokeFromExhaust } from './problems/white-smoke-from-exhaust';
 import { whiteSpotsOnChocolate } from './problems/white-spots-on-chocolate';
 import { wifiKeepsDisconnecting } from './problems/wifi-keeps-disconnecting';
 import { wobblingCeilingFan } from './problems/wobbling-ceiling-fan';
+import { wobblyBikeWheel } from './problems/wobbly-bike-wheel';
 import { wrongBaggageTag } from './problems/wrong-baggage-tag';
 import { yellowFlameOnGasStove } from './problems/yellow-flame-on-gas-stove';
 import { yourConnectionIsNotPrivateWarning } from './problems/your-connection-is-not-private-warning';
@@ -332,6 +352,26 @@ export const problems: ProblemSeed[] = [
   moldOnHardCheese,
   dogScooting,
   smartHardDriveWarning,
+  batteryWarningLight,
+  blueSmokeFromExhaust,
+  looseMotorcycleChain,
+  motorcycleOilLeak,
+  motorcycleWobblesAtSpeed,
+  motorcyclePopsOnDeceleration,
+  slippingMotorcycleClutch,
+  motorcycleBatteryKeepsDying,
+  bikeChainSkipping,
+  bikeBrakesRubbing,
+  wobblyBikeWheel,
+  clickingNoiseWhenPedaling,
+  cracksInABikeTire,
+  eBikeBatteryHotWhileCharging,
+  eBikeCutsOutWhileRiding,
+  eBikeBatteryRangeDrop,
+  eBikeBatteryGotWet,
+  looseElectricScooterStem,
+  weakElectricScooterBrakes,
+  scooterTireLosingAir,
   ...plannedTireProblems,
   ...plannedExhaustProblems,
   ...plannedCoolingProblems,

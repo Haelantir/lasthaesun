@@ -15,7 +15,6 @@ interface PlannedProblem {
 }
 
 const planned: PlannedProblem[] = [
-  { slug: 'loose-electric-scooter-stem', name: 'Loose Electric Scooter Stem', h1: 'Can I Ignore a Loose Electric Scooter Stem?' },
   { slug: 'rattling-scooter-handlebars', name: 'Rattling Scooter Handlebars', h1: 'Can I Ignore Rattling Scooter Handlebars?' },
   { slug: 'scooter-folding-latch-play', name: 'Play in a Folding Latch', h1: 'Can I Ignore Play in a Scooter Folding Latch?' },
   { slug: 'scooter-pulls-to-one-side', name: 'Scooter Pulls to One Side', h1: 'Can I Ignore a Scooter That Pulls to One Side?' },

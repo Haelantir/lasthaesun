@@ -15,8 +15,6 @@ interface PlannedProblem {
 }
 
 const planned: PlannedProblem[] = [
-  { slug: 'bike-chain-skipping', name: 'Bike Chain Skipping', h1: 'Can I Ignore a Bike Chain That Keeps Skipping?' },
-  { slug: 'clicking-noise-when-pedaling', name: 'Clicking Noise When Pedaling', h1: 'Can I Ignore a Clicking Noise When I Pedal?' },
   { slug: 'dry-bike-chain', name: 'Dry Bike Chain', h1: 'Can I Ignore a Dry Bike Chain?' },
   { slug: 'rusty-bike-chain', name: 'Rusty Bike Chain', h1: 'Can I Ignore a Rusty Bike Chain?' },
   { slug: 'bike-gears-wont-shift-cleanly', name: 'Gears Will Not Shift Cleanly', h1: 'Can I Ignore Gears That Will Not Shift Cleanly?' },

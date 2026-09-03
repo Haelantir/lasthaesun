@@ -15,7 +15,6 @@ interface PlannedProblem {
 }
 
 const planned: PlannedProblem[] = [
-  { slug: 'scooter-tire-losing-air', name: 'Scooter Tire Losing Air', h1: 'Can I Ignore an Electric Scooter Tire That Keeps Losing Air?' },
   { slug: 'worn-scooter-tire', name: 'Worn Scooter Tire', h1: 'Can I Ignore a Worn Electric Scooter Tire?' },
   { slug: 'cracked-solid-scooter-tire', name: 'Cracked Solid Scooter Tire', h1: 'Can I Ignore Cracks in a Solid Scooter Tire?' },
   { slug: 'scooter-tire-flat-spot', name: 'Scooter Tire Flat Spot', h1: 'Can I Ignore a Flat Spot on a Scooter Tire?' },

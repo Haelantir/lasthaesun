@@ -15,7 +15,6 @@ interface PlannedProblem {
 }
 
 const planned: PlannedProblem[] = [
-  { slug: 'weak-electric-scooter-brakes', name: 'Weak Electric Scooter Brakes', h1: 'Can I Ignore Weak Brakes on an Electric Scooter?' },
   { slug: 'squealing-scooter-brakes', name: 'Squealing Scooter Brakes', h1: 'Can I Ignore Squealing Scooter Brakes?' },
   { slug: 'scooter-brake-lever-goes-soft', name: 'Soft Scooter Brake Lever', h1: 'Can I Ignore a Scooter Brake Lever That Goes Soft?' },
   { slug: 'scooter-regen-braking-weaker', name: 'Weaker Regen Braking', h1: 'Can I Ignore Regen Braking That Has Got Weaker?' },

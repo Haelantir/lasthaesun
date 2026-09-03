@@ -15,7 +15,6 @@ interface PlannedProblem {
 }
 
 const planned: PlannedProblem[] = [
-  { slug: 'motorcycle-battery-keeps-dying', name: 'Motorcycle Battery Keeps Dying', h1: 'Can I Ignore a Motorcycle Battery That Keeps Dying?' },
   { slug: 'motorcycle-dim-headlight', name: 'Dim Motorcycle Headlight', h1: 'Can I Ignore a Motorcycle Headlight That Has Gone Dim?' },
   { slug: 'blown-motorcycle-fuse', name: 'Blown Motorcycle Fuse', h1: 'Can I Ignore a Motorcycle Fuse That Keeps Blowing?' },
   { slug: 'motorcycle-neutral-light-flickers', name: 'Flickering Neutral Light', h1: 'Can I Ignore a Neutral Light That Flickers?' },

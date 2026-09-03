@@ -15,7 +15,6 @@ interface PlannedProblem {
 }
 
 const planned: PlannedProblem[] = [
-  { slug: 'motorcycle-pops-on-deceleration', name: 'Motorcycle Popping on Deceleration', h1: 'Can I Ignore a Motorcycle That Pops on Deceleration?' },
   { slug: 'motorcycle-running-hot', name: 'Motorcycle Running Hot', h1: 'Can I Ignore a Motorcycle That Runs Hot in Traffic?' },
   { slug: 'motorcycle-idles-rough', name: 'Rough Motorcycle Idle', h1: 'Can I Ignore a Motorcycle That Idles Rough?' },
   { slug: 'motorcycle-hard-to-start-cold', name: 'Hard Cold Start', h1: 'Can I Ignore a Motorcycle That Is Hard to Start Cold?' },

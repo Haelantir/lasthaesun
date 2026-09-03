@@ -15,7 +15,6 @@ interface PlannedProblem {
 }
 
 const planned: PlannedProblem[] = [
-  { slug: 'e-bike-cuts-out-while-riding', name: 'E-Bike Cuts Out While Riding', h1: 'Can I Ignore an E-Bike That Cuts Out While Riding?' },
   { slug: 'e-bike-assist-feels-weak', name: 'Weak E-Bike Assist', h1: 'Can I Ignore E-Bike Assist That Feels Weak?' },
   { slug: 'e-bike-motor-noise', name: 'E-Bike Motor Noise', h1: 'Can I Ignore a New Noise From an E-Bike Motor?' },
   { slug: 'e-bike-error-code', name: 'E-Bike Error Code', h1: 'Can I Ignore an Error Code on an E-Bike Display?' },

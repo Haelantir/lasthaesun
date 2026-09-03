@@ -15,7 +15,6 @@ interface PlannedProblem {
 }
 
 const planned: PlannedProblem[] = [
-  { slug: 'motorcycle-wobbles-at-speed', name: 'Motorcycle Wobble at Speed', h1: 'Can I Ignore a Motorcycle That Wobbles at Speed?' },
   { slug: 'notchy-steering-head-bearings', name: 'Notchy Steering Head Bearings', h1: 'Can I Ignore Notchy Steering Head Bearings?' },
   { slug: 'motorcycle-handlebar-vibration', name: 'Handlebar Vibration', h1: 'Can I Ignore Vibration Through the Handlebars?' },
   { slug: 'motorcycle-pulls-to-one-side', name: 'Motorcycle Pulls to One Side', h1: 'Can I Ignore a Motorcycle That Pulls to One Side?' },

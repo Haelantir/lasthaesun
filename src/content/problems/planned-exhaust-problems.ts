@@ -18,7 +18,6 @@ interface PlannedProblem {
 
 const planned: PlannedProblem[] = [
   { slug: 'exhaust-leak', name: 'Exhaust Leak', h1: 'Can I Ignore an Exhaust Leak?' },
-  { slug: 'blue-smoke-from-exhaust', name: 'Blue Smoke From Exhaust', h1: 'Can I Ignore Blue Smoke From My Exhaust?' },
 ];
 
 export const plannedExhaustProblems: ProblemSeed[] = planned.map(({ slug, name, h1 }) => ({
