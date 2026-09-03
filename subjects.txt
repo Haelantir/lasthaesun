@@ -1,42 +1,132 @@
-Can I Ignore Rust on My Brake Rotors?
-  비 온 다음날 표면에 생기는 얇은 녹과, 주행 후에도 남거나 패임으로 이어지는 녹을 나눌 것.
-  몇 번 제동하면 벗겨지는 경우가 기준선이고, 오래 세워둔 차·진동·제동 이상이 갈림길이다.
+# Mobility batch — opening motorcycles, bicycles, e-bikes and scooters.
+# Cars already carry 18 of the 19 mobility pages, so this batch is deliberately
+# 2 cars + 6 motorcycles + 5 bicycles + 4 e-bikes + 3 e-scooters.
+# Every slug below is reserved as a draft in src/content/problems/planned-*.ts.
 
-Can I Ignore Condensation Between Window Panes?
-  유리 표면에 맺히는 결로가 아니라 이중창 두 유리 사이가 뿌옇게 되는 현상이 주제다.
-  실링과 단열 성능에 무엇이 일어난 것인지, 그리고 수리와 교체 중 무엇이 선택지인지를 볼 것.
-  이미 있는 창틀 곰팡이 페이지와 겹치지 않게 유리 사이 문제에만 집중한다.
+Can I Ignore a Battery Warning Light?
+  The dashboard battery/charging light, not a hybrid or EV traction battery
+  warning. Separate the cases that actually change the answer: the light comes
+  on and goes off, it stays on while driving, it comes on with dimming lights or
+  a slowing blower, it comes on together with a temperature warning. This is a
+  charging-system warning, so the question of how far you get is about what runs
+  the car once the alternator stops contributing.
 
-Can I Ignore a Wobbling Ceiling Fan?
-  날개 균형 문제로 흔들리는 경우와, 브래킷·박스·천장 고정부 문제인 경우를 나눌 것.
-  독자가 가장 걱정하는 "떨어지지 않느냐"에 무엇이 실제 위험 신호인지 답해 줄 것.
+Can I Ignore Blue Smoke From My Exhaust?
+  Blue or blue-grey smoke, which is a different question from the white vapour
+  page the site already has. Worth separating: smoke only on a cold start, smoke
+  on hard acceleration, smoke when lifting off after a long downhill, constant
+  smoke at every speed. Turbocharged and older high-mileage engines behave
+  differently here.
 
-Can I Ignore One Cockroach in My House?
-  한 마리를 봤다는 사실 자체가 무엇을 뜻하는지가 핵심이다.
-  밖에서 들어온 종류와 실내에 자리 잡는 종류, 낮에 보이는 경우, 배설물·알집처럼
-  개체가 이미 있다는 다른 신호가 함께 있는 경우를 나눌 것.
+Can I Ignore a Loose Motorcycle Chain?
+  Drive chain slack outside the manufacturer's range. Separate slack that is
+  merely at the loose end of spec, slack well beyond it, uneven slack that
+  changes as the wheel turns, and a chain that has gone slack again days after
+  it was adjusted. The owner's manual figure is the reference point.
 
-Can I Ignore Cloudy Pool Water?
-  소독·여과·화학 균형 중 무엇이 원인일 수 있는지와, 바닥이 안 보이는 상태 자체가
-  가지는 안전 문제를 나눌 것. 그대로 들어가도 되는지가 독자의 실제 질문이다.
+Can I Ignore an Oil Leak on My Motorcycle?
+  A motorcycle oil leak is its own decision, not the car oil-leak page in
+  different words: the engine sits in the airstream, the chain and the rear tire
+  are directly below, and there is no undertray catching anything. Separate a
+  weep that leaves a film, a drip that marks the garage floor overnight, oil
+  visible on the swingarm or rear wheel, and oil near the exhaust header.
 
-Can I Ignore Mushrooms Growing in My Lawn?
-  잔디 자체에 해가 되는지와, 아이나 반려동물이 먹을 가능성은 서로 다른 질문이다.
-  비 온 뒤 한꺼번에 올라오는 경우와 같은 자리에 반복해서 나는 경우를 나눌 것.
+Can I Ignore a Motorcycle That Wobbles at Speed?
+  Distinguish the wobble that appears in a narrow speed band, the one that only
+  shows up hands-off, the one that starts with luggage or a pillion, and the
+  slow high-speed weave. Tire pressure, tire wear pattern, wheel balance,
+  steering head bearings and loose axle or fork clamps all produce it and are
+  worth telling apart.
 
-Can I Ignore White Spots on Chocolate?
-  희끗한 표면이 곰팡이인지 아닌지를 독자가 스스로 구분할 수 있게 할 것.
-  지방과 설탕에서 각각 무엇이 일어나 그렇게 보이는지, 맛과 질감은 어떻게 되는지가 축이다.
+Can I Ignore a Motorcycle That Pops on Deceleration?
+  Exhaust popping or crackling on a closed throttle. Separate the light popping
+  that many stock and de-catted bikes do by design, popping that appeared after
+  an exhaust or air filter change, popping that arrived with poor running or
+  hard starting, and loud backfiring with a bang. Fuelling, an air leak and a
+  lean map are the usual mechanisms.
 
-Can I Ignore Mold on Hard Cheese?
-  단단한 치즈와 연성·조각·슈레드 치즈에서 답이 갈리는 것이 이 페이지의 존재 이유다.
-  잘라내는 경우 어디까지 잘라야 하는지, 그리고 잘라내면 안 되는 경우가 무엇인지 볼 것.
+Can I Ignore a Slipping Motorcycle Clutch?
+  Engine revs rising without matching acceleration. Separate slip only in top
+  gear under hard acceleration, slip in every gear, slip that appeared right
+  after an oil change, and a clutch that drags rather than slips. Friction plate
+  wear, incorrect free play and the wrong oil specification are different fixes.
 
-Can I Ignore My Dog Scooting?
-  항문낭, 기생충, 피부 자극, 알레르기처럼 원인이 갈리는 행동이다.
-  한두 번 하고 마는 경우와 반복되는 경우, 냄새·붓기·핥기가 함께 있는 경우를 나눌 것.
+Can I Ignore a Motorcycle Battery That Keeps Dying?
+  Separate a bike ridden only on short trips, a bike stored for weeks without a
+  tender, a battery that is several seasons old, and a parasitic draw or a
+  charging fault that flattens a good battery in days. Lead-acid and lithium
+  batteries behave differently in cold storage.
 
-Can I Ignore a S.M.A.R.T. Hard Drive Warning?
-  컴퓨터가 멀쩡히 켜지고 쓰이는 상태라서 경고를 넘기기 쉽다는 점이 핵심이다.
-  경고를 넘기고 계속 쓰는 것과 지금 백업하는 것 사이에 무엇이 달린 문제인지,
-  이미 있는 클릭음 페이지와는 다른 각도로 쓸 것.
+Can I Ignore a Bike Chain That Keeps Skipping?
+  A chain that jumps under load, usually when standing on the pedals. Separate
+  skipping in one gear only, skipping across the whole cassette, skipping that
+  started after a new chain went onto an old cassette, and a stiff or seized
+  link. Chain wear measurement is the concrete thing a reader can check.
+
+Can I Ignore Bike Brakes That Keep Rubbing?
+  Both rim and disc. Separate a disc rotor that ticks once per wheel revolution,
+  constant rub through the whole rotation, rub that appears only when pedalling
+  hard, and a pad that drags after a wheel was refitted. Worth saying what the
+  rub costs and what it does to pads and rotor over time.
+
+Can I Ignore a Wobbly Bike Wheel?
+  Lateral wobble seen from above while the wheel spins. Separate a small wobble
+  that clears the brake, a wobble that hits the pad each revolution, a wobble
+  that appeared after a pothole, and a wobble with a spoke that is obviously
+  loose or broken. Rim braking and disc braking change what the wobble affects.
+
+Can I Ignore a Clicking Noise When I Pedal?
+  A click that repeats once per pedal stroke, not per wheel revolution. Separate
+  a click only under load, a click on one side, one that changes when standing,
+  and one that appeared after a component was fitted. Pedals, cleats, bottom
+  bracket, chainring bolts, saddle rails and seatpost all click.
+
+Can I Ignore Cracks in a Bike Tire?
+  Separate fine crazing across the sidewall from age and UV, cracks in the tread
+  base between knobs, a cut deep enough to show casing threads, and a bulge in
+  the sidewall. Storage conditions, tire age and pressure history matter here.
+
+Can I Ignore an E-Bike Battery That Gets Hot While Charging?
+  Warm and hot are different things and the page should say where the line sits
+  according to the manufacturer, not to a made-up number. Separate a pack that
+  is warm to the touch at the end of a charge, one that is too hot to hold, one
+  that smells, one that hisses or swells, and one being charged with a charger
+  that did not come with the bike. Lithium-ion fire guidance from safety
+  regulators is directly on point.
+
+Can I Ignore an E-Bike That Cuts Out While Riding?
+  Motor assist dropping out mid-ride. Separate a cut-out over bumps, a cut-out
+  under full load on a climb, a cut-out that comes back after a restart, one
+  that is accompanied by a display error code, and one that happens with a
+  battery near empty or very cold. Connectors, battery mount, controller
+  temperature and low-voltage cut-off are different causes.
+
+Can I Ignore a Sudden Drop in E-Bike Battery Range?
+  Distinguish a gradual seasonal drop, a drop after cold weather arrived, a drop
+  after a long period of storage at full charge, and a genuinely sudden loss of
+  half the range in a week. Also separate range loss from a display or state-of-
+  charge reading that is simply wrong.
+
+Can I Ignore an E-Bike Battery That Got Wet?
+  Separate riding in rain with the pack fitted as designed, a pack left out in a
+  downpour off the bike, a pack that went into a puddle or was jet-washed, and a
+  pack that was submerged. Whether it was charged afterwards matters. Look for
+  the manufacturers' and safety regulators' guidance on wet lithium-ion packs.
+
+Can I Ignore a Loose Electric Scooter Stem?
+  Play in the folding stem or clamp on a standing scooter. Separate a small
+  amount of fore-aft play, play that grows over a week, a rattle at the folding
+  latch, and play with a visible crack or an already-adjusted clamp. Stem
+  failure at speed is the mechanism worth explaining.
+
+Can I Ignore Weak Brakes on an Electric Scooter?
+  Separate brakes that were always weak on a cheap machine, brakes that have got
+  worse, a lever that reaches the bar, regenerative braking alone with no
+  working mechanical brake, and brakes that are weak only in the wet. Stopping
+  distance requirements in scooter safety standards are the reference.
+
+Can I Ignore an Electric Scooter Tire That Keeps Losing Air?
+  Pneumatic tires only for the loss-of-air question, but the page can say where
+  solid tires sit. Separate a tire topped up once a month, once a week, one that
+  is flat by the next morning, and one losing air with a visible object in the
+  tread. Low pressure on small wheels changes handling and pinch-flat risk.

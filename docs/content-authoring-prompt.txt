@@ -1,5 +1,5 @@
 CAN I IGNORE IT — 콘텐츠 작성 지시서
-generated 2026-09-02 · systems 77 · published 121 · reserved 154
+generated 2026-09-03 · systems 91 · published 121 · reserved 215
 (콘텐츠가 늘면 `npm run content:prompt`로 다시 뽑을 것. 목록이 낡으면 import가 실패한다.)
 
 ════════════════════════════════════════════════════════════════════════
@@ -47,9 +47,13 @@ TOPIC:
   newborn-diapers-and-digestion   /babies/newborns/diapers-and-digestion/              Babies · Newborns · Diapers & Digestion
   newborn-feeding                 /babies/newborns/feeding/                            Babies · Newborns · Feeding
   newborn-head-and-skull          /babies/newborns/head-and-skull/                     Babies · Newborns · Head & Skull
+  bike-brakes                     /bicycles/brakes/                                    Mobility · Bicycles · Brakes
+  bike-drivetrain                 /bicycles/drivetrain/                                Mobility · Bicycles · Drivetrain
   helmets                         /bicycles/helmets/                                   Mobility · Bicycles · Helmets
+  bike-wheels-and-tires           /bicycles/wheels-and-tires/                          Mobility · Bicycles · Wheels & Tires
   brakes                          /cars/brakes/                                        Mobility · Cars · Brakes
   cooling                         /cars/cooling/                                       Mobility · Cars · Cooling
+  car-electrical                  /cars/electrical/                                    Mobility · Cars · Electrical
   engine                          /cars/engine/                                        Mobility · Cars · Engine
   exhaust                         /cars/exhaust/                                       Mobility · Cars · Exhaust
   fluids                          /cars/fluids/                                        Mobility · Cars · Fluids
@@ -58,6 +62,11 @@ TOPIC:
   suspension                      /cars/suspension/                                    Mobility · Cars · Suspension
   tires                           /cars/tires/                                         Mobility · Cars · Tires
   transmission                    /cars/transmission/                                  Mobility · Cars · Transmission
+  e-bike-batteries                /e-bikes-and-scooters/e-bike-batteries/              Mobility · E-bikes & Scooters · E-Bike Batteries
+  e-bike-power                    /e-bikes-and-scooters/e-bike-power/                  Mobility · E-bikes & Scooters · E-Bike Power
+  scooter-brakes                  /e-bikes-and-scooters/scooter-brakes/                Mobility · E-bikes & Scooters · Scooter Brakes
+  scooter-steering                /e-bikes-and-scooters/scooter-steering/              Mobility · E-bikes & Scooters · Scooter Stem & Steering
+  scooter-tires                   /e-bikes-and-scooters/scooter-tires/                 Mobility · E-bikes & Scooters · Scooter Tires
   frozen-food                     /food-kitchen/food-storage/frozen-food/              Food & Kitchen · Food Storage · Frozen Food
   pantry                          /food-kitchen/food-storage/pantry/                   Food & Kitchen · Food Storage · Pantry
   food-safety                     /food-kitchen/refrigeration/food-safety/             Food & Kitchen · Refrigeration · Food Safety
@@ -83,6 +92,11 @@ TOPIC:
   foundation                      /home/structure/foundation/                          Home · Structure · Foundation
   walls                           /home/structure/walls/                               Home · Structure · Walls
   windows                         /home/structure/windows/                             Home · Structure · Windows
+  motorcycle-drivetrain           /motorcycles/drivetrain/                             Mobility · Motorcycles · Chain & Clutch
+  motorcycle-electrical           /motorcycles/electrical/                             Mobility · Motorcycles · Electrical
+  motorcycle-engine               /motorcycles/engine/                                 Mobility · Motorcycles · Engine
+  motorcycle-fluids               /motorcycles/fluids/                                 Mobility · Motorcycles · Fluids
+  motorcycle-steering             /motorcycles/steering/                               Mobility · Motorcycles · Steering & Handling
   cat-behavior-and-energy         /pets/cats/behavior-and-energy/                      Pets · Cats · Behavior & Energy
   cat-breathing                   /pets/cats/breathing/                                Pets · Cats · Breathing
   cat-digestion                   /pets/cats/digestion/                                Pets · Cats · Digestion
@@ -172,26 +186,34 @@ TOPIC:
      토픽이 이 중 하나에 해당하면 그 slug을 그대로 사용한다.
 
   backlight-bleed-on-a-monitor         bad-smell-from-drain                 bag-not-checked-through
-  black-spot-on-phone-screen           bouncy-ride-after-bumps              brown-patch-in-lawn
-  bulging-can                          bulging-drywall                      burning-smell-from-microwave
-  burning-smell-from-outlet            buzzing-electrical-outlet            buzzing-light-switch
-  buzzing-refrigerator                 can-that-hisses-when-opened          car-sitting-lower-on-one-corner
+  battery-warning-light                bike-brake-lever-pulls-to-bar        bike-brakes-rubbing
+  bike-chain-skipping                  bike-gears-wont-shift-cleanly        bike-tire-losing-air-slowly
+  black-spot-on-phone-screen           blown-motorcycle-fuse                blue-smoke-from-exhaust
+  bouncy-ride-after-bumps              brown-patch-in-lawn                  bulging-can
+  bulging-drywall                      burning-smell-from-microwave         burning-smell-from-outlet
+  buzzing-electrical-outlet            buzzing-light-switch                 buzzing-refrigerator
+  can-that-hisses-when-opened          car-sitting-lower-on-one-corner      car-slow-to-start
   cat-always-hungry                    cat-coughing                         cat-diarrhea
   cat-drinking-lots-of-water           cat-eating-houseplants               cat-hiding-suddenly
   cat-peeing-outside-litter-box        ceiling-fan-clicking                 ceiling-fan-humming
   ceiling-fan-light-flickering         ceiling-fan-slowed-down              cheap-third-party-charger
-  chip-in-rental-car-windshield        chipped-paint-inside-microwave       clogged-toilet
-  co-alarm-beeping                     cockroach-droppings                  cockroach-in-daylight
-  cockroach-in-the-bathroom            cold-pipes-in-a-crawl-space          completely-clogged-drain
-  connection-on-separate-tickets       cracked-phone-back-glass             cracked-tire-sidewall
-  cracked-windshield                   crooked-steering-wheel               damaged-laptop-charger-cable
-  damaged-microwave-door-seal          dead-cockroaches-indoors             delayed-gear-engagement
+  chip-in-rental-car-windshield        chipped-paint-inside-microwave       clicking-noise-when-pedaling
+  clogged-toilet                       co-alarm-beeping                     cockroach-droppings
+  cockroach-in-daylight                cockroach-in-the-bathroom            cold-pipes-in-a-crawl-space
+  completely-clogged-drain             connection-on-separate-tickets       corroded-battery-terminal
+  cracked-phone-back-glass             cracked-solid-scooter-tire           cracked-tire-sidewall
+  cracked-windshield                   cracks-in-a-bike-tire                crooked-steering-wheel
+  damaged-laptop-charger-cable         damaged-microwave-door-seal          dark-motorcycle-brake-fluid
+  dead-cockroaches-indoors             delayed-gear-engagement              dim-headlights
   dimmer-switch-hot                    dishwasher-backing-up-into-sink      dishwasher-drain-hose-clogged
   dog-ate-grapes                       dog-constipation                     dog-coughing
   dog-licking-paws-constantly          dog-pacing-at-night                  dog-reluctant-to-jump
   dog-shaking-a-paw                    dog-sleeping-more-than-usual         dog-stiff-after-lying-down
   dog-swallowed-a-sock                 dog-trembling                        drain-gurgling
-  dripping-shutoff-valve               dropped-bike-helmet                  engine-overheating
+  dripping-shutoff-valve               dropped-bike-helmet                  dry-bike-chain
+  e-bike-assist-feels-weak             e-bike-battery-got-wet               e-bike-battery-hot-while-charging
+  e-bike-battery-left-over-winter      e-bike-battery-range-drop            e-bike-cuts-out-while-riding
+  e-bike-error-code                    e-bike-motor-noise                   engine-overheating
   engine-rpm-surging                   exhaust-leak                         expired-canned-food
   expired-smoke-alarm                  fairy-ring-in-lawn                   flickering-monitor
   food-left-in-an-open-can             freezer-door-left-open               freezer-not-cold-enough
@@ -202,27 +224,39 @@ TOPIC:
   laptop-battery-draining-fast         laptop-case-bulging                  laptop-charger-sparking
   laptop-not-charging                  laptop-overheating                   laptop-trackpad-lifting
   leaking-p-trap                       leaking-shock-absorber               light-bulb-keeps-burning-out
-  line-across-a-laptop-screen          loose-charging-port                  loose-electrical-outlet
-  loose-helmet-straps                  loose-steering-wheel                 low-chlorine-in-a-pool
+  line-across-a-laptop-screen          loose-bike-spoke                     loose-charging-port
+  loose-electric-scooter-stem          loose-electrical-outlet              loose-helmet-straps
+  loose-motorcycle-chain               loose-steering-wheel                 low-chlorine-in-a-pool
   low-engine-oil                       milk-left-out                        mold-under-sink
-  moss-in-lawn                         nail-pops-in-drywall                 newborn-cone-shaped-head
-  newborn-cradle-cap                   newborn-feeding-less-than-usual      newborn-green-poop
-  newborn-head-lag                     newborn-soft-spot-pulsing            newborn-straining-to-poop
-  newborn-stuffy-nose                  no-smoke-alarm-in-bedroom            oil-pressure-warning-light
-  old-bike-helmet                      old-frozen-food                      partially-thawed-frozen-food
-  passport-out-of-blank-pages          phone-charges-slowly                 phone-ghost-touch
-  phone-not-charging                   phone-screen-lifting                 pool-losing-water
-  rattling-pipes-in-the-wall           refrigerator-clicking-on-and-off     refrigerator-rattling
-  rough-idle                           rusty-can                            secondhand-bike-helmet
-  sewage-backup                        slime-mold-on-grass                  smelly-dishwasher
-  smoke-alarm-goes-off-cooking         smoke-alarm-wont-stop-beeping        something-metal-in-garbage-disposal
+  moss-in-lawn                         motorcycle-battery-keeps-dying       motorcycle-clutch-lever-play
+  motorcycle-coolant-smell             motorcycle-dim-headlight             motorcycle-handlebar-vibration
+  motorcycle-hard-to-start-cold        motorcycle-idles-rough               motorcycle-neutral-light-flickers
+  motorcycle-oil-leak                  motorcycle-pops-on-deceleration      motorcycle-pulls-to-one-side
+  motorcycle-running-hot               motorcycle-wobbles-at-speed          nail-pops-in-drywall
+  newborn-cone-shaped-head             newborn-cradle-cap                   newborn-feeding-less-than-usual
+  newborn-green-poop                   newborn-head-lag                     newborn-soft-spot-pulsing
+  newborn-straining-to-poop            newborn-stuffy-nose                  no-smoke-alarm-in-bedroom
+  notchy-steering-head-bearings        oil-pressure-warning-light           old-bike-helmet
+  old-frozen-food                      partially-thawed-frozen-food         passport-out-of-blank-pages
+  phone-charges-slowly                 phone-ghost-touch                    phone-not-charging
+  phone-screen-lifting                 play-in-a-bike-hub                   pool-losing-water
+  rattling-pipes-in-the-wall           rattling-scooter-handlebars          refrigerator-clicking-on-and-off
+  refrigerator-rattling                rough-idle                           rusty-bike-chain
+  rusty-can                            rusty-motorcycle-chain               scooter-brake-lever-goes-soft
+  scooter-folding-latch-play           scooter-pulls-to-one-side            scooter-regen-braking-weaker
+  scooter-tire-flat-spot               scooter-tire-losing-air              secondhand-bike-helmet
+  sewage-backup                        slime-mold-on-grass                  slipping-motorcycle-clutch
+  smelly-dishwasher                    smoke-alarm-goes-off-cooking         smoke-alarm-wont-stop-beeping
+  something-metal-in-garbage-disposal  squeaky-bike-brakes                  squealing-scooter-brakes
   stain-on-a-wall                      stain-on-hotel-bedding               suitcase-zip-not-closing
-  sweating-pipes                       swollen-phone-battery                tire-rotation
-  toilet-gurgling                      toilet-water-rising                  toilet-wont-flush
-  transmission-fluid-leak              uneven-tire-wear                     water-around-toilet-base
-  water-damaged-cabinet                water-pooling-under-crisper          whining-noise-when-turning
+  sweating-pipes                       swollen-e-bike-battery               swollen-phone-battery
+  tire-rotation                        toilet-gurgling                      toilet-water-rising
+  toilet-wont-flush                    transmission-fluid-leak              uneven-tire-wear
+  water-around-toilet-base             water-damaged-cabinet                water-pooling-under-crisper
+  weak-electric-scooter-brakes         weeping-fork-seal                    whining-noise-when-turning
   whistling-pipes                      windshield-camera-warning            windshield-wiper-streaks
-  wrong-date-on-flight-booking
+  wobbly-bike-wheel                    worn-bike-brake-pads                 worn-motorcycle-sprocket
+  worn-scooter-tire                    wrong-date-on-flight-booking
 
 
 1-4. RELATED의 slug과 ACTIONS의 destination_problem_slug는

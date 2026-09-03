@@ -152,6 +152,20 @@ import { plannedDisplaysProblems } from './problems/planned-displays-problems';
 import { plannedNewbornHeadAndSkullProblems } from './problems/planned-newborn-head-and-skull-problems';
 import { plannedDogMobilityProblems } from './problems/planned-dog-mobility-problems';
 import { plannedCatEatingAndDrinkingProblems } from './problems/planned-cat-eating-and-drinking-problems';
+import { plannedCarElectricalProblems } from './problems/planned-car-electrical-problems';
+import { plannedMotorcycleSteeringProblems } from './problems/planned-motorcycle-steering-problems';
+import { plannedMotorcycleDrivetrainProblems } from './problems/planned-motorcycle-drivetrain-problems';
+import { plannedMotorcycleEngineProblems } from './problems/planned-motorcycle-engine-problems';
+import { plannedMotorcycleFluidsProblems } from './problems/planned-motorcycle-fluids-problems';
+import { plannedMotorcycleElectricalProblems } from './problems/planned-motorcycle-electrical-problems';
+import { plannedBikeDrivetrainProblems } from './problems/planned-bike-drivetrain-problems';
+import { plannedBikeBrakesProblems } from './problems/planned-bike-brakes-problems';
+import { plannedBikeWheelsAndTiresProblems } from './problems/planned-bike-wheels-and-tires-problems';
+import { plannedEBikeBatteriesProblems } from './problems/planned-e-bike-batteries-problems';
+import { plannedEBikePowerProblems } from './problems/planned-e-bike-power-problems';
+import { plannedScooterSteeringProblems } from './problems/planned-scooter-steering-problems';
+import { plannedScooterBrakesProblems } from './problems/planned-scooter-brakes-problems';
+import { plannedScooterTiresProblems } from './problems/planned-scooter-tires-problems';
 import { refrigeratorDoorLeftOpenOvernight } from './problems/refrigerator-door-left-open-overnight';
 import { refrigeratorLeakingWater } from './problems/refrigerator-leaking-water';
 import { refrigeratorMakingLoudNoise } from './problems/refrigerator-making-loud-noise';
@@ -385,4 +399,18 @@ export const problems: ProblemSeed[] = [
   ...plannedNewbornHeadAndSkullProblems,
   ...plannedDogMobilityProblems,
   ...plannedCatEatingAndDrinkingProblems,
+  ...plannedCarElectricalProblems,
+  ...plannedMotorcycleSteeringProblems,
+  ...plannedMotorcycleDrivetrainProblems,
+  ...plannedMotorcycleEngineProblems,
+  ...plannedMotorcycleFluidsProblems,
+  ...plannedMotorcycleElectricalProblems,
+  ...plannedBikeDrivetrainProblems,
+  ...plannedBikeBrakesProblems,
+  ...plannedBikeWheelsAndTiresProblems,
+  ...plannedEBikeBatteriesProblems,
+  ...plannedEBikePowerProblems,
+  ...plannedScooterSteeringProblems,
+  ...plannedScooterBrakesProblems,
+  ...plannedScooterTiresProblems,
 ];
