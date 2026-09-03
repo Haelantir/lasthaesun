@@ -276,6 +276,45 @@ Pushing to `main` auto-deploys via Vercel, but that only ships code — content
 reaches readers only once the seed has run against whichever `DATABASE_URL`
 serves that deployment.
 
+## Warming the cache after a deploy
+
+```
+npm run warm                        walk every url, then prove it went warm
+npm run warm -- --limit=20          smoke test
+npm run warm -- --concurrency=8     faster, heavier on Neon
+```
+
+`.github/workflows/warm.yml` runs this automatically on Vercel's
+`deployment_status` event, so in normal use nobody types it. Run it by hand
+after a seed if you want the new pages warm before the next deploy, or from the
+Actions tab.
+
+Both dynamic routes return `[]` from `generateStaticParams()`, so nothing is
+rendered at build time and a page is first rendered when someone asks for it.
+That first request pays the render plus its Neon round-trip — measured at
+670-940ms against 40-95ms once cached. On a site with no traffic yet the
+someone is Googlebot, which throttles crawl rate against what it measures. That
+is what drove the crawl-stats average from 141ms to 313ms over the first week
+while the page count grew, with 260 HTML fetches against 303 URLs.
+
+**What is cold is new pages, not every page after every deploy.** The first full
+run found `MISS 194 / STALE 62 / HIT 138` about two hours after a deploy — far
+too many warm entries for a cache that had just been emptied, so the ISR store
+evidently survives a deployment to a useful degree. The 194 were pages nothing
+had ever requested since they were published. Treat a warm as owed to new
+content rather than to every push. If a code-only deploy ever reports hundreds
+of MISSes, that assumption was wrong and this paragraph needs rewriting.
+
+`WARM_ORIGIN` names the target — `.env.local` locally, set inline in the
+workflow for CI, because a public origin is not a secret. It is separate from
+`NEXT_PUBLIC_SITE_URL` because that one is `localhost:3000` for `next dev`; the
+warmer refuses to run against localhost rather than silently doing nothing.
+
+The run exits non-zero if any URL answers anything but 200, so it doubles as a
+link check over the sitemap plus every hub linked from `/`, `/browse/` and
+`/use/`. `/search/` is excluded — it is `force-dynamic` and has no cache entry
+to fill.
+
 # The quality pipeline
 
 `scripts/content-quality/` (judge, rewrite, fact-check, `CALIBRATION.md`) is
