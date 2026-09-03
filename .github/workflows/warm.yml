@@ -48,10 +48,19 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          # Matches the machine the lockfile was generated on, so npm resolves
+          # the same tree. Node 22 ships npm 10, which hoists tsx's nested
+          # esbuild differently and made the first run fail with
+          # "Missing: esbuild@0.28.2 from lock file".
+          node-version: 24
           cache: npm
 
-      - run: npm ci
+      # `npm install`, not `npm ci`. This job needs one dev dependency (tsx) in
+      # order to curl a few hundred urls; it has no reproducibility requirement
+      # worth failing a deploy-time warm over, and `install` tolerates the same
+      # lockfile drift the Vercel build already tolerates. If the lockfile is
+      # ever regenerated so that `npm ci` passes on Linux, switch back.
+      - run: npm install --no-audit --no-fund
 
       - name: Warm every crawlable url
         run: npm run warm
