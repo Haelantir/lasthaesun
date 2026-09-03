@@ -73,6 +73,45 @@ export const PAIRING_PLACEMENT: Record<string, Placement> = {
 
   'extension-cord': { domain: 'home', object: 'electrical' },
   'power-strip': { domain: 'home', object: 'electrical' },
+
+  // Two more things a household plugs into. A UPS and a portable power station
+  // are household electrical kit the same way an extension cord is — the
+  // question is always what the load does to them.
+  ups: { domain: 'home', object: 'electrical' },
+  'portable-power-station': { domain: 'home', object: 'electrical' },
+
+  // The septic tank is plumbing: every pairing here is about what goes down a
+  // drain and what it does to the bacteria at the other end.
+  'septic-system': { domain: 'home', object: 'plumbing' },
+
+  // The broiler is the top element of an oven, so it files where the oven does.
+  broiler: { domain: 'appliances', object: 'stoves-and-ovens' },
+
+  // Domain-only. Microfibre towels are a cleaning cloth, not an appliance and
+  // not a surface, and one pairing is not reason to mint a laundry node.
+  'microfiber-towels': { domain: 'home' },
+
+  // Networking has an object node; a USB-C device and an HDMI port are
+  // deliberately generic — the question is about the standard, not a category
+  // of hardware, so neither earns one.
+  'poe-switch': { domain: 'tech', object: 'networking' },
+  'usb-c-device': { domain: 'tech' },
+  'hdmi-2-0-port': { domain: 'tech' },
+
+  // The whole machine as a target, where the existing entries only had its
+  // screen: what is being plugged into it is the question.
+  laptop: { domain: 'tech', object: 'computers' },
+  phone: { domain: 'tech', object: 'phones' },
+
+  // Mobility. The AGM battery, the TPMS sensor and the EV charger are car
+  // parts; the hybrid and the AWD car are the car itself. All file under cars.
+  // The bike rack is the exception — it belongs with the bike it carries.
+  'agm-battery': { domain: 'mobility', object: 'cars' },
+  'tpms-sensors': { domain: 'mobility', object: 'cars' },
+  'ev-charger': { domain: 'mobility', object: 'cars' },
+  'hybrid-car': { domain: 'mobility', object: 'cars' },
+  'awd-car': { domain: 'mobility', object: 'cars' },
+  'bike-rack': { domain: 'mobility', object: 'bicycles' },
 };
 
 export function placementFor(targetSlug: string): Placement | undefined {

@@ -84,6 +84,25 @@ import { bleachOnGrout } from './pairings/bleach--grout';
 import { rubbingAlcoholOnPhoneScreen } from './pairings/rubbing-alcohol--phone-screen';
 import { magicEraserOnGlassTopStove } from './pairings/magic-eraser--glass-top-stove';
 import { bleachOnStainlessSteel } from './pairings/bleach--stainless-steel';
+import { nonPoeDevicePluggedIntoPoeSwitch } from './pairings/non-poe-device--poe-switch';
+import { thunderbolt4CableWithUsbCDevice } from './pairings/thunderbolt-4-cable--usb-c-device';
+import { laptopUsbCChargerWithPhone } from './pairings/laptop-usb-c-charger--phone';
+import { powerBankWithLaptop } from './pairings/power-bank--laptop';
+import { laserPrinterPluggedIntoUps } from './pairings/laser-printer--ups';
+import { hdmi21CableInHdmi20Port } from './pairings/hdmi-2-1-cable--hdmi-2-0-port';
+import { refrigeratorPluggedIntoPortablePowerStation } from './pairings/refrigerator--portable-power-station';
+import { spaceHeaterPluggedIntoPortablePowerStation } from './pairings/space-heater--portable-power-station';
+import { extensionCordWithEvCharger } from './pairings/extension-cord--ev-charger';
+import { eBikeOnBikeRack } from './pairings/e-bike--bike-rack';
+import { tireSealantWithTpmsSensors } from './pairings/tire-sealant--tpms-sensors';
+import { regularBatteryChargerWithAgmBattery } from './pairings/regular-battery-charger--agm-battery';
+import { jumperCablesOnHybridCar } from './pairings/jumper-cables--hybrid-car';
+import { snowChainsOnAwdCar } from './pairings/snow-chains--awd-car';
+import { drainCleanerWithSepticSystem } from './pairings/drain-cleaner--septic-system';
+import { bleachWithSepticSystem } from './pairings/bleach--septic-system';
+import { fabricSoftenerOnMicrofiberTowels } from './pairings/fabric-softener--microfiber-towels';
+import { glassBakingDishInBroiler } from './pairings/glass-baking-dish--broiler';
+import { ceramicCookwareOnInductionCooktop } from './pairings/ceramic-cookware--induction-cooktop';
 
 export const PAIRINGS: Pairing[] = [
   aluminumFoilInAirFryer,
@@ -162,6 +181,25 @@ export const PAIRINGS: Pairing[] = [
   rubbingAlcoholOnPhoneScreen,
   magicEraserOnGlassTopStove,
   bleachOnStainlessSteel,
+  nonPoeDevicePluggedIntoPoeSwitch,
+  thunderbolt4CableWithUsbCDevice,
+  laptopUsbCChargerWithPhone,
+  powerBankWithLaptop,
+  laserPrinterPluggedIntoUps,
+  hdmi21CableInHdmi20Port,
+  refrigeratorPluggedIntoPortablePowerStation,
+  spaceHeaterPluggedIntoPortablePowerStation,
+  extensionCordWithEvCharger,
+  eBikeOnBikeRack,
+  tireSealantWithTpmsSensors,
+  regularBatteryChargerWithAgmBattery,
+  jumperCablesOnHybridCar,
+  snowChainsOnAwdCar,
+  drainCleanerWithSepticSystem,
+  bleachWithSepticSystem,
+  fabricSoftenerOnMicrofiberTowels,
+  glassBakingDishInBroiler,
+  ceramicCookwareOnInductionCooktop,
 ];
 
 export type { Pairing, CompatSource, CompatMechanism } from './types';

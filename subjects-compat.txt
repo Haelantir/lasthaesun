@@ -1,115 +1,91 @@
-# Can I Use It With… — pairings to write.
+# Compat batch — opening networking, portable power, septic and EV/e-bike.
+# The brief listed 20; "Steam Mop on Laminate Flooring" is dropped because
+# steam-mop--laminate-flooring already ships. The remaining 19 build four new
+# clusters that can each grow: PoE, portable power stations, septic systems,
+# and EV / e-bike gear.
 #
-#   npm run content:compat
-#
-# One pairing per line. The connective word (in / on / with / plugged into /
-# washed in / dried in / stored in) is what makes it parse. Indent a line
-# underneath to steer the ANGLE — never a verdict.
-#
-# Write "washed in a Dishwasher", not "in the Dishwasher". The parser has a
-# specific `in the dishwasher` connective that swallows the target and leaves
-# nothing after it, so that line is dropped and no page is written.
-#
-# If a batch fails on a source URL, name the dead domain in that pairing's notes
-# before re-running. The writer reaches for the same host otherwise.
-# Retail product pages and brand blogs are the repeat offender: they sit behind
-# WAFs that refuse everything. Steer to manuals, standards and institutions.
-# Confirmed blockers so far: cleaninginstitute.org, cdn.homedics.com.
-#
-# Written so far — 66 pairings, 15 targets:
-#   × air fryer       — aluminum foil · parchment paper · wax paper · paper plate
-#                       glass bowl · pyrex · cooking spray · silicone liner
-#   × oven            — aluminum foil · parchment paper · wax paper · pyrex
-#                       silicone bakeware · plastic container
-#   × microwave       — aluminum foil · parchment paper · paper plate · pyrex
-#                       plastic container · styrofoam
-#   × dishwasher      — cast iron pan · wooden cutting board · nonstick pan
-#                       stainless steel · silicone utensils · plastic container
-#                       dish soap
-#   × washing machine — shoes · backpack · pillows · stuffed animals
-#                       weighted blanket · memory foam pillow
-#   × HE washing machine — regular detergent
-#   × clothes dryer   — towels · jeans · down comforter · wool sweater · bra
-#                       rubber-backed bath mat
-#   × freezer         — bread · cooked rice · milk · cheese · lettuce
-#                       eggs in the shell
-#   × extension cord  — space heater · air conditioner · refrigerator
-#                       microwave · tv · laptop charger
-#   × power strip     — desktop computer · gaming console · wi-fi router
-#                       laser printer · coffee maker · electric kettle
-#   × humidifier      — tap water · bottled water · essential oils · vinegar
-#   × air purifier    — humidifier
-#   × glass-top stove — cast iron pan
-#   × induction cooktop — cast iron pan
-#   × granite countertop — vinegar
-#
-# Clear the lines below before the next run, or they are rewritten in place.
+# Subject is the thing you are holding or applying, target is what it goes
+# into or onto — the same way space-heater--extension-cord already reads.
 
-Windex on a TV Screen
-  화면 표면 코팅이 유리창과 무엇이 다른지가 축이다.
-  암모니아·알코올 성분 세정제가 코팅에 무엇을 하는지, 제조사가 안내하는 방법,
-  그리고 이미 한 번 닦아버린 경우에 무엇을 확인해야 하는지를 나눌 것.
-  windex.com은 429로 막혀 검증에 실패했다. 다른 출처를 쓸 것.
-  브랜드 제품 페이지와 업계협회 사이트는 대부분 차단되니 피할 것. 정부기관, 표준기관,
-  대학 extension, 그리고 직접 열리는 제조사 매뉴얼을 우선한다.
+Non-PoE Device plugged into a PoE Switch
+  표준 PoE 스위치가 연결된 장치를 어떻게 판별하는지, 그리고 판별을 하지 않는
+  구형/비표준 장비가 따로 있는지를 갈라서 다룬다. passive PoE와 802.3af/at/bt를
+  구분하는 것이 이 페이지의 핵심 각도다.
 
-Paper Towel in the Microwave
-  이미 /use/microwave/ 아래 종이접시와 유산지가 있으니 겹치지 않게 쓸 것.
-  무늬·염색·재생지가 들어간 것과 무표백 흰 것, 덮개로 쓰는 것과 장시간 가열하는 것,
-  기름기가 밴 상태로 다시 쓰는 것을 나눌 것.
-  files.sharpusa.com PDF는 연결이 타임아웃됐다. 다른 출처를 쓸 것.
-  브랜드 제품 페이지와 업계협회 사이트는 대부분 차단되니 피할 것. 정부기관, 표준기관,
-  대학 extension, 그리고 직접 열리는 제조사 매뉴얼을 우선한다.
+Thunderbolt 4 Cable with a USB-C Device
+  커넥터가 같다는 것과 규격이 같다는 것이 다르다는 점이 각도다. 데이터 속도,
+  영상 출력, 전력 전달 세 가지가 각각 어떻게 되는지 나눠서 볼 것.
 
-Baking Soda in a Washing Machine
-  세탁물이 아니라 세탁 첨가제를 다루는 첫 페어링이다.
-  세제와 함께 넣는 경우와 통세척 용도로 쓰는 경우, 넣는 위치가 갈림길이다.
-  드럼과 고무 개스킷·배수 계통에 남는 것이 문제가 되는지도 확인할 것.
+Laptop USB-C Charger with a Phone
+  고출력 충전기를 저전력 기기에 꽂는 방향이다. USB-PD 협상이 어느 쪽을 기준으로
+  이루어지는지, 케이블 등급이 변수인지, 인증되지 않은 충전기는 다른 이야기인지
+  갈라서 볼 것.
 
-Air Fryer Basket washed in a Dishwasher
-  코팅과 표시가 핵심이다. dishwasher-safe 표기가 있는 모델과 없는 모델,
-  바스켓과 안쪽 크리스퍼 트레이가 서로 다를 수 있다는 점을 나눌 것.
-  손세척이 권장되는 이유가 무엇인지도 다룬다.
+Power Bank with a Laptop
+  노트북 입력 규격과 보조배터리 출력 규격이 맞아야 하는 관계다. USB-C PD 입력이
+  있는 노트북과 전용 배럴잭 노트북, 그리고 출력 W가 부족할 때 어떤 일이
+  벌어지는지를 나눠서 다룬다.
 
-Vinegar on a Marble Countertop
-  이미 /use/vinegar/granite-countertop/이 있으니 같은 축에서 답이 갈리는 지점을 분명히 할 것.
-  석재 자체가 산에 어떻게 반응하는지, 실링이 그것을 막아주는지,
-  한 번 흘린 경우와 상시 세정제로 쓰는 경우를 나눈다.
-  usenaturalstone.org는 403으로 막혀 검증에 실패했다. 다른 출처를 쓸 것.
-  브랜드 제품 페이지와 업계협회 사이트는 대부분 차단되니 피할 것. 정부기관, 표준기관,
-  대학 extension, 그리고 직접 열리는 제조사 매뉴얼을 우선한다.
+Laser Printer plugged into a UPS
+  프린터가 다른 사무기기와 다르게 취급되는 이유가 각도다. 정착기 가열 시점의
+  순간 부하와 UPS 정격의 관계, 그리고 surge-only 콘센트와 배터리 백업 콘센트를
+  구분하는 것.
+  출처 제약: 인용한 URL은 자동 링크 검사에서 열려야 한다. se.com과
+  support.brother.com은 봇 차단으로 403/503을 반환하므로 쓰지 말 것. 내용이
+  같더라도 바로 열리는 제조사 문서나 표준 문서를 골라라.
 
-Steam Mop on Laminate Flooring
-  열과 수분이 이음새로 들어갔을 때 무엇이 일어나는지가 축이다.
-  제조사 보증 조항이 스팀을 어떻게 다루는지, 방수 표기가 있는 제품은 다른지,
-  이미 몇 번 썼는데 멀쩡해 보이는 경우를 나눌 것.
-  support.bissell.com은 401로 막혀 검증에 실패했다. 다른 출처를 쓸 것.
-  nalfa.com PDF도 404였다. 이 두 곳 말고 다른 출처를 쓸 것.
-  브랜드 제품 페이지와 업계협회 사이트는 대부분 차단되니 피할 것. 정부기관, 표준기관,
-  대학 extension, 그리고 직접 열리는 제조사 매뉴얼을 우선한다.
+HDMI 2.1 Cable in an HDMI 2.0 Port
+  케이블 등급이 위로 호환되는지 아래로 호환되는지의 문제다. 실제로 나오는 대역폭이
+  무엇에 의해 결정되는지, Ultra High Speed 인증 표시가 무엇을 보장하는지.
 
-Bleach on Grout
-  실링된 줄눈과 실링이 없거나 손상된 줄눈에서 답이 갈린다.
-  희석과 환기, 다른 세정제와 절대 섞지 말아야 하는 것, 색이 있는 줄눈에서
-  탈색이 문제가 되는 경우를 나눌 것.
+Refrigerator plugged into a Portable Power Station
+  정격 소비전력과 컴프레서 기동 시 순간 전력이 다르다는 점이 핵심이다.
+  인버터 연속 출력과 순간 출력, 배터리 용량 대비 지속 시간을 나눠서 볼 것.
 
-Rubbing Alcohol on a Phone Screen
-  "알코올은 무조건 안 된다"가 맞는지부터 확인할 것.
-  농도, 화면에 직접 뿌리는 것과 천에 묻혀 닦는 것, 포트와 스피커 구멍,
-  그리고 발수 코팅이 닳는 문제를 나눈다.
+Space Heater plugged into a Portable Power Station
+  된다/안 된다보다 얼마나 오래 되느냐가 답이 되는 유형이다. 히터의 소비전력 단계,
+  인버터 정격, 배터리 용량의 관계를 실제 숫자 없이도 설명할 수 있게 구조를 잡을 것.
 
-Magic Eraser on a Glass-Top Stove
-  멜라민 스펀지가 화학 세정이 아니라 미세 연마로 작동한다는 점이 핵심이다.
-  마감 종류에 따라 광택이 어떻게 되는지, 눌어붙은 자국에 쓰는 경우와
-  일상 청소로 쓰는 경우를 나눌 것.
-  cleaninginstitute.org는 403으로 막혀 검증에 실패했다. 다른 출처를 쓸 것.
-  브랜드 제품 페이지와 업계협회 사이트는 대부분 차단되니 피할 것. 정부기관, 표준기관,
-  대학 extension, 그리고 직접 열리는 제조사 매뉴얼을 우선한다.
+Extension Cord with an EV Charger
+  일반 가정용 연장선과 EV 충전 전용 연장 케이블을 반드시 구분해서 다룬다.
+  레벨 1과 레벨 2가 다른 이야기인지, 제조사 지침이 무엇을 말하는지.
 
-Bleach on Stainless Steel
-  스테인리스의 내식성이 어디서 오는지와 염소가 거기에 무엇을 하는지가 축이다.
-  즉시 헹군 경우와 방치한 경우, 싱크·냉장고 문·조리기구처럼 대상이 다른 경우를 나눌 것.
-  nickelinstitute.org는 403으로 막혀 검증에 실패했다. 다른 출처를 쓸 것.
-  본문 필드에 ([도메인](주소)) 형태의 인용을 붙이지 말 것. 링크와 URL은 SOURCES에만 넣는다.
-  브랜드 제품 페이지와 업계협회 사이트는 대부분 차단되니 피할 것. 정부기관, 표준기관,
-  대학 extension, 그리고 직접 열리는 제조사 매뉴얼을 우선한다.
+E-Bike on a Bike Rack
+  전기자전거가 무거워지면서 기존 캐리어의 대당 허용 중량과 부딪히는 상황이다.
+  행잉식과 플랫폼식, 히치와 트렁크 장착, 배터리를 빼는 경우를 갈라서 볼 것.
+
+Tire Sealant with TPMS Sensors
+  제품 표시에 따라 답이 갈리는 유형이다. TPMS-safe 표기가 무엇을 뜻하는지,
+  응급용 캔과 상시 주입형이 다른지, 사용 후 정비소에서 해야 하는 일이 있는지.
+
+Regular Battery Charger with an AGM Battery
+  충전 프로파일과 전압 상한이 핵심이다. AGM 모드가 있는 충전기와 없는 충전기,
+  구형 트리클 충전기, 그리고 유지 충전과 완충의 차이를 나눠서 다룬다.
+
+Jumper Cables on a Hybrid Car
+  점프 대상이 고전압 구동 배터리가 아니라 12V 보조 배터리라는 점이 각도다.
+  하이브리드를 점프해 주는 쪽으로 쓰는 경우는 또 다른 이야기인지 갈라서 볼 것.
+
+Snow Chains on an AWD Car
+  AWD면 필요 없다는 통념과 실제 제동/조향의 관계, 어느 축에 다는지, 차량별
+  타이어-차체 간격 때문에 제조사가 금지하는 경우가 있는지를 다룬다.
+
+Drain Cleaner with a Septic System
+  강알칼리·강산성 화학 세정제와 효소·박테리아계 제품을 반드시 구분한다.
+  정화조 내부 미생물과의 관계, 일회성 사용과 상시 사용의 차이.
+
+Bleach with a Septic System
+  가정에서 정상적으로 쓰는 양과 대량으로 흘려보내는 경우를 가르는 것이 핵심이다.
+  세탁 표백제, 변기 청소용 제품, 그리고 정화조 첨가제 광고가 각각 다른 이야기다.
+
+Fabric Softener on Microfiber Towels
+  섬유유연제가 섬유에 무엇을 남기는지, 그것이 흡수성과 세척력에 어떤 영향을
+  주는지가 각도다. 이미 유연제를 쓴 타월을 되살릴 수 있는지도 함께.
+
+Glass Baking Dish in the Broiler
+  oven-safe 표시와 broiler-safe가 같은 말이 아니라는 점이 핵심이다. 브로일러의
+  국부 복사열과 열충격, 제조사별 표기 차이, 랙 위치를 갈라서 다룬다.
+
+Ceramic Cookware on an Induction Cooktop
+  순수 세라믹과 바닥에 자성 층을 넣은 제품이 갈린다. 자석 테스트가 무엇을
+  알려주는지, 인덕션 어댑터 디스크가 대안이 되는지까지.
