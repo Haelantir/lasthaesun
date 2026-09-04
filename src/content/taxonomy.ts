@@ -1051,6 +1051,21 @@ export const systems: SystemSeed[] = [
     indexable: false,
   },
   {
+    objectSlug: 'structure',
+    slug: 'floors',
+    name: 'Floors',
+    singularName: 'Floor',
+    canonicalPath: '/home/structure/floors/',
+    shortDescription: 'Hollow spots, loose tile, squeaks and uneven flooring.',
+    hubHeading: 'Can I Ignore These Floor Problems?',
+    seoTitle: 'Floor Problems: What Can You Ignore? | Can I Ignore It',
+    metaDescription:
+      'Floor problems sorted by how urgent they actually are — from a single hollow-sounding tile to sagging or shifting that needs attention now.',
+    sortOrder: 50,
+    status: 'published',
+    indexable: false,
+  },
+  {
     objectSlug: 'hvac',
     slug: 'air-conditioning',
     name: 'Air Conditioning',
@@ -1422,6 +1437,21 @@ export const systems: SystemSeed[] = [
     metaDescription:
       'Washing machine vibration and balance problems sorted by how urgent they actually are — from an uneven load to shaking that means stop the cycle.',
     sortOrder: 10,
+    status: 'published',
+    indexable: false,
+  },
+  {
+    objectSlug: 'washing-machines',
+    slug: 'water-and-drainage',
+    name: 'Water & Drainage',
+    singularName: 'Washing Machine',
+    canonicalPath: '/appliances/washing-machines/water-and-drainage/',
+    shortDescription: 'Standing water, dispenser residue and drainage problems.',
+    hubHeading: 'Can I Ignore This Washing Machine Water Problem?',
+    seoTitle: 'Washing Machine Water & Drainage: What Can You Ignore? | Can I Ignore It',
+    metaDescription:
+      'Washing machine water and drainage problems sorted by how urgent they actually are — from normal residue in the dispenser to standing water that means stop the cycle.',
+    sortOrder: 20,
     status: 'published',
     indexable: false,
   },

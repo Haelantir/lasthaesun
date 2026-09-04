@@ -1,20 +1,9 @@
-# Four-page batch — plumbing, steering, engine fluids, laptop chargers.
-# Picked from the six candidates in the 2026-09-04 brainstorm. Two were dropped:
-# "Hollow-Sounding Floor Tile" because no taxonomy system covers flooring/tile
-# yet and minting one for a single page is not worth it, and "Water Left in the
-# Washing Machine Detergent Drawer" because the washing-machines object has only
-# one system (vibration-and-balance) and this topic does not fit it — the writer
-# refused it correctly rather than force it in. The steering topic reuses the
-# reserved "crooked-steering-wheel" draft in planned-steering-problems.ts.
+# Follow-up batch — the two topics dropped from the 2026-09-04 brainstorm
+# because they had no taxonomy home. Both now do: washing-machines got a
+# second system (water-and-drainage) and structure got a new one (floors).
 
-Can I Ignore a Faucet That Sputters After the Water Was Turned Back On?
-  Water was shut off for repair work or a utility outage, then turned back on, and now a faucet spits and sputters. Reader wants to know whether this is just trapped air working its way out (self-resolving) or a sign something is wrong. Separate "clears up within a few minutes of running" from "still sputtering after several minutes" or "only one fixture in the house does it."
+Can I Ignore Water Left in the Washing Machine Detergent Drawer?
+  A small pool of water sits in the detergent dispenser drawer after a wash cycle finishes, not during it. Reader wants to know if this is normal residual moisture or a sign of a clog/drain problem. Separate "a few drops, common on HE machines" from "standing water every single wash" or "water there before the cycle even starts."
 
-Can I Ignore a Steering Wheel That Sits Crooked When the Car Drives Straight?
-  The steering wheel's resting position (spoke alignment) is visibly off-center, but the car tracks straight with no pulling. This is specifically about the wheel's position after work like an alignment, tire replacement, or steering-component service — not a wheel with play in it, and not a whining noise while turning.
-
-Can I Ignore Milky Residue Under the Oil Cap?
-  Whitish, mayonnaise-like buildup is found under the oil filler cap when checking the oil. The reader's fear is a blown head gasket mixing coolant into the oil. Key distinguishing scenarios: residue confined to the underside of the cap vs. milky color on the dipstick itself, coolant level dropping or not, and a pattern of short cold-weather trips vs. not.
-
-Can I Ignore a Laptop Charger That Makes a Faint Buzzing Noise?
-  The charger charges the laptop normally but emits a quiet, consistent buzzing or coil-whine sound. Separate this faint/steady case from a charger that is loud, crackling, or hot to the touch — those point to a different verdict.
+Can I Ignore a Hollow-Sounding Floor Tile?
+  A homeowner walks on or taps a tile floor and one tile (or a small area) sounds hollow/tinny compared to the rest, but nothing is visibly cracked or loose yet. Reader wants to know if this means the tile has debonded from the subfloor and needs to be pulled up, or if some hollow sound is normal and can be watched. Separate "one isolated tile, sound only" from "spreading to neighboring tiles" or "tile is also cracking, lifting, or moving underfoot."

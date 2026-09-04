@@ -51,6 +51,7 @@ import { fridgeNotColdEnough } from './problems/fridge-not-cold-enough';
 import { garbageDisposalHumming } from './problems/garbage-disposal-humming';
 import { gasSmellNearTheStove } from './problems/gas-smell-near-the-stove';
 import { hairlineCrackInDrywall } from './problems/hairline-crack-in-drywall';
+import { hollowSoundingFloorTile } from './problems/hollow-sounding-floor-tile';
 import { hotPhoneWhileCharging } from './problems/hot-phone-while-charging';
 import { hotelRoomSmellsLikeMold } from './problems/hotel-room-smells-like-mold';
 import { laptopChargerBuzzing } from './problems/laptop-charger-buzzing';
@@ -214,6 +215,7 @@ import { washingMachineLeakingWater } from './problems/washing-machine-leaking-w
 import { washingMachineShakesViolently } from './problems/washing-machine-shakes-violently';
 import { waterDrippingFromExhaust } from './problems/water-dripping-from-exhaust';
 import { waterHeaterLeaking } from './problems/water-heater-leaking';
+import { waterLeftInWashingMachineDetergentDrawer } from './problems/water-left-in-washing-machine-detergent-drawer';
 import { waterStainOnCeiling } from './problems/water-stain-on-ceiling';
 import { weakElectricScooterBrakes } from './problems/weak-electric-scooter-brakes';
 import { wheelVibration } from './problems/wheel-vibration';
@@ -380,6 +382,8 @@ export const problems: ProblemSeed[] = [
   crookedSteeringWheel,
   milkyResidueUnderOilCap,
   laptopChargerBuzzing,
+  waterLeftInWashingMachineDetergentDrawer,
+  hollowSoundingFloorTile,
   ...plannedTireProblems,
   ...plannedExhaustProblems,
   ...plannedCoolingProblems,

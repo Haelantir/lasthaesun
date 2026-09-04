@@ -1,16 +1,10 @@
-# Three-pairing batch — picked from the six candidates in the 2026-09-04
-# brainstorm. "65W USB-C Laptop Charger with Phone" is dropped because
-# laptop-usb-c-charger--phone.ts already ships the same question. "Dish Soap
-# in a Pressure Washer" and "Regular Vacuum on Fireplace Ash" were generated
-# but dropped after their cited sources failed the URL check (a manufacturer
-# manual PDF 403'd, a county government page was unreachable) — worth a retry
-# in a future batch with different sourcing, not force-shipped with a dead link.
+# Follow-up batch — retrying the pairings dropped from the 2026-09-04
+# brainstorm because their cited sources failed the URL check on the first
+# attempt. "Regular Vacuum on Fireplace Ash" is dropped for good after a
+# second attempt also cited a dead government URL (a different county this
+# time, 404 instead of unreachable) — two different county fire-safety pages
+# both dying suggests this one just doesn't have a stable government source
+# to cite, not bad luck.
 
-Steam Mop on Vinyl Plank Flooring
-  LVP is marketed as fully waterproof, so buyers assume steam is automatically safe. Manufacturer allowances vary by brand and product line; check whether steam heat specifically (not just standing water) is approved, and what it can do at the seams over time. A close sibling, steam-mop--laminate-flooring, already ships and reached a different answer because laminate's core is not waterproof — LVP's marketing claim is the whole reason this is a separate question.
-
-Drywall Anchors in Plaster Walls
-  Older homes with plaster-and-lath or plaster-on-masonry walls. Plaster is harder and more brittle than drywall, and anchors designed for drywall's fibrous panel can crack plaster or fail to grip. Cover how the installation approach differs (pilot hole, anchor type) rather than just "it doesn't work."
-
-Magic Eraser on Car Paint
-  Melamine foam is mildly abrasive. The question is whether it can dull or scratch clear coat, especially with repeated use or on clear coat that is already thin or worn.
+Dish Soap in a Pressure Washer
+  Dish soap (e.g. Dawn) used in a pressure washer's detergent tank or downstream injector in place of a purpose-made pressure-washer detergent. Concerns: excessive foaming, residue buildup in the pump and hoses, and seal/O-ring compatibility.

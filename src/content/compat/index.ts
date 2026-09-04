@@ -106,6 +106,7 @@ import { ceramicCookwareOnInductionCooktop } from './pairings/ceramic-cookware--
 import { steamMopOnVinylPlankFlooring } from './pairings/steam-mop--vinyl-plank-flooring';
 import { drywallAnchorsInPlasterWalls } from './pairings/drywall-anchors--plaster-walls';
 import { magicEraserOnCarPaint } from './pairings/magic-eraser--car-paint';
+import { dishSoapInPressureWasher } from './pairings/dish-soap--pressure-washer';
 
 export const PAIRINGS: Pairing[] = [
   aluminumFoilInAirFryer,
@@ -206,6 +207,7 @@ export const PAIRINGS: Pairing[] = [
   steamMopOnVinylPlankFlooring,
   drywallAnchorsInPlasterWalls,
   magicEraserOnCarPaint,
+  dishSoapInPressureWasher,
 ];
 
 export type { Pairing, CompatSource, CompatMechanism } from './types';

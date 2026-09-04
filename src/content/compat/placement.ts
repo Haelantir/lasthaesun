@@ -53,6 +53,11 @@ export const PAIRING_PLACEMENT: Record<string, Placement> = {
   humidifier: { domain: 'appliances' },
   'air-purifier': { domain: 'appliances' },
 
+  // Outdoor power equipment, not a kitchen/appliance-domain machine. No
+  // pressure-washer object node exists, and one pairing is not reason to mint
+  // one.
+  'pressure-washer': { domain: 'garden-and-outdoors' },
+
   // The question is about the surface, not about a kitchen appliance, so these
   // sit with the house rather than under Food & Kitchen. None has an object
   // node: there is no countertops or flooring category, and a cleaning agent

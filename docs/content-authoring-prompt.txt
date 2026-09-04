@@ -1,5 +1,5 @@
 CAN I IGNORE IT — 콘텐츠 작성 지시서
-generated 2026-09-04 · systems 91 · published 145 · reserved 194
+generated 2026-09-04 · systems 93 · published 147 · reserved 194
 (콘텐츠가 늘면 `npm run content:prompt`로 다시 뽑을 것. 목록이 낡으면 import가 실패한다.)
 
 ════════════════════════════════════════════════════════════════════════
@@ -43,6 +43,7 @@ TOPIC:
   noises                          /appliances/refrigerators/noises/                    Appliances · Refrigerators · Noises
   gas-burners                     /appliances/stoves-and-ovens/gas-burners/            Appliances · Stoves & Ovens · Gas Burners
   vibration-and-balance           /appliances/washing-machines/vibration-and-balance/  Appliances · Washing Machines · Vibration & Balance
+  water-and-drainage              /appliances/washing-machines/water-and-drainage/     Appliances · Washing Machines · Water & Drainage
   newborn-breathing-and-sounds    /babies/newborns/breathing-and-sounds/               Babies · Newborns · Breathing & Sounds
   newborn-diapers-and-digestion   /babies/newborns/diapers-and-digestion/              Babies · Newborns · Diapers & Digestion
   newborn-feeding                 /babies/newborns/feeding/                            Babies · Newborns · Feeding
@@ -89,6 +90,7 @@ TOPIC:
   shingles                        /home/roof/shingles/                                 Home · Roof · Shingles
   alarms                          /home/safety/alarms/                                 Home · Home Safety · Alarms
   ceilings                        /home/structure/ceilings/                            Home · Structure · Ceilings
+  floors                          /home/structure/floors/                              Home · Structure · Floors
   foundation                      /home/structure/foundation/                          Home · Structure · Foundation
   walls                           /home/structure/walls/                               Home · Structure · Walls
   windows                         /home/structure/windows/                             Home · Structure · Windows
@@ -139,55 +141,55 @@ TOPIC:
 1-2. 아래 SLUG은 이미 발행된 페이지다. 새로 쓰지 않는다.
      토픽이 이 중 하나와 사실상 같은 질문이면, 콘텐츠를 쓰지 말고 그렇다고만 답한다.
 
-  abs-warning-light                           ac-leaking-water-inside                     airline-schedule-change
-  battery-warning-light                       bed-bugs-in-hotel-room                      bike-brakes-rubbing
-  bike-chain-skipping                         blue-screen-happened-once                   blue-smoke-from-exhaust
-  boarding-pass-wont-load                     breaker-keeps-tripping                      brown-water-from-faucet
-  burning-smell-from-dryer                    burning-smell-from-engine                   burning-smell-from-furnace
-  car-jerks-when-accelerating                 car-pulls-to-one-side                       cat-not-eating
-  cat-sleeping-all-day                        cat-sneezing                                cat-straining-to-pee
-  cat-throwing-up                             check-engine-light                          chirping-smoke-alarm
-  clicking-hard-drive                         clicking-noise-when-pedaling                clicking-noise-when-turning
-  cloudy-pool-water                           clunking-noise-over-bumps                   condensation-between-window-panes
-  coolant-leak                                crack-in-foundation                         cracked-bike-helmet
-  cracked-egg                                 cracked-phone-screen                        cracks-in-a-bike-tire
-  crooked-steering-wheel                      damaged-passport                            damaged-suitcase
-  dead-pixel-on-monitor                       dented-can                                  dog-ate-chocolate
-  dog-diarrhea                                dog-drinking-lots-of-water                  dog-eating-grass
-  dog-limping                                 dog-not-eating                              dog-reverse-sneezing
-  dog-scooting                                dog-throwing-up                             dryer-takes-too-long-to-dry
-  e-bike-battery-got-wet                      e-bike-battery-hot-while-charging           e-bike-battery-range-drop
-  e-bike-cuts-out-while-riding                eggs-past-sell-by-date                      faucet-sputters-after-water-turned-back-on
-  flat-spot-on-babys-head                     flickering-light                            food-past-best-by-date
-  frayed-charging-cable                       freezer-burn                                fridge-not-cold-enough
-  frost-buildup-in-freezer                    garbage-disposal-humming                    gas-smell-near-the-stove
-  gfci-keeps-tripping                         hairline-crack-in-drywall                   high-rpm-after-cold-start
-  hot-laptop-charger                          hot-phone-while-charging                    hotel-room-smells-like-mold
-  laptop-charger-buzzing                      laptop-fan-runs-constantly                  leaking-faucet
-  leftovers-left-out                          liquid-detected-warning                     loose-electric-scooter-stem
-  loose-motorcycle-chain                      low-tire-pressure                           low-water-pressure
-  meat-thawed-in-fridge                       meat-turned-brown-in-fridge                 milky-residue-under-oil-cap
-  missing-roof-shingle                        mold-around-window                          mold-on-bread
-  mold-on-hard-cheese                         motorcycle-battery-keeps-dying              motorcycle-oil-leak
-  motorcycle-pops-on-deceleration             motorcycle-wobbles-at-speed                 mushrooms-growing-in-lawn
-  nail-in-tire                                name-typo-on-plane-ticket                   newborn-hiccups
-  newborn-noisy-breathing                     newborn-not-pooping                         newborn-sleeping-through-feedings
-  newborn-sneezing                            newborn-spitting-up                         oil-leak
-  one-cockroach-in-house                      passport-expiring-soon                      phone-battery-draining-fast
-  pipes-bang-when-water-turns-off             refrigerator-door-left-open-overnight       refrigerator-leaking-water
-  refrigerator-making-loud-noise              refrigerator-running-constantly             rust-on-brake-rotors
-  scooter-tire-losing-air                     scratch-on-rental-car                       sewer-gas-smell
-  short-layover                               slipping-motorcycle-clutch                  slow-drain
-  small-leak-under-sink                       small-windshield-chip                       smart-hard-drive-warning
-  software-update                             sparking-microwave                          sprouts-on-a-potato
-  squeaky-brakes                              standing-water-in-dishwasher                storage-almost-full-warning
-  swollen-laptop-battery                      toilet-keeps-running                        tpms-warning-light
-  warm-electrical-outlet                      washing-machine-leaking-water               washing-machine-shakes-violently
-  water-dripping-from-exhaust                 water-heater-leaking                        water-stain-on-ceiling
-  weak-electric-scooter-brakes                wheel-vibration                             white-smoke-from-exhaust
-  white-spots-on-chocolate                    wifi-keeps-disconnecting                    wobbling-ceiling-fan
-  wobbly-bike-wheel                           wrong-baggage-tag                           yellow-flame-on-gas-stove
-  your-connection-is-not-private-warning
+  abs-warning-light                               ac-leaking-water-inside                         airline-schedule-change
+  battery-warning-light                           bed-bugs-in-hotel-room                          bike-brakes-rubbing
+  bike-chain-skipping                             blue-screen-happened-once                       blue-smoke-from-exhaust
+  boarding-pass-wont-load                         breaker-keeps-tripping                          brown-water-from-faucet
+  burning-smell-from-dryer                        burning-smell-from-engine                       burning-smell-from-furnace
+  car-jerks-when-accelerating                     car-pulls-to-one-side                           cat-not-eating
+  cat-sleeping-all-day                            cat-sneezing                                    cat-straining-to-pee
+  cat-throwing-up                                 check-engine-light                              chirping-smoke-alarm
+  clicking-hard-drive                             clicking-noise-when-pedaling                    clicking-noise-when-turning
+  cloudy-pool-water                               clunking-noise-over-bumps                       condensation-between-window-panes
+  coolant-leak                                    crack-in-foundation                             cracked-bike-helmet
+  cracked-egg                                     cracked-phone-screen                            cracks-in-a-bike-tire
+  crooked-steering-wheel                          damaged-passport                                damaged-suitcase
+  dead-pixel-on-monitor                           dented-can                                      dog-ate-chocolate
+  dog-diarrhea                                    dog-drinking-lots-of-water                      dog-eating-grass
+  dog-limping                                     dog-not-eating                                  dog-reverse-sneezing
+  dog-scooting                                    dog-throwing-up                                 dryer-takes-too-long-to-dry
+  e-bike-battery-got-wet                          e-bike-battery-hot-while-charging               e-bike-battery-range-drop
+  e-bike-cuts-out-while-riding                    eggs-past-sell-by-date                          faucet-sputters-after-water-turned-back-on
+  flat-spot-on-babys-head                         flickering-light                                food-past-best-by-date
+  frayed-charging-cable                           freezer-burn                                    fridge-not-cold-enough
+  frost-buildup-in-freezer                        garbage-disposal-humming                        gas-smell-near-the-stove
+  gfci-keeps-tripping                             hairline-crack-in-drywall                       high-rpm-after-cold-start
+  hollow-sounding-floor-tile                      hot-laptop-charger                              hot-phone-while-charging
+  hotel-room-smells-like-mold                     laptop-charger-buzzing                          laptop-fan-runs-constantly
+  leaking-faucet                                  leftovers-left-out                              liquid-detected-warning
+  loose-electric-scooter-stem                     loose-motorcycle-chain                          low-tire-pressure
+  low-water-pressure                              meat-thawed-in-fridge                           meat-turned-brown-in-fridge
+  milky-residue-under-oil-cap                     missing-roof-shingle                            mold-around-window
+  mold-on-bread                                   mold-on-hard-cheese                             motorcycle-battery-keeps-dying
+  motorcycle-oil-leak                             motorcycle-pops-on-deceleration                 motorcycle-wobbles-at-speed
+  mushrooms-growing-in-lawn                       nail-in-tire                                    name-typo-on-plane-ticket
+  newborn-hiccups                                 newborn-noisy-breathing                         newborn-not-pooping
+  newborn-sleeping-through-feedings               newborn-sneezing                                newborn-spitting-up
+  oil-leak                                        one-cockroach-in-house                          passport-expiring-soon
+  phone-battery-draining-fast                     pipes-bang-when-water-turns-off                 refrigerator-door-left-open-overnight
+  refrigerator-leaking-water                      refrigerator-making-loud-noise                  refrigerator-running-constantly
+  rust-on-brake-rotors                            scooter-tire-losing-air                         scratch-on-rental-car
+  sewer-gas-smell                                 short-layover                                   slipping-motorcycle-clutch
+  slow-drain                                      small-leak-under-sink                           small-windshield-chip
+  smart-hard-drive-warning                        software-update                                 sparking-microwave
+  sprouts-on-a-potato                             squeaky-brakes                                  standing-water-in-dishwasher
+  storage-almost-full-warning                     swollen-laptop-battery                          toilet-keeps-running
+  tpms-warning-light                              warm-electrical-outlet                          washing-machine-leaking-water
+  washing-machine-shakes-violently                water-dripping-from-exhaust                     water-heater-leaking
+  water-left-in-washing-machine-detergent-drawer  water-stain-on-ceiling                          weak-electric-scooter-brakes
+  wheel-vibration                                 white-smoke-from-exhaust                        white-spots-on-chocolate
+  wifi-keeps-disconnecting                        wobbling-ceiling-fan                            wobbly-bike-wheel
+  wrong-baggage-tag                               yellow-flame-on-gas-stove                       your-connection-is-not-private-warning
 
 
 1-3. 아래 SLUG은 예약된 주제다(아직 글이 없음).
