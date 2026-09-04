@@ -103,6 +103,9 @@ import { bleachWithSepticSystem } from './pairings/bleach--septic-system';
 import { fabricSoftenerOnMicrofiberTowels } from './pairings/fabric-softener--microfiber-towels';
 import { glassBakingDishInBroiler } from './pairings/glass-baking-dish--broiler';
 import { ceramicCookwareOnInductionCooktop } from './pairings/ceramic-cookware--induction-cooktop';
+import { steamMopOnVinylPlankFlooring } from './pairings/steam-mop--vinyl-plank-flooring';
+import { drywallAnchorsInPlasterWalls } from './pairings/drywall-anchors--plaster-walls';
+import { magicEraserOnCarPaint } from './pairings/magic-eraser--car-paint';
 
 export const PAIRINGS: Pairing[] = [
   aluminumFoilInAirFryer,
@@ -200,6 +203,9 @@ export const PAIRINGS: Pairing[] = [
   fabricSoftenerOnMicrofiberTowels,
   glassBakingDishInBroiler,
   ceramicCookwareOnInductionCooktop,
+  steamMopOnVinylPlankFlooring,
+  drywallAnchorsInPlasterWalls,
+  magicEraserOnCarPaint,
 ];
 
 export type { Pairing, CompatSource, CompatMechanism } from './types';

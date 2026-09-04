@@ -17,7 +17,6 @@ interface PlannedProblem {
 const planned: PlannedProblem[] = [
   { slug: 'loose-steering-wheel', name: 'Loose Steering Wheel', h1: 'Can I Ignore a Steering Wheel With Play in It?' },
   { slug: 'whining-noise-when-turning', name: 'Whining Noise When Turning', h1: 'Can I Ignore a Whining Noise When I Turn the Wheel?' },
-  { slug: 'crooked-steering-wheel', name: 'Crooked Steering Wheel', h1: 'Can I Ignore a Steering Wheel That Sits Crooked?' },
 ];
 
 export const plannedSteeringProblems: ProblemSeed[] = planned.map(({ slug, name, h1 }) => ({

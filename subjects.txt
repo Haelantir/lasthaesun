@@ -1,132 +1,20 @@
-# Mobility batch — opening motorcycles, bicycles, e-bikes and scooters.
-# Cars already carry 18 of the 19 mobility pages, so this batch is deliberately
-# 2 cars + 6 motorcycles + 5 bicycles + 4 e-bikes + 3 e-scooters.
-# Every slug below is reserved as a draft in src/content/problems/planned-*.ts.
+# Four-page batch — plumbing, steering, engine fluids, laptop chargers.
+# Picked from the six candidates in the 2026-09-04 brainstorm. Two were dropped:
+# "Hollow-Sounding Floor Tile" because no taxonomy system covers flooring/tile
+# yet and minting one for a single page is not worth it, and "Water Left in the
+# Washing Machine Detergent Drawer" because the washing-machines object has only
+# one system (vibration-and-balance) and this topic does not fit it — the writer
+# refused it correctly rather than force it in. The steering topic reuses the
+# reserved "crooked-steering-wheel" draft in planned-steering-problems.ts.
 
-Can I Ignore a Battery Warning Light?
-  The dashboard battery/charging light, not a hybrid or EV traction battery
-  warning. Separate the cases that actually change the answer: the light comes
-  on and goes off, it stays on while driving, it comes on with dimming lights or
-  a slowing blower, it comes on together with a temperature warning. This is a
-  charging-system warning, so the question of how far you get is about what runs
-  the car once the alternator stops contributing.
+Can I Ignore a Faucet That Sputters After the Water Was Turned Back On?
+  Water was shut off for repair work or a utility outage, then turned back on, and now a faucet spits and sputters. Reader wants to know whether this is just trapped air working its way out (self-resolving) or a sign something is wrong. Separate "clears up within a few minutes of running" from "still sputtering after several minutes" or "only one fixture in the house does it."
 
-Can I Ignore Blue Smoke From My Exhaust?
-  Blue or blue-grey smoke, which is a different question from the white vapour
-  page the site already has. Worth separating: smoke only on a cold start, smoke
-  on hard acceleration, smoke when lifting off after a long downhill, constant
-  smoke at every speed. Turbocharged and older high-mileage engines behave
-  differently here.
+Can I Ignore a Steering Wheel That Sits Crooked When the Car Drives Straight?
+  The steering wheel's resting position (spoke alignment) is visibly off-center, but the car tracks straight with no pulling. This is specifically about the wheel's position after work like an alignment, tire replacement, or steering-component service — not a wheel with play in it, and not a whining noise while turning.
 
-Can I Ignore a Loose Motorcycle Chain?
-  Drive chain slack outside the manufacturer's range. Separate slack that is
-  merely at the loose end of spec, slack well beyond it, uneven slack that
-  changes as the wheel turns, and a chain that has gone slack again days after
-  it was adjusted. The owner's manual figure is the reference point.
+Can I Ignore Milky Residue Under the Oil Cap?
+  Whitish, mayonnaise-like buildup is found under the oil filler cap when checking the oil. The reader's fear is a blown head gasket mixing coolant into the oil. Key distinguishing scenarios: residue confined to the underside of the cap vs. milky color on the dipstick itself, coolant level dropping or not, and a pattern of short cold-weather trips vs. not.
 
-Can I Ignore an Oil Leak on My Motorcycle?
-  A motorcycle oil leak is its own decision, not the car oil-leak page in
-  different words: the engine sits in the airstream, the chain and the rear tire
-  are directly below, and there is no undertray catching anything. Separate a
-  weep that leaves a film, a drip that marks the garage floor overnight, oil
-  visible on the swingarm or rear wheel, and oil near the exhaust header.
-
-Can I Ignore a Motorcycle That Wobbles at Speed?
-  Distinguish the wobble that appears in a narrow speed band, the one that only
-  shows up hands-off, the one that starts with luggage or a pillion, and the
-  slow high-speed weave. Tire pressure, tire wear pattern, wheel balance,
-  steering head bearings and loose axle or fork clamps all produce it and are
-  worth telling apart.
-
-Can I Ignore a Motorcycle That Pops on Deceleration?
-  Exhaust popping or crackling on a closed throttle. Separate the light popping
-  that many stock and de-catted bikes do by design, popping that appeared after
-  an exhaust or air filter change, popping that arrived with poor running or
-  hard starting, and loud backfiring with a bang. Fuelling, an air leak and a
-  lean map are the usual mechanisms.
-
-Can I Ignore a Slipping Motorcycle Clutch?
-  Engine revs rising without matching acceleration. Separate slip only in top
-  gear under hard acceleration, slip in every gear, slip that appeared right
-  after an oil change, and a clutch that drags rather than slips. Friction plate
-  wear, incorrect free play and the wrong oil specification are different fixes.
-
-Can I Ignore a Motorcycle Battery That Keeps Dying?
-  Separate a bike ridden only on short trips, a bike stored for weeks without a
-  tender, a battery that is several seasons old, and a parasitic draw or a
-  charging fault that flattens a good battery in days. Lead-acid and lithium
-  batteries behave differently in cold storage.
-
-Can I Ignore a Bike Chain That Keeps Skipping?
-  A chain that jumps under load, usually when standing on the pedals. Separate
-  skipping in one gear only, skipping across the whole cassette, skipping that
-  started after a new chain went onto an old cassette, and a stiff or seized
-  link. Chain wear measurement is the concrete thing a reader can check.
-
-Can I Ignore Bike Brakes That Keep Rubbing?
-  Both rim and disc. Separate a disc rotor that ticks once per wheel revolution,
-  constant rub through the whole rotation, rub that appears only when pedalling
-  hard, and a pad that drags after a wheel was refitted. Worth saying what the
-  rub costs and what it does to pads and rotor over time.
-
-Can I Ignore a Wobbly Bike Wheel?
-  Lateral wobble seen from above while the wheel spins. Separate a small wobble
-  that clears the brake, a wobble that hits the pad each revolution, a wobble
-  that appeared after a pothole, and a wobble with a spoke that is obviously
-  loose or broken. Rim braking and disc braking change what the wobble affects.
-
-Can I Ignore a Clicking Noise When I Pedal?
-  A click that repeats once per pedal stroke, not per wheel revolution. Separate
-  a click only under load, a click on one side, one that changes when standing,
-  and one that appeared after a component was fitted. Pedals, cleats, bottom
-  bracket, chainring bolts, saddle rails and seatpost all click.
-
-Can I Ignore Cracks in a Bike Tire?
-  Separate fine crazing across the sidewall from age and UV, cracks in the tread
-  base between knobs, a cut deep enough to show casing threads, and a bulge in
-  the sidewall. Storage conditions, tire age and pressure history matter here.
-
-Can I Ignore an E-Bike Battery That Gets Hot While Charging?
-  Warm and hot are different things and the page should say where the line sits
-  according to the manufacturer, not to a made-up number. Separate a pack that
-  is warm to the touch at the end of a charge, one that is too hot to hold, one
-  that smells, one that hisses or swells, and one being charged with a charger
-  that did not come with the bike. Lithium-ion fire guidance from safety
-  regulators is directly on point.
-
-Can I Ignore an E-Bike That Cuts Out While Riding?
-  Motor assist dropping out mid-ride. Separate a cut-out over bumps, a cut-out
-  under full load on a climb, a cut-out that comes back after a restart, one
-  that is accompanied by a display error code, and one that happens with a
-  battery near empty or very cold. Connectors, battery mount, controller
-  temperature and low-voltage cut-off are different causes.
-
-Can I Ignore a Sudden Drop in E-Bike Battery Range?
-  Distinguish a gradual seasonal drop, a drop after cold weather arrived, a drop
-  after a long period of storage at full charge, and a genuinely sudden loss of
-  half the range in a week. Also separate range loss from a display or state-of-
-  charge reading that is simply wrong.
-
-Can I Ignore an E-Bike Battery That Got Wet?
-  Separate riding in rain with the pack fitted as designed, a pack left out in a
-  downpour off the bike, a pack that went into a puddle or was jet-washed, and a
-  pack that was submerged. Whether it was charged afterwards matters. Look for
-  the manufacturers' and safety regulators' guidance on wet lithium-ion packs.
-
-Can I Ignore a Loose Electric Scooter Stem?
-  Play in the folding stem or clamp on a standing scooter. Separate a small
-  amount of fore-aft play, play that grows over a week, a rattle at the folding
-  latch, and play with a visible crack or an already-adjusted clamp. Stem
-  failure at speed is the mechanism worth explaining.
-
-Can I Ignore Weak Brakes on an Electric Scooter?
-  Separate brakes that were always weak on a cheap machine, brakes that have got
-  worse, a lever that reaches the bar, regenerative braking alone with no
-  working mechanical brake, and brakes that are weak only in the wet. Stopping
-  distance requirements in scooter safety standards are the reference.
-
-Can I Ignore an Electric Scooter Tire That Keeps Losing Air?
-  Pneumatic tires only for the loss-of-air question, but the page can say where
-  solid tires sit. Separate a tire topped up once a month, once a week, one that
-  is flat by the next morning, and one losing air with a visible object in the
-  tread. Low pressure on small wheels changes handling and pinch-flat risk.
+Can I Ignore a Laptop Charger That Makes a Faint Buzzing Noise?
+  The charger charges the laptop normally but emits a quiet, consistent buzzing or coil-whine sound. Separate this faint/steady case from a charger that is loud, crackling, or hot to the touch — those point to a different verdict.

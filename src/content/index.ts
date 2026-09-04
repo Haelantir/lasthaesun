@@ -25,6 +25,7 @@ import { condensationBetweenWindowPanes } from './problems/condensation-between-
 import { crackInFoundation } from './problems/crack-in-foundation';
 import { crackedEgg } from './problems/cracked-egg';
 import { cracksInABikeTire } from './problems/cracks-in-a-bike-tire';
+import { crookedSteeringWheel } from './problems/crooked-steering-wheel';
 import { damagedPassport } from './problems/damaged-passport';
 import { damagedSuitcase } from './problems/damaged-suitcase';
 import { deadPixelOnMonitor } from './problems/dead-pixel-on-monitor';
@@ -43,6 +44,7 @@ import { eBikeBatteryHotWhileCharging } from './problems/e-bike-battery-hot-whil
 import { eBikeBatteryRangeDrop } from './problems/e-bike-battery-range-drop';
 import { eBikeCutsOutWhileRiding } from './problems/e-bike-cuts-out-while-riding';
 import { eggsPastSellByDate } from './problems/eggs-past-sell-by-date';
+import { faucetSputtersAfterWaterTurnedBackOn } from './problems/faucet-sputters-after-water-turned-back-on';
 import { flatSpotOnBabysHead } from './problems/flat-spot-on-babys-head';
 import { foodPastBestByDate } from './problems/food-past-best-by-date';
 import { fridgeNotColdEnough } from './problems/fridge-not-cold-enough';
@@ -51,6 +53,7 @@ import { gasSmellNearTheStove } from './problems/gas-smell-near-the-stove';
 import { hairlineCrackInDrywall } from './problems/hairline-crack-in-drywall';
 import { hotPhoneWhileCharging } from './problems/hot-phone-while-charging';
 import { hotelRoomSmellsLikeMold } from './problems/hotel-room-smells-like-mold';
+import { laptopChargerBuzzing } from './problems/laptop-charger-buzzing';
 import { laptopFanRunsConstantly } from './problems/laptop-fan-runs-constantly';
 import { liquidDetectedWarning } from './problems/liquid-detected-warning';
 import { looseElectricScooterStem } from './problems/loose-electric-scooter-stem';
@@ -58,6 +61,7 @@ import { looseMotorcycleChain } from './problems/loose-motorcycle-chain';
 import { lowWaterPressure } from './problems/low-water-pressure';
 import { meatThawedInFridge } from './problems/meat-thawed-in-fridge';
 import { meatTurnedBrownInFridge } from './problems/meat-turned-brown-in-fridge';
+import { milkyResidueUnderOilCap } from './problems/milky-residue-under-oil-cap';
 import { missingRoofShingle } from './problems/missing-roof-shingle';
 import { moldOnBread } from './problems/mold-on-bread';
 import { moldOnHardCheese } from './problems/mold-on-hard-cheese';
@@ -372,6 +376,10 @@ export const problems: ProblemSeed[] = [
   looseElectricScooterStem,
   weakElectricScooterBrakes,
   scooterTireLosingAir,
+  faucetSputtersAfterWaterTurnedBackOn,
+  crookedSteeringWheel,
+  milkyResidueUnderOilCap,
+  laptopChargerBuzzing,
   ...plannedTireProblems,
   ...plannedExhaustProblems,
   ...plannedCoolingProblems,

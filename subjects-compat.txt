@@ -1,91 +1,16 @@
-# Compat batch — opening networking, portable power, septic and EV/e-bike.
-# The brief listed 20; "Steam Mop on Laminate Flooring" is dropped because
-# steam-mop--laminate-flooring already ships. The remaining 19 build four new
-# clusters that can each grow: PoE, portable power stations, septic systems,
-# and EV / e-bike gear.
-#
-# Subject is the thing you are holding or applying, target is what it goes
-# into or onto — the same way space-heater--extension-cord already reads.
+# Three-pairing batch — picked from the six candidates in the 2026-09-04
+# brainstorm. "65W USB-C Laptop Charger with Phone" is dropped because
+# laptop-usb-c-charger--phone.ts already ships the same question. "Dish Soap
+# in a Pressure Washer" and "Regular Vacuum on Fireplace Ash" were generated
+# but dropped after their cited sources failed the URL check (a manufacturer
+# manual PDF 403'd, a county government page was unreachable) — worth a retry
+# in a future batch with different sourcing, not force-shipped with a dead link.
 
-Non-PoE Device plugged into a PoE Switch
-  표준 PoE 스위치가 연결된 장치를 어떻게 판별하는지, 그리고 판별을 하지 않는
-  구형/비표준 장비가 따로 있는지를 갈라서 다룬다. passive PoE와 802.3af/at/bt를
-  구분하는 것이 이 페이지의 핵심 각도다.
+Steam Mop on Vinyl Plank Flooring
+  LVP is marketed as fully waterproof, so buyers assume steam is automatically safe. Manufacturer allowances vary by brand and product line; check whether steam heat specifically (not just standing water) is approved, and what it can do at the seams over time. A close sibling, steam-mop--laminate-flooring, already ships and reached a different answer because laminate's core is not waterproof — LVP's marketing claim is the whole reason this is a separate question.
 
-Thunderbolt 4 Cable with a USB-C Device
-  커넥터가 같다는 것과 규격이 같다는 것이 다르다는 점이 각도다. 데이터 속도,
-  영상 출력, 전력 전달 세 가지가 각각 어떻게 되는지 나눠서 볼 것.
+Drywall Anchors in Plaster Walls
+  Older homes with plaster-and-lath or plaster-on-masonry walls. Plaster is harder and more brittle than drywall, and anchors designed for drywall's fibrous panel can crack plaster or fail to grip. Cover how the installation approach differs (pilot hole, anchor type) rather than just "it doesn't work."
 
-Laptop USB-C Charger with a Phone
-  고출력 충전기를 저전력 기기에 꽂는 방향이다. USB-PD 협상이 어느 쪽을 기준으로
-  이루어지는지, 케이블 등급이 변수인지, 인증되지 않은 충전기는 다른 이야기인지
-  갈라서 볼 것.
-
-Power Bank with a Laptop
-  노트북 입력 규격과 보조배터리 출력 규격이 맞아야 하는 관계다. USB-C PD 입력이
-  있는 노트북과 전용 배럴잭 노트북, 그리고 출력 W가 부족할 때 어떤 일이
-  벌어지는지를 나눠서 다룬다.
-
-Laser Printer plugged into a UPS
-  프린터가 다른 사무기기와 다르게 취급되는 이유가 각도다. 정착기 가열 시점의
-  순간 부하와 UPS 정격의 관계, 그리고 surge-only 콘센트와 배터리 백업 콘센트를
-  구분하는 것.
-  출처 제약: 인용한 URL은 자동 링크 검사에서 열려야 한다. se.com과
-  support.brother.com은 봇 차단으로 403/503을 반환하므로 쓰지 말 것. 내용이
-  같더라도 바로 열리는 제조사 문서나 표준 문서를 골라라.
-
-HDMI 2.1 Cable in an HDMI 2.0 Port
-  케이블 등급이 위로 호환되는지 아래로 호환되는지의 문제다. 실제로 나오는 대역폭이
-  무엇에 의해 결정되는지, Ultra High Speed 인증 표시가 무엇을 보장하는지.
-
-Refrigerator plugged into a Portable Power Station
-  정격 소비전력과 컴프레서 기동 시 순간 전력이 다르다는 점이 핵심이다.
-  인버터 연속 출력과 순간 출력, 배터리 용량 대비 지속 시간을 나눠서 볼 것.
-
-Space Heater plugged into a Portable Power Station
-  된다/안 된다보다 얼마나 오래 되느냐가 답이 되는 유형이다. 히터의 소비전력 단계,
-  인버터 정격, 배터리 용량의 관계를 실제 숫자 없이도 설명할 수 있게 구조를 잡을 것.
-
-Extension Cord with an EV Charger
-  일반 가정용 연장선과 EV 충전 전용 연장 케이블을 반드시 구분해서 다룬다.
-  레벨 1과 레벨 2가 다른 이야기인지, 제조사 지침이 무엇을 말하는지.
-
-E-Bike on a Bike Rack
-  전기자전거가 무거워지면서 기존 캐리어의 대당 허용 중량과 부딪히는 상황이다.
-  행잉식과 플랫폼식, 히치와 트렁크 장착, 배터리를 빼는 경우를 갈라서 볼 것.
-
-Tire Sealant with TPMS Sensors
-  제품 표시에 따라 답이 갈리는 유형이다. TPMS-safe 표기가 무엇을 뜻하는지,
-  응급용 캔과 상시 주입형이 다른지, 사용 후 정비소에서 해야 하는 일이 있는지.
-
-Regular Battery Charger with an AGM Battery
-  충전 프로파일과 전압 상한이 핵심이다. AGM 모드가 있는 충전기와 없는 충전기,
-  구형 트리클 충전기, 그리고 유지 충전과 완충의 차이를 나눠서 다룬다.
-
-Jumper Cables on a Hybrid Car
-  점프 대상이 고전압 구동 배터리가 아니라 12V 보조 배터리라는 점이 각도다.
-  하이브리드를 점프해 주는 쪽으로 쓰는 경우는 또 다른 이야기인지 갈라서 볼 것.
-
-Snow Chains on an AWD Car
-  AWD면 필요 없다는 통념과 실제 제동/조향의 관계, 어느 축에 다는지, 차량별
-  타이어-차체 간격 때문에 제조사가 금지하는 경우가 있는지를 다룬다.
-
-Drain Cleaner with a Septic System
-  강알칼리·강산성 화학 세정제와 효소·박테리아계 제품을 반드시 구분한다.
-  정화조 내부 미생물과의 관계, 일회성 사용과 상시 사용의 차이.
-
-Bleach with a Septic System
-  가정에서 정상적으로 쓰는 양과 대량으로 흘려보내는 경우를 가르는 것이 핵심이다.
-  세탁 표백제, 변기 청소용 제품, 그리고 정화조 첨가제 광고가 각각 다른 이야기다.
-
-Fabric Softener on Microfiber Towels
-  섬유유연제가 섬유에 무엇을 남기는지, 그것이 흡수성과 세척력에 어떤 영향을
-  주는지가 각도다. 이미 유연제를 쓴 타월을 되살릴 수 있는지도 함께.
-
-Glass Baking Dish in the Broiler
-  oven-safe 표시와 broiler-safe가 같은 말이 아니라는 점이 핵심이다. 브로일러의
-  국부 복사열과 열충격, 제조사별 표기 차이, 랙 위치를 갈라서 다룬다.
-
-Ceramic Cookware on an Induction Cooktop
-  순수 세라믹과 바닥에 자성 층을 넣은 제품이 갈린다. 자석 테스트가 무엇을
-  알려주는지, 인덕션 어댑터 디스크가 대안이 되는지까지.
+Magic Eraser on Car Paint
+  Melamine foam is mildly abrasive. The question is whether it can dull or scratch clear coat, especially with repeated use or on clear coat that is already thin or worn.

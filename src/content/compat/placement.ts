@@ -60,7 +60,12 @@ export const PAIRING_PLACEMENT: Record<string, Placement> = {
   'granite-countertop': { domain: 'home' },
   'marble-countertop': { domain: 'home' },
   'laminate-flooring': { domain: 'home' },
+  'vinyl-plank-flooring': { domain: 'home' },
   grout: { domain: 'home' },
+
+  // Walls have a real system node (/home/structure/walls/), unlike the
+  // countertops and flooring above, so this one gets an object.
+  'plaster-walls': { domain: 'home', object: 'structure' },
 
   // Stainless steel arrives as a target here, having only been a subject
   // before: the fridge door and the sink are what people are cleaning.
@@ -111,6 +116,7 @@ export const PAIRING_PLACEMENT: Record<string, Placement> = {
   'ev-charger': { domain: 'mobility', object: 'cars' },
   'hybrid-car': { domain: 'mobility', object: 'cars' },
   'awd-car': { domain: 'mobility', object: 'cars' },
+  'car-paint': { domain: 'mobility', object: 'cars' },
   'bike-rack': { domain: 'mobility', object: 'bicycles' },
 };
 
